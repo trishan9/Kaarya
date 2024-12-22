@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { registerFormSchema } from "../_schemas";
 
-
 type TRegisterFormProps = {
   mutate: UseMutateFunction<
     AxiosResponse<unknown, unknown>,
