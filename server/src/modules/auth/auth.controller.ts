@@ -57,6 +57,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
+    maxAge: 60 * 60 * 24 * 30,
   });
 
   return apiResponse(res, StatusCodes.OK, {
