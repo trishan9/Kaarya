@@ -31,7 +31,7 @@ type TLoginFormProps = {
 };
 
 const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
-  const [showPassword,setShowPassword]=useState(false);
+  const [showPassword,setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
