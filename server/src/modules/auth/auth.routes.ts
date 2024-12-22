@@ -1,13 +1,14 @@
 import { Router } from "express";
 
-import AuthController from "./auth.controller";
-import isAuthenticated from "@/middlewares/auth.middleware";
-import { upload } from "@/middlewares/multer.middleware";
+import * as authController from "./auth.controller";
+import { isAuthenticated } from "@/middlewares/isAuthenticated";
 
 const authRouter = Router();
 
-authRouter.post("/signup", upload.single("avatar"), AuthController.signup);
-authRouter.post("/login", AuthController.login);
-authRouter.get("/me", isAuthenticated, AuthController.getMe);
+authRouter.post("/register", authController.register);
+authRouter.post("/login", authController.login);
+authRouter.get("/me", isAuthenticated, authController.getMe);
+authRouter.post("/refresh", authController.refresh);
+authRouter.post("/logout", authController.logout);
 
-export default authRouter;
+export { authRouter };

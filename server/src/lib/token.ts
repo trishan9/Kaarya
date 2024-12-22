@@ -1,33 +1,52 @@
 import jwt from "jsonwebtoken";
-import config from "../config";
+import config from "@/config";
 
-type TSelectType = {
-  secret: string;
-  expiresIn: string;
+type GenerateOptions = {
+  payload: string | object | Buffer;
+  tokenType: "access" | "refresh" | "passwordReset";
 };
 
-const selectType = (type: string): TSelectType => {
-  if (type === "access") {
+type VerifyOptions = {
+  token: string;
+  tokenType: GenerateOptions["tokenType"];
+};
+
+function selectFunc(tokenType: GenerateOptions["tokenType"]) {
+  if (tokenType === "refresh") {
     return {
-      secret: config.jwt.accessToken.secret ?? "",
-      expiresIn: config.jwt.accessToken.expiresIn ?? "",
-    };
-  } else {
-    return {
-      secret: "",
-      expiresIn: "",
+      secret: config.jwt.refresh.secret,
+      expiresIn: config.jwt.refresh.expiresIn,
     };
   }
+  return {
+    secret: config.jwt.access.secret,
+    expiresIn: config.jwt.access.expiresIn,
+  };
+}
+
+function generate({ payload, tokenType }: GenerateOptions): string {
+  const { expiresIn, secret } = selectFunc(tokenType);
+
+  return jwt.sign(payload, secret, {
+    expiresIn,
+    subject: tokenType,
+  });
+}
+
+function verify({ token, tokenType }: VerifyOptions): string | jwt.JwtPayload {
+  const { secret } = selectFunc(tokenType);
+
+  return jwt.verify(token, secret, {
+    subject: tokenType,
+  });
+}
+
+const decode = (token: string) => {
+  return jwt.decode(token);
 };
 
-const generate = ({ payload, type }) => {
-  const { expiresIn, secret } = selectType(type);
-  return jwt.sign(payload, secret, { expiresIn, subject: type });
+export default {
+  verify,
+  generate,
+  decode,
 };
-
-const verify = ({ token, type }) => {
-  const { secret } = selectType(type);
-  return jwt.verify(token, secret, { subject: type });
-};
-
-export default { generate, verify };

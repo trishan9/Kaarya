@@ -1,86 +1,92 @@
-import validator from "validator";
+import { Prisma } from "@prisma/client";
+import { StatusCodes } from "http-status-codes";
 
-import { db } from "@/db";
-import token from "@/lib/token";
+import { ApiError } from "@/utils/apiError";
+import { errorResponse } from "@/utils/errorMessage";
 import hash from "@/lib/hash";
-import uploadToCloudinary from "@/lib/cloudinary";
+import { loginUserType } from "./auth.validator";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "@/modules/token/token.services";
+import token from "@/lib/token";
+import { logger } from "@/logging/logger";
+import { db } from "@/db";
 
-const signup = async (
-  name: string,
-  email: string,
-  password: string,
-  avatar: any,
-) => {
-  if (!email || !name || !password || !avatar) {
-    throw Error("All the fields are required");
-  }
-
-  if (!validator.isEmail(email)) {
-    throw Error("Email address is not valid");
-  }
-
-  const exists = await db.user.findUnique({
-    where: { email },
+export const register = async (data: Prisma.UserCreateInput) => {
+  const exists = await db.user.findFirst({
+    where: { email: data.email },
   });
 
   if (exists) {
-    throw Error("User with this email address already exists");
+    throw new ApiError(StatusCodes.CONFLICT, errorResponse.EMAIL.CONFLICT);
   }
 
-  const avatarUrl: any = await uploadToCloudinary(avatar);
-  const hashedPassword = await hash.generate(password);
-  const user = await db.user.create({
+  const hashedPassword = await hash.generate(data.password);
+
+  return await db.user.create({
     data: {
-      name,
-      email,
+      ...data,
       password: hashedPassword,
-      avatar: avatarUrl.secure_url,
     },
   });
-  return user;
 };
 
-const login = async (email: any, password: any) => {
-  if (!email || !password) {
-    throw Error("All the fields are required");
-  }
-
-  if (!validator.isEmail(email)) {
-    throw Error("Email address is not valid");
-  }
-
-  const user = await db.user.findUnique({ where: { email } });
-
-  if (!user) {
-    throw Error("User with this email address doesn't exist");
-  }
-
-  const isPasswordCorrect = await hash.compare(password, user.password);
-  if (!isPasswordCorrect) {
-    throw Error("Password is incorrect");
-  }
-
-  const acccessToken = token.generate({
-    payload: { _id: user.id },
-    type: "access",
+export const login = async (data: loginUserType) => {
+  const user = await db.user.findUnique({
+    where: {
+      email: data.email,
+    },
   });
 
-  return {
-    token: acccessToken,
-    _id: user.id,
-  };
-};
-
-const getMe = async (id: string) => {
-  const user = await db.user.findUnique({ where: { id } });
   if (!user) {
-    throw Error("User doesn't exists!");
+    throw new ApiError(StatusCodes.BAD_REQUEST, errorResponse.USER.NOT_FOUND);
   }
+
+  const isPasswordValid = await hash.compare(data.password, user.password);
+
+  if (!isPasswordValid) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.USER.INVALID_CREDENTIALS,
+    );
+  }
+
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
+
   return {
-    name: user.name,
-    email: user.email,
-    avatar: user.avatar,
+    accessToken,
+    refreshToken,
   };
 };
 
-export default { signup, login, getMe };
+export const getMe = async (userId: string) => {
+  const user = await db.user.findUnique({ where: { id: userId } });
+  if (!user) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, errorResponse.USER.NOT_FOUND);
+  }
+
+  const { id, name, email } = user;
+  return {
+    id,
+    name,
+    email,
+  };
+};
+
+export const refresh = async (refreshToken: string) => {
+  const decoded = token.verify({ token: refreshToken, tokenType: "refresh" });
+
+  let user: any;
+  if (decoded) {
+    user = await db.user.findUnique({ where: { id: decoded.id } });
+  }
+  if (!user)
+    throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.TOKEN.EXPIRED);
+
+  logger.info(user.username);
+
+  const accessToken = generateAccessToken(user);
+  return accessToken;
+};
