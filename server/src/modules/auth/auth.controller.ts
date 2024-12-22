@@ -1,50 +1,103 @@
-import AuthService from "./auth.service";
+import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 
-const signup = async (req, res) => {
-  const { name, email, password } = req.body;
-  const avatar = req.file?.path;
-  try {
-    await AuthService.signup(name, email, password, avatar);
-    res.json({
-      success: true,
+import {
+  createAdminType,
+  createAdminValidator,
+  loginUserType,
+  loginUserValidator,
+} from "./auth.validator";
+import * as authService from "./auth.service";
+import { ApiError } from "@/utils/apiError";
+import { apiResponse } from "@/utils/apiResponse";
+import { asyncHandler } from "@/utils/asyncHandler";
+import { responseMessage } from "@/utils/responseMessage";
+import { errorResponse } from "@/utils/errorMessage";
+
+export const registerAdmin = asyncHandler(
+  async (req: Request, res: Response) => {
+    const body = req.body;
+
+    const result = createAdminValidator.safeParse(body);
+    if (!result.success) {
+      throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
+    }
+
+    const { username, email, name, password } = body as createAdminType;
+
+    const newAdminObj = {
+      username: `PS-${username}`,
+      email,
+      name,
+      password,
+    };
+
+    const newAdmin = await authService.registerAdmin(newAdminObj);
+
+    return apiResponse(res, StatusCodes.CREATED, {
+      data: newAdmin,
+      message: responseMessage.USER.CREATED,
     });
-  } catch (err: any) {
-    res.status(404).json({
-      success: false,
-      error: err.message,
-    });
+  },
+);
+
+export const login = asyncHandler(async (req: Request, res: Response) => {
+  const body = req.body;
+
+  const result = loginUserValidator.safeParse(body);
+  if (!result.success) {
+    throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
   }
-};
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await AuthService.login(email, password);
-    res.json({
-      success: true,
-      user,
-    });
-  } catch (err: any) {
-    res.status(404).json({
-      success: false,
-      error: err.message,
-    });
-  }
-};
+  const { username, password } = body as loginUserType;
 
-const getMe = async (req, res) => {
-  try {
-    const user = await AuthService.getMe(res.locals.user._id);
-    res.json({
-      success: true,
-      user,
-    });
-  } catch (err: any) {
-    res.status(404).json({
-      success: false,
-      error: err.message,
-    });
-  }
-};
+  const { accessToken, refreshToken } = await authService.login({
+    username,
+    password,
+  });
 
-export default { login, signup, getMe };
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+  });
+
+  return apiResponse(res, StatusCodes.OK, {
+    accessToken,
+    message: responseMessage.USER.LOGGED_IN,
+  });
+});
+
+export const getMe = asyncHandler(async (_: Request, res: Response) => {
+  const user = await authService.getMe(res.locals.user.id);
+
+  return apiResponse(res, StatusCodes.OK, {
+    data: user,
+    message: responseMessage.USER.RETRIEVED,
+  });
+});
+
+export const refresh = asyncHandler(async (req: Request, res: Response) => {
+  const { refreshToken } = req.cookies;
+  if (!refreshToken)
+    throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.TOKEN.EXPIRED);
+
+  const accessToken = await authService.refresh(refreshToken);
+
+  return apiResponse(res, StatusCodes.OK, {
+    accessToken,
+    message: responseMessage.USER.REFRESH,
+  });
+});
+
+export const logout = asyncHandler(async (req: Request, res: Response) => {
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+  });
+
+  return apiResponse(res, StatusCodes.OK, {
+    message: responseMessage.USER.LOGGED_OUT,
+  });
+});
