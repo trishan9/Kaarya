@@ -1,15 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: "Inter", serif;
-}
-
 @layer base {
   :root {
+    --primary-green: 148 93% 42%;
+    --primary-green-hover: 156 96% 37%;
+    --primary-green-active: 168 100% 24%;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -37,6 +36,7 @@
     --radius: 0.5rem;
   }
   .dark {
+    --primary: 148 93% 42%;
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
@@ -66,8 +66,14 @@
 @layer base {
   * {
     @apply border-border;
+    font-family: "DM Sans", serif;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.Toastify__toast {
+  font-family: "DM Sans", serif !important;
 }

@@ -1,7 +1,7 @@
-import { lazy } from "react";
-
 import Home from "./Home";
-const Login = lazy(() => import("./auth/Login"));
-const Register = lazy(() => import("./auth/Register"));
+import AuthLayout from "./auth/_components/AuthLayout";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+import ProtectedLayout from "./ProtectedLayout";
 
-export { Home, Login, Register };
+export { ProtectedLayout, Home, AuthLayout, Login, Register };

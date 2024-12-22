@@ -1,20 +1,15 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router";
-import { Home, Login, Register } from "./pages";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { AuthLayout, Home, Login, ProtectedLayout, Register } from "./pages";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Home />} />
+        <Route element={<ProtectedLayout />}>
+          <Route index element={<Home />} />
+        </Route>
 
-        <Route
-          element={
-            <div className="p-6">
-              Auth Layout
-              <Outlet />
-            </div>
-          }
-        >
+        <Route element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>

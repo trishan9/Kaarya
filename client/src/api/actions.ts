@@ -18,7 +18,7 @@ export const apiActions = {
       return await api.post(API_URLS.AUTH.REFRESH);
     },
     getMe: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 800));
       return await api.get(API_URLS.AUTH.ME);
     },
   },
