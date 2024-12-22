@@ -1,58 +1,55 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import {
-  createAdminType,
-  createAdminValidator,
-  loginUserType,
-  loginUserValidator,
-} from "./auth.validator";
 import * as authService from "./auth.service";
 import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { responseMessage } from "@/utils/responseMessage";
 import { errorResponse } from "@/utils/errorMessage";
+import {
+  loginUserSchema,
+  loginUserType,
+  registerUserSchema,
+  registerUserType,
+} from "./auth.validator";
 
-export const registerAdmin = asyncHandler(
-  async (req: Request, res: Response) => {
-    const body = req.body;
-
-    const result = createAdminValidator.safeParse(body);
-    if (!result.success) {
-      throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
-    }
-
-    const { username, email, name, password } = body as createAdminType;
-
-    const newAdminObj = {
-      username: `PS-${username}`,
-      email,
-      name,
-      password,
-    };
-
-    const newAdmin = await authService.registerAdmin(newAdminObj);
-
-    return apiResponse(res, StatusCodes.CREATED, {
-      data: newAdmin,
-      message: responseMessage.USER.CREATED,
-    });
-  },
-);
-
-export const login = asyncHandler(async (req: Request, res: Response) => {
+export const register = asyncHandler(async (req: Request, res: Response) => {
   const body = req.body;
 
-  const result = loginUserValidator.safeParse(body);
+  const result = registerUserSchema.safeParse(body);
   if (!result.success) {
     throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
   }
 
-  const { username, password } = body as loginUserType;
+  const { name, email, password } = body as registerUserType;
+
+  const newUserObj = {
+    name,
+    email,
+    password,
+  };
+
+  const newUser = await authService.register(newUserObj);
+
+  return apiResponse(res, StatusCodes.CREATED, {
+    data: newUser,
+    message: responseMessage.USER.CREATED,
+  });
+});
+
+export const login = asyncHandler(async (req: Request, res: Response) => {
+  const body = req.body;
+
+  const result = loginUserSchema.safeParse(body);
+  if (!result.success) {
+    throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
+  }
+
+  const { email, password } = body as loginUserType;
 
   const { accessToken, refreshToken } = await authService.login({
-    username,
+    email,
     password,
   });
 

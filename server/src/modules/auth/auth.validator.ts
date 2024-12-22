@@ -1,13 +1,12 @@
 import { errorResponse } from "@/utils/errorMessage";
 import { z } from "zod";
 
-export const createAdminValidator = z.object({
+export const registerUserSchema = z.object({
+  name: z.string().min(1, { message: errorResponse.NAME.REQUIRED }),
   email: z
     .string()
     .min(1, { message: errorResponse.EMAIL.REQUIRED })
     .email({ message: errorResponse.EMAIL.INVALID }),
-  name: z.string().min(1, { message: errorResponse.NAME.REQUIRED }),
-  username: z.string().min(1, { message: errorResponse.USERNAME.REQUIRED }),
   password: z
     .string()
     .min(1, { message: errorResponse.PASSWORD.REQUIRED })
@@ -15,8 +14,11 @@ export const createAdminValidator = z.object({
     .max(10, { message: errorResponse.PASSWORD.LENGTH }),
 });
 
-export const loginUserValidator = z.object({
-  username: z.string().min(1, { message: errorResponse.USERNAME.REQUIRED }),
+export const loginUserSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: errorResponse.EMAIL.REQUIRED })
+    .email({ message: errorResponse.EMAIL.INVALID }),
   password: z
     .string()
     .min(1, { message: errorResponse.PASSWORD.REQUIRED })
@@ -24,10 +26,10 @@ export const loginUserValidator = z.object({
     .max(10, { message: errorResponse.PASSWORD.LENGTH }),
 });
 
-export const updateUserValidator = z.object({
+export const updateUserSchema = z.object({
   name: z.string().min(1),
 });
 
-export type loginUserType = z.infer<typeof loginUserValidator>;
-export type createAdminType = z.infer<typeof createAdminValidator>;
-export type updateUserType = z.infer<typeof updateUserValidator>;
+export type loginUserType = z.infer<typeof loginUserSchema>;
+export type registerUserType = z.infer<typeof registerUserSchema>;
+export type updateUserType = z.infer<typeof updateUserSchema>;

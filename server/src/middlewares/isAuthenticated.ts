@@ -35,7 +35,7 @@ export const isAuthenticated = async (
 
     let user: any;
     if (decoded) {
-      user = await db.admin.findUnique({ where: { id: decoded.id } });
+      user = await db.user.findUnique({ where: { id: decoded.id } });
     }
 
     if (!user)

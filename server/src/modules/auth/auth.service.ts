@@ -13,26 +13,18 @@ import token from "@/lib/token";
 import { logger } from "@/logging/logger";
 import { db } from "@/db";
 
-export const registerAdmin = async (data: Prisma.AdminCreateInput) => {
-  const exists = await db.admin.findFirst({
-    where: {
-      OR: [{ username: data.username }, { email: data.email }],
-    },
+export const register = async (data: Prisma.UserCreateInput) => {
+  const exists = await db.user.findFirst({
+    where: { email: data.email },
   });
 
   if (exists) {
-    if (exists.username === data.username) {
-      throw new ApiError(StatusCodes.CONFLICT, errorResponse.USERNAME.CONFLICT);
-    }
-
-    if (exists.email === data.email) {
-      throw new ApiError(StatusCodes.CONFLICT, errorResponse.EMAIL.CONFLICT);
-    }
+    throw new ApiError(StatusCodes.CONFLICT, errorResponse.EMAIL.CONFLICT);
   }
 
   const hashedPassword = await hash.generate(data.password);
 
-  return await db.admin.create({
+  return await db.user.create({
     data: {
       ...data,
       password: hashedPassword,
@@ -41,9 +33,9 @@ export const registerAdmin = async (data: Prisma.AdminCreateInput) => {
 };
 
 export const login = async (data: loginUserType) => {
-  const user = await db.admin.findUnique({
+  const user = await db.user.findUnique({
     where: {
-      username: data.username,
+      email: data.email,
     },
   });
 
@@ -70,19 +62,16 @@ export const login = async (data: loginUserType) => {
 };
 
 export const getMe = async (userId: string) => {
-  const user = await db.admin.findUnique({ where: { id: userId } });
+  const user = await db.user.findUnique({ where: { id: userId } });
   if (!user) {
     throw new ApiError(StatusCodes.BAD_REQUEST, errorResponse.USER.NOT_FOUND);
   }
 
-  const { id, name, username, email, role, isOAuth } = user;
+  const { id, name, email } = user;
   return {
     id,
     name,
-    username,
     email,
-    role,
-    isOAuth,
   };
 };
 
@@ -91,7 +80,7 @@ export const refresh = async (refreshToken: string) => {
 
   let user: any;
   if (decoded) {
-    user = await db.admin.findUnique({ where: { id: decoded.id } });
+    user = await db.user.findUnique({ where: { id: decoded.id } });
   }
   if (!user)
     throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.TOKEN.EXPIRED);
