@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
-import { Loader2 } from "lucide-react";
+import { Loader2, EyeIcon, EyeOffIcon } from "lucide-react";
 import { CustomAxiosError } from "@/api/axiosInstance";
 import {
   Form,
@@ -15,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { registerFormSchema } from "../_schemas";
+
 
 type TRegisterFormProps = {
   mutate: UseMutateFunction<
@@ -31,6 +33,8 @@ type TRegisterFormProps = {
 };
 
 const RegisterForm = ({ mutate, isPending }: TRegisterFormProps) => {
+  const [showPassword,setShowPassword]=useState(false);
+
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -42,6 +46,10 @@ const RegisterForm = ({ mutate, isPending }: TRegisterFormProps) => {
 
   const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
     mutate(values);
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
@@ -81,14 +89,26 @@ const RegisterForm = ({ mutate, isPending }: TRegisterFormProps) => {
           name="password"
           control={form.control}
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="relative">
               <FormControl>
                 <Input
                   {...field}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                 />
               </FormControl>
+
+              <button
+                type="button"
+                className="absolute right-0 mr-2 top-0"
+                onClick={handleShowPassword}
+              >
+                {showPassword ? (
+                  <EyeIcon className="w-4" />
+                ) : (
+                  <EyeOffIcon className="w-4" />
+                )}
+              </button>
               <FormMessage />
             </FormItem>
           )}

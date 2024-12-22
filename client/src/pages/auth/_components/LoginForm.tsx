@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { CustomAxiosError } from "@/api/axiosInstance";
-import { Loader2 } from "lucide-react";
+import { Loader2, EyeIcon, EyeOffIcon  } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -15,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { loginFormSchema } from "../_schemas";
+
 
 type TLoginFormProps = {
   mutate: UseMutateFunction<
@@ -30,6 +32,8 @@ type TLoginFormProps = {
 };
 
 const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
+  const [showPassword,setShowPassword]=useState(false);
+
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -40,6 +44,10 @@ const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
 
   const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
     mutate(values);
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
@@ -57,6 +65,7 @@ const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
                   placeholder="Enter email address"
                 />
               </FormControl>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -66,14 +75,27 @@ const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
           name="password"
           control={form.control}
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="relative">
               <FormControl>
                 <Input
                   {...field}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter password"
-                />
+                />  
               </FormControl>
+
+              <button
+                type="button"
+                className="absolute right-0 mr-2 top-0"
+                onClick={handleShowPassword}
+              >
+                {showPassword ? (
+                  <EyeIcon className="w-4" />
+                ) : (
+                  <EyeOffIcon className="w-4" />
+                )}
+              </button>
+              
               <FormMessage />
             </FormItem>
           )}
