@@ -9,7 +9,6 @@ const AuthLayout = () => {
   const isLogin = location.pathname === "/login";
 
   if (isAuthenticated) {
-    console.log("Logged in");
     return <Navigate to="/" replace />;
   }
 
