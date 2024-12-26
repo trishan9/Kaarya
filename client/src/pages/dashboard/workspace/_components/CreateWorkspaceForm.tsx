@@ -113,10 +113,10 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({ onCanc
 
                         {field.value ? (
                           <Button
-                            size="lg"
+                            size="sm"
                             type="button"
-                            variant="destructive"
-                            className="w-fit mt-2"
+                            variant="default"
+                            className="w-fit mt-2 h-8 bg-red-100 text-red-500 hover:bg-red-100/80 border border-red-200 text-sm font-medium"
                             onClick={() => {
                               field.onChange(null);
                               if (inputRef.current) inputRef.current.value = "";
@@ -129,7 +129,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({ onCanc
                             size="sm"
                             type="button"
                             variant="default"
-                            className="w-fit mt-2 h-8"
+                            className="w-fit mt-2 h-8 bg-green-100 text-green-500 hover:bg-green-100/80 border border-green-200 text-sm font-medium"
                             onClick={() => inputRef.current?.click()}
                           >
                             Upload Icon
@@ -155,7 +155,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({ onCanc
                 Cancel
               </Button>
 
-              <Button  type="submit" size="lg">
+              <Button  type="submit" size="lg" className="px-7">
                 Create workspace
               </Button>
             </div>

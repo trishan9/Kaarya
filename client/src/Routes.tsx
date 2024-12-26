@@ -2,10 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import {
   AuthLayout,
   AuthWrapper,
+  CreateWorkspace,
   Home,
   Login,
   ProtectedLayout,
   Register,
+  StandaloneLayout,
 } from "./pages";
 
 const AppRoutes = () => {
@@ -16,10 +18,10 @@ const AppRoutes = () => {
           <Route element={<ProtectedLayout />}>
             <Route index element={<Home />} />
 
-            <Route path="workspace">
+            <Route path="workspace" element={<StandaloneLayout />}>
               <Route
                 path="create"
-                element={<div className="p-6">Create Workspace Form</div>}
+                element={<CreateWorkspace />}
               />
             </Route>
           </Route>
