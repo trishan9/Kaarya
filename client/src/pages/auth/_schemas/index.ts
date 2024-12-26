@@ -27,3 +27,5 @@ export const registerFormSchema = z.object({
     .min(8, "Password must be between 8 to 16 characters.")
     .max(16, "Password must be between 8 to 16 characters."),
 });
+
+
