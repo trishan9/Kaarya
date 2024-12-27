@@ -1,10 +1,12 @@
 import { Outlet } from "react-router";
 import { Navbar } from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
+import { CreateWorkspaceModal } from "../workspace/_components/CreateWorkspaceModal";
 
 const DashboardLayout = () => {
     return (
         <div className="min-h-screen">
+            <CreateWorkspaceModal />
             <div className="flex h-full w-full">
                 <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">
                     <Sidebar />
