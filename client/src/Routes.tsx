@@ -9,6 +9,7 @@ import {
   Register,
   StandaloneLayout,
 } from "./pages";
+import DashboardLayout from "./pages/dashboard/_components/DashboardLayout";
 
 const AppRoutes = () => {
   return (
@@ -18,11 +19,17 @@ const AppRoutes = () => {
           <Route element={<ProtectedLayout />}>
             <Route index element={<Home />} />
 
-            <Route path="workspace" element={<StandaloneLayout />}>
-              <Route
-                path="create"
-                element={<CreateWorkspace />}
-              />
+            <Route path="workspaces">
+              <Route element={<StandaloneLayout />}>
+                <Route path="create" element={<CreateWorkspace />} />
+              </Route>
+              
+              <Route path=":workspaceId" element={<DashboardLayout />}>
+                <Route index element={<div>This is Workspace Page</div>} />
+                <Route path="settings" element={<div>This is Setting Page</div>} />
+                <Route path="tasks" element={<div>This is Task Page</div>} />
+                <Route path="members" element={<div>This is Members Page</div>} />
+              </Route>
             </Route>
           </Route>
 
