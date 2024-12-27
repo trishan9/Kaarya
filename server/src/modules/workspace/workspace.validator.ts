@@ -8,7 +8,6 @@ export const createWorkspaceSchema = z.object({
       z.string().transform((value) => (value === "" ? undefined : value)),
     ])
     .optional(),
-  userId: z.string()
 });
 
 export const updateWorkspaceSchema = z.object({

@@ -6,7 +6,7 @@ import upload from "@/utils/multer";
 
 const workspaceRouter = Router();
 
-workspaceRouter.post("/create", isAuthenticated, upload.single("file"), workspaceController.createWorkspace)
+workspaceRouter.post("/create", isAuthenticated, upload.single("image"), workspaceController.createWorkspace)
 workspaceRouter.get('/', isAuthenticated, workspaceController.getWorkspace)
 workspaceRouter.patch("/", isAuthenticated, workspaceController.updateWorkspace)
 

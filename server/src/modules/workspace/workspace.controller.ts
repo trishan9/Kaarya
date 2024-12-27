@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-
 import * as workspaceService from "./workspace.service"
-import { createWorkspaceSchema, CreateWorkspaceType } from "./workspace.validator";
+import { createWorkspaceSchema } from "./workspace.validator";
 import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
@@ -13,19 +12,19 @@ import * as memberService from "../members/members.service"
 
 
 export const createWorkspace = asyncHandler(async (req: Request, res: Response) => {
-
   const body = req.body;
   const result = createWorkspaceSchema.safeParse(body);
+  const userId = res.locals?.user?.id;
 
-
-  console.log("create workspace")
   if (!result.success) {
     throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
   }
 
-  const { name } = body as CreateWorkspaceType;
-  const userId = res.locals.user.id;
+  if (!userId) {
+    throw new ApiError(StatusCodes.UNAUTHORIZED, "User not authenticated");
+  }
 
+  const { name } = result.data;
   let imageUrl: string | null = null;
 
   if (req.file?.path) {
@@ -39,8 +38,8 @@ export const createWorkspace = asyncHandler(async (req: Request, res: Response) 
   const newWorkspaceObj = {
     name,
     userId,
-    imageUrl: imageUrl
-  }
+    imageUrl
+  };
 
   const newWorkspace = await workspaceService.create(newWorkspaceObj);
 
@@ -48,7 +47,7 @@ export const createWorkspace = asyncHandler(async (req: Request, res: Response) 
     userId,
     workspaceId: newWorkspace.id,
     role: Role.ADMIN,
-  }
+  };
 
   const newMember = await memberService.create(newMemberObject);
 
@@ -56,9 +55,8 @@ export const createWorkspace = asyncHandler(async (req: Request, res: Response) 
     newWorkspace,
     newMember,
     message: responseMessage.WORKSPACE.CREATED
-  })
-})
-
+  });
+});
 export const updateWorkspace = asyncHandler(async (req: Request, res: Response) => {
 
   return apiResponse(res, StatusCodes.OK, {
