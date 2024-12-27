@@ -20,8 +20,8 @@ export const isAuthenticated = async (
       );
     }
 
+    console.log(authHeader)
     const headerParts = authHeader.split(" ");
-
     if (headerParts.length !== 2 || headerParts[0] !== "Bearer") {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
@@ -33,6 +33,7 @@ export const isAuthenticated = async (
 
     const decoded = token.verify({ token: accessToken, tokenType: "access" });
 
+    console.log("got here")
     let user: any;
     if (decoded) {
       user = await db.user.findUnique({ where: { id: decoded.id } });
