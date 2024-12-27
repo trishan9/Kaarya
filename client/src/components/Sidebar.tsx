@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { Navigation } from "./Navigation";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import logo from "@/assets/logo.png"
+import { WorkspaceSwitcher } from "./WorkspaceSwitcher";
 
 export const Sidebar = () => {
   return (
@@ -16,11 +17,11 @@ export const Sidebar = () => {
         />
       </Link>
 
-      <DottedSeparator className="mt-0.5 mb-2" />
+      <DottedSeparator className="mt-0.5 mb-4" />
 
-      <p className="px-4">workspace</p>
+      <WorkspaceSwitcher />
 
-      <DottedSeparator className="my-2 mb-4" />
+      <DottedSeparator className="my-4" />
       
       <Navigation />
       
