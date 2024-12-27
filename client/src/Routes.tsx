@@ -8,9 +8,9 @@ import {
   ProtectedLayout,
   Register,
   StandaloneLayout,
+  DashboardLayout,
   NotFound
 } from "./pages";
-import DashboardLayout from "./pages/dashboard/_components/DashboardLayout";
 
 
 const AppRoutes = () => {
@@ -40,6 +40,7 @@ const AppRoutes = () => {
             <Route path="register" element={<Register />} />
           </Route>
         </Route>
+
         <Route path="*" element={<NotFound/>} />
       </Routes>
     </BrowserRouter>

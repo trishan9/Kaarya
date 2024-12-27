@@ -18,7 +18,7 @@ const NotFound = () => {
           src={notFoundImage}
         />
         <div className="w-11/12 mx-auto">
-          <h6 className="mt-8 text-2xl font-medium">
+          <h6 className="mt-6 text-2xl font-medium">
             Oops! Sorry page not found
           </h6>
           <p className="mt-2 text-sm text-gray-600">

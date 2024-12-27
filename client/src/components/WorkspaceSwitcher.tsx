@@ -11,14 +11,13 @@ import { WorkspaceAvatar } from "@/pages/dashboard/workspace/_components/Workspa
 import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
 
 export const WorkspaceSwitcher = () => {
-
     const navigate = useNavigate();
     const pathname= useLocation()
     const currentWorkspaceId = pathname.pathname.substring(pathname.pathname.lastIndexOf('/') + 1);
     const { open } = useCreateWorkspaceModal();
     const workspaces = [
             {
-                id: "W-1235",
+                id: "W-1234",
                 name: "Trishan's Workspace",
                 imageUrl: ""
             },
@@ -36,6 +35,7 @@ export const WorkspaceSwitcher = () => {
         <div className="flex flex-col gap-y-2">
             <div className="flex items-center justify-between">
                 <p className="text-xs uppercase text-neutral-500">Workspaces</p>
+                
                 <RiAddCircleFill
                     onClick={open}
                     className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
@@ -45,6 +45,7 @@ export const WorkspaceSwitcher = () => {
                 <SelectTrigger className="w-full bg-neutral-200 font-medium p-1 py-6">
                     <SelectValue placeholder="No workspace selected" />
                 </SelectTrigger>
+
                 <SelectContent>
                     {workspaces?.map((workspace) => (
                         <SelectItem value={workspace.id} key={workspace.id}>

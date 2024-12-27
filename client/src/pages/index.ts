@@ -6,6 +6,7 @@ import ProtectedLayout from "./ProtectedLayout";
 import AuthWrapper from "./auth/_components/AuthWrapper";
 import StandaloneLayout from "./dashboard/_components/StandaloneLayout";
 import CreateWorkspace from "./dashboard/workspace/CreateWorkspace";
+import DashboardLayout from "./dashboard/_components/DashboardLayout";
 import NotFound from './NotFound'
 
-export { ProtectedLayout, Home, AuthLayout, AuthWrapper, Login, Register, CreateWorkspace, StandaloneLayout, NotFound };
+export { ProtectedLayout, Home, AuthLayout, AuthWrapper, Login, Register, CreateWorkspace, StandaloneLayout, NotFound, DashboardLayout };
