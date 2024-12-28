@@ -31,6 +31,7 @@ export const Navbar = () => {
 
         <p className="text-muted-foreground">{description}</p>
       </div>
+      
       <MobileSidebar />
 
       <UserButton />

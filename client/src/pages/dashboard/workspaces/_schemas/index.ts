@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const createWorkspaceSchema = z.object({
+<<<<<<< HEAD
   name: z.string().trim().min(1, { message: "Required" }),
   image: z
     .union([
@@ -22,8 +23,35 @@ export const updateWorkspaceSchema = z.object({
       z.string().transform((value) => (value === "" ? undefined : value)),
     ])
     .optional(),
+=======
+    name: z.string().trim().min(1, { message: "Required" }),
+    image: z
+        .union([
+            z.instanceof(File),
+            z.string().transform((value) => (value === "" ? undefined : value)),
+        ])
+        .optional(),
+});
+
+export const updateWorkspaceSchema = z.object({
+    name: z
+        .string()
+        .trim()
+        .min(1, { message: "Must be 1 or more characters long" })
+        .optional(),
+    image: z
+        .union([
+            z.instanceof(File),
+            z.string().transform((value) => (value === "" ? undefined : value)),
+        ])
+        .optional(),
+>>>>>>> 5c73382 (feat: setting page layout)
 });
 export const inviteCodeSchema = z.object({ code: z.string() });
 
 export type CreateWorkspaceSchema = z.infer<typeof createWorkspaceSchema>;
 export type UpdateWorkspaceSchema = z.infer<typeof updateWorkspaceSchema>;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5c73382 (feat: setting page layout)

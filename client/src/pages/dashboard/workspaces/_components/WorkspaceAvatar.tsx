@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
 interface WorkspaceAvatarProps {
+<<<<<<< HEAD
   image?: string;
   name: string;
   className?: string;
@@ -34,3 +35,31 @@ export const WorkspaceAvatar = ({
     </Avatar>
   );
 };
+=======
+ image?: string;
+ name: string;
+ className?: string;
+}
+
+export const WorkspaceAvatar = ({ name, className, image }: WorkspaceAvatarProps) => {
+ if (image) {
+   return (
+     <div className={cn("size-10 relative rounded-md overflow-hidden", className)}>
+       <img 
+         src={image} 
+         alt={name}
+         className="absolute inset-0 w-full h-full object-cover"
+       />
+     </div>
+   );
+ }
+
+ return (
+   <Avatar className={cn("size-10 rounded-md", className)}>
+     <AvatarFallback className="text-white bg-primaryGreen font-semibold text-lg uppercase rounded-md">
+       {name[0]}
+     </AvatarFallback>
+   </Avatar>
+ );
+};
+>>>>>>> 5c73382 (feat: setting page layout)
