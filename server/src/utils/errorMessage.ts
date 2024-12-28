@@ -34,6 +34,7 @@ const errorResponse = {
   AUTH_HEADER: {
     REQUIRED: "No authorization header provided",
     INVALID: "Invalid Authorization header format",
+    UNAUTHORIZED: "Unauthorized",
   },
 
   TOKEN: {

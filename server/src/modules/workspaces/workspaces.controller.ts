@@ -78,7 +78,10 @@ export const getWorkspaceById = asyncHandler(
       params: { workspaceId },
     } = req;
 
-    const workspace = await workspaceService.getWorkspaceById(workspaceId);
+    const workspace = await workspaceService.getWorkspaceById(
+      workspaceId,
+      res.locals.user.id,
+    );
 
     return apiResponse(res, StatusCodes.OK, {
       workspace,

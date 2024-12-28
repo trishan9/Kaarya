@@ -51,8 +51,8 @@ export const getWorkspaces = async (userId: string) => {
   return workspaceIds;
 };
 
-export const getWorkspaceById = async (workspaceId: string) => {
-  if (!workspaceId) {
+export const getWorkspaceById = async (workspaceId: string, userId: string) => {
+  if (!workspaceId || !userId) {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
       errorResponse.WORKSPACE.INVALID,
@@ -70,6 +70,15 @@ export const getWorkspaceById = async (workspaceId: string) => {
 
   if (!workspace) {
     throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
+  }
+
+  const isMember = workspace.members.some((member) => member.userId === userId);
+
+  if (!isMember) {
+    throw new ApiError(
+      StatusCodes.UNAUTHORIZED,
+      errorResponse.AUTH_HEADER.UNAUTHORIZED,
+    );
   }
 
   return workspace;
