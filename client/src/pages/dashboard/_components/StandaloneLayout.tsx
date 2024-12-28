@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router";
 import logo from "@/assets/logo.png";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { UserButton } from "@/components/UserButton";
 
 const StandaloneLayout = () => {
   return (
@@ -11,11 +11,7 @@ const StandaloneLayout = () => {
             <img src={logo} alt="logo" width={152} height={56} />
           </Link>
 
-          <Avatar>
-            <AvatarFallback className="bg-gray-200 border border-gray-300">
-              T
-            </AvatarFallback>
-          </Avatar>
+          <UserButton />
         </nav>
         <div className="flex flex-col items-center justify-center py-4 md:py-12">
           <Outlet />

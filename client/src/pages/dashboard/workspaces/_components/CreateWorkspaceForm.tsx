@@ -22,6 +22,7 @@ import {
   createWorkspaceSchema,
 } from "@/pages/dashboard/workspaces/_schemas";
 import { useCreateWorkspace } from "@/hooks/useWorkspaces";
+import { useNavigate } from "react-router";
 
 type CreateWorkspaceFormProps = {
   onCancel?: () => void;
@@ -30,6 +31,7 @@ type CreateWorkspaceFormProps = {
 export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
   onCancel,
 }) => {
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const form = useForm<CreateWorkspaceSchema>({
     resolver: zodResolver(createWorkspaceSchema),
@@ -59,7 +61,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
         onSuccess: ({ data }) => {
           form.reset();
           console.log(data);
-          // router push data.workspace.id
+          navigate(`/workspaces/${data.workspace.id}`);
         },
       },
     );

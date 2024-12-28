@@ -9,7 +9,7 @@ const AuthLayout = () => {
   const isLogin = location.pathname === "/login";
 
   if (isAuthenticated) {
-    return <Navigate to="/workspaces/W-1234" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (

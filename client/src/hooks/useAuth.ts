@@ -56,6 +56,7 @@ export const useLogout = () => {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
   const setUser = useAuthStore((state) => state.setUser);
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: apiActions.auth.logout,
@@ -63,6 +64,8 @@ export const useLogout = () => {
       setUser(null);
       setAccessToken(null);
       setIsAuthenticated(false);
+      queryClient.invalidateQueries({ queryKey: ["me"] });
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
     },
   });
 };

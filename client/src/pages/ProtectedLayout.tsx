@@ -5,7 +5,6 @@ const ProtectedLayout = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   if (!isAuthenticated) {
-    console.log("User is not authenicated!");
     return <Navigate to="/login" replace />;
   }
 
