@@ -9,9 +9,8 @@ import {
   Register,
   StandaloneLayout,
   DashboardLayout,
-  NotFound
+  NotFound,
 } from "./pages";
-
 
 const AppRoutes = () => {
   return (
@@ -25,12 +24,21 @@ const AppRoutes = () => {
               <Route element={<StandaloneLayout />}>
                 <Route path="create" element={<CreateWorkspace />} />
               </Route>
-              
+
               <Route path=":workspaceId" element={<DashboardLayout />}>
                 <Route index element={<div>This is Workspace Page</div>} />
-                <Route path="settings" element={<div>This is Setting Page</div>} />
+
+                <Route
+                  path="settings"
+                  element={<div>This is Setting Page</div>}
+                />
+
                 <Route path="tasks" element={<div>This is Task Page</div>} />
-                <Route path="members" element={<div>This is Members Page</div>} />
+
+                <Route
+                  path="members"
+                  element={<div>This is Members Page</div>}
+                />
               </Route>
             </Route>
           </Route>
@@ -41,7 +49,7 @@ const AppRoutes = () => {
           </Route>
         </Route>
 
-        <Route path="*" element={<NotFound/>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

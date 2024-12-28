@@ -1,4 +1,3 @@
-
 import { Link } from "react-router";
 import notFoundImage from "@/assets/error.png";
 import { Button } from "@/components/ui/button";
@@ -36,3 +35,4 @@ const NotFound = () => {
 };
 
 export default NotFound;
+

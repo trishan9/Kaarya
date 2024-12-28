@@ -32,7 +32,7 @@ type TRegisterFormProps = {
 };
 
 const RegisterForm = ({ mutate, isPending }: TRegisterFormProps) => {
-  const [showPassword,setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),

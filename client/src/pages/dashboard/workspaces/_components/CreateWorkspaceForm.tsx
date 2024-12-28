@@ -17,13 +17,18 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
-import { type CreateWorkspaceSchema, createWorkspaceSchema } from "@/pages/dashboard/workspace/_schemas";
+import {
+  type CreateWorkspaceSchema,
+  createWorkspaceSchema,
+} from "@/pages/dashboard/workspaces/_schemas";
 
 type CreateWorkspaceFormProps = {
   onCancel?: () => void;
 };
 
-export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({ onCancel }) => {
+export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
+  onCancel,
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const form = useForm<CreateWorkspaceSchema>({
     resolver: zodResolver(createWorkspaceSchema),
@@ -33,7 +38,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({ onCanc
   });
 
   const onSubmit = (values: CreateWorkspaceSchema) => {
-    console.log(values)
+    console.log(values);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +51,9 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({ onCanc
   return (
     <Card className="size-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Create new workspace</CardTitle>
+        <CardTitle className="text-xl font-bold">
+          Create new workspace
+        </CardTitle>
       </CardHeader>
 
       <div className="px-7">
@@ -155,7 +162,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({ onCanc
                 Cancel
               </Button>
 
-              <Button  type="submit" size="lg" className="px-7">
+              <Button type="submit" size="lg" className="px-7">
                 Create workspace
               </Button>
             </div>

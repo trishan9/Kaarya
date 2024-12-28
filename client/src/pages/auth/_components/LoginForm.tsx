@@ -5,7 +5,7 @@ import z from "zod";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { CustomAxiosError } from "@/api/axiosInstance";
-import { Loader2, EyeIcon, EyeOffIcon  } from "lucide-react";
+import { Loader2, EyeIcon, EyeOffIcon } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -31,7 +31,7 @@ type TLoginFormProps = {
 };
 
 const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
-  const [showPassword,setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -64,7 +64,7 @@ const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
                   placeholder="Enter email address"
                 />
               </FormControl>
-              
+
               <FormMessage />
             </FormItem>
           )}
@@ -80,7 +80,7 @@ const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
                   {...field}
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter password"
-                />  
+                />
               </FormControl>
 
               <button
@@ -94,7 +94,7 @@ const LoginForm = ({ mutate, isPending }: TLoginFormProps) => {
                   <EyeOffIcon className="w-4" />
                 )}
               </button>
-              
+
               <FormMessage />
             </FormItem>
           )}
