@@ -8,7 +8,7 @@ import { loginUserType } from "./auth.validator";
 import {
   generateAccessToken,
   generateRefreshToken,
-} from "@/modules/token/token.services";
+} from "@/modules/token/token.service";
 import token from "@/lib/token";
 import { logger } from "@/logging/logger";
 import { db } from "@/db";

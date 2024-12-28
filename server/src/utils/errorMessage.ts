@@ -39,9 +39,11 @@ const errorResponse = {
   TOKEN: {
     EXPIRED: "Invalid or expired token",
   },
+
   WORKSPACE: {
-    INVALID: "Workspace not Found"
-  }
+    INVALID: "Workspace not found",
+    IMAGE_FAIL: "Image upload failed",
+  },
 };
 
 export { errorResponse };

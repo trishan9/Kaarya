@@ -1,5 +1,3 @@
-import { UNAUTHORIZED } from "http-status-codes";
-
 const responseMessage = {
   USER: {
     CREATED: "User created successfully",
@@ -14,11 +12,11 @@ const responseMessage = {
   WORKSPACE: {
     CREATED: "Workspace created successfully",
     UPDATED: "Workspace details updated successfully",
-    WORKSPACE_USER: "Workspace deleted successfully",
     RETRIEVED: "Workspace data retrieved successfully",
-    DELETED: "Workspace is deleted",
+    RETRIEVED_ALL: "Workspaces data retrieved successfully",
+    DELETED: "Workspace deleted successfully",
     NOT_FOUND: "Workspace Not found",
-    UNAUTHORIZED: "Unauthorized to access workspace"
+    UNAUTHORIZED: "Unauthorized to access workspace",
   },
   OTHER: {
     SERVER_ERROR: "Internal Server Error",
