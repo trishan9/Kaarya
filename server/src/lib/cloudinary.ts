@@ -9,7 +9,9 @@ cloudinary.config({
   api_secret: config.cloudinary.api_secret,
 });
 
-const uploadToCloudinary = async (localFilePath: string): Promise<UploadApiResponse | Error> => {
+const uploadToCloudinary = async (
+  localFilePath: string,
+): Promise<UploadApiResponse | Error> => {
   try {
     const response = await cloudinary.uploader.upload(localFilePath);
     fs.unlinkSync(localFilePath);

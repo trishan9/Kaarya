@@ -17,7 +17,7 @@ const envSchema = z.object({
   GOOGLE_CALLBACK_URL: z.string(),
   CLOUD_NAME: z.string(),
   CLOUDINARY_API_KEY: z.string(),
-  CLOUDINARY_API_SECRET: z.string()
+  CLOUDINARY_API_SECRET: z.string(),
 });
 
 export const env = envSchema.parse(process.env);
