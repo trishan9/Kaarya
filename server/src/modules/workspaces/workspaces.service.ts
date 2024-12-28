@@ -54,15 +54,16 @@ export const getWorkspaces = async (userId: string) => {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   if (!workspaces) {
     throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
   }
 
-  const workspaceIds = workspaces.map((workspace) => workspace.id);
-
-  return workspaceIds;
+  return workspaces;
 };
 
 export const getWorkspaceById = async (workspaceId: string, userId: string) => {
