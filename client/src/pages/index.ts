@@ -5,8 +5,19 @@ import Register from "./auth/Register";
 import ProtectedLayout from "./ProtectedLayout";
 import AuthWrapper from "./auth/_components/AuthWrapper";
 import StandaloneLayout from "./dashboard/_components/StandaloneLayout";
-import CreateWorkspace from "./dashboard/workspace/CreateWorkspace";
+import CreateWorkspace from "./dashboard/workspaces/CreateWorkspace";
 import DashboardLayout from "./dashboard/_components/DashboardLayout";
-import NotFound from './NotFound'
+import NotFound from "./NotFound";
 
-export { ProtectedLayout, Home, AuthLayout, AuthWrapper, Login, Register, CreateWorkspace, StandaloneLayout, NotFound, DashboardLayout };
+export {
+  ProtectedLayout,
+  Home,
+  AuthLayout,
+  AuthWrapper,
+  Login,
+  Register,
+  CreateWorkspace,
+  StandaloneLayout,
+  NotFound,
+  DashboardLayout,
+};
