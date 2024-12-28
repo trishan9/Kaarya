@@ -2,6 +2,10 @@ import z from "zod";
 import { api } from "./axiosInstance";
 import { API_URLS } from "./urls";
 import { loginFormSchema, registerFormSchema } from "@/pages/auth/_schemas";
+import {
+  createWorkspaceSchema,
+  updateWorkspaceSchema,
+} from "@/pages/dashboard/workspaces/_schemas";
 
 export const apiActions = {
   auth: {
@@ -18,8 +22,41 @@ export const apiActions = {
       return await api.post(API_URLS.AUTH.REFRESH);
     },
     getMe: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 800));
       return await api.get(API_URLS.AUTH.ME);
+    },
+  },
+  workspaces: {
+    getAll: async () => {
+      return await api.get(API_URLS.WORKSPACES);
+    },
+    getById: async (workspaceId: string) => {
+      return await api.get(`${API_URLS.WORKSPACES}/${workspaceId}`);
+    },
+    delete: async (workspaceId: string) => {
+      return await api.delete(`${API_URLS.WORKSPACES}/${workspaceId}`);
+    },
+    create: async (data: z.infer<typeof createWorkspaceSchema>) => {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      return await api.post(API_URLS.WORKSPACES, data, config);
+    },
+    update: async (
+      workspaceId: string,
+      data: z.infer<typeof updateWorkspaceSchema>,
+    ) => {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      return await api.patch(
+        `${API_URLS.WORKSPACES}/${workspaceId}`,
+        data,
+        config,
+      );
     },
   },
 };

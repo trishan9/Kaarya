@@ -7,4 +7,5 @@ export const API_URLS = {
     REFRESH: "/auth/refresh",
     ME: "/auth/me",
   },
+  WORKSPACES: "/workspaces",
 };

@@ -8,12 +8,41 @@ generator client {
 datasource db {
   provider     = "postgresql"
   url          = env("POSTGRESQL_URL")
-  relationMode = "prisma"
+  relationMode = "foreignKeys"
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  name     String
-  password String
+  id         String      @id @default(uuid())
+  email      String      @unique
+  name       String
+  password   String
+  workspaces Workspace[]
+  members    Member[]
+  createdAt  DateTime    @default(now())
+}
+
+model Workspace {
+  id         String   @id @default(uuid())
+  name       String
+  imageUrl   String?
+  inviteCode String?
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  members    Member[]
+  createdAt  DateTime @default(now())
+}
+
+model Member {
+  id          String    @id @default(uuid())
+  role        Role
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId      String
+  workspaceId String
+  createdAt   DateTime  @default(now())
+}
+
+enum Role {
+  ADMIN
+  MEMBER
 }

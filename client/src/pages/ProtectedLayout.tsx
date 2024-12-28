@@ -1,11 +1,10 @@
-import { useAuthStore } from "@/state-stores/auth";
 import { Navigate, Outlet } from "react-router";
+import { useAuthStore } from "@/state-stores/auth";
 
 const ProtectedLayout = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   if (!isAuthenticated) {
-    console.log("User is not authenicated!");
     return <Navigate to="/login" replace />;
   }
 
