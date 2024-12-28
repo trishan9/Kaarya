@@ -17,14 +17,10 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
-<<<<<<< HEAD
 import {
   type CreateWorkspaceSchema,
   createWorkspaceSchema,
 } from "@/pages/dashboard/workspaces/_schemas";
-=======
-import { type CreateWorkspaceSchema, createWorkspaceSchema } from "@/pages/dashboard/workspaces/_schemas";
->>>>>>> 5c73382 (feat: setting page layout)
 
 type CreateWorkspaceFormProps = {
   onCancel?: () => void;
@@ -97,7 +93,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                                 : field.value
                             }
                             alt="Workspace Icon"
-                            className="object-cover"
+                            className="absolute inset-0 w-full h-full object-cover"
                           />
                         </div>
                       ) : (

@@ -123,10 +123,11 @@ export const EditWorkspaceForm = ({
     <div className="flex flex-col gap-y-4">
       <DeleteWorkspaceDialog />
       <ResetDialog />
-      <Card className="size-full border-none shadow-none">
+      
+      <Card className="size-full border shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 space-y-0">
           <Button
-            variant="secondary"
+            variant="outline"
             onClick={
               onCancel
                 ? onCancel
@@ -199,31 +200,28 @@ export const EditWorkspaceForm = ({
                             accept=".jpg, .jpeg, .png, .svg"
                           />
                           {field.value ? (
-                            <Button
-                              size="sm"
-                              type="button"
-                              variant="destructive"
-                              className="w-fit mt-2"
-                            //   disabled={isPending}
-                              onClick={() => {
-                                field.onChange(null);
-                                if (inputRef.current)
-                                  inputRef.current.value = "";
-                              }}
-                            >
-                              Remove Icon
-                            </Button>
-                          ) : (
-                            <Button
-                              size="sm"
-                              type="button"
-                              variant="default"
-                              className="w-fit mt-2"
-                            //   disabled={isPending}
-                              onClick={() => inputRef.current?.click()}
-                            >
-                              Upload Icon
-                            </Button>
+                          <Button
+                            size="sm"
+                            type="button"
+                            variant="default"
+                            className="w-fit mt-2 h-8 bg-red-100 text-red-500 hover:bg-red-100/80 border border-red-200 text-sm font-medium"
+                            onClick={() => {
+                              field.onChange(null);
+                              if (inputRef.current) inputRef.current.value = "";
+                            }}
+                          >
+                            Remove Icon
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            type="button"
+                            variant="default"
+                            className="w-fit mt-2 h-8 bg-green-100 text-green-500 hover:bg-green-100/80 border border-green-200 text-sm font-medium"
+                            onClick={() => inputRef.current?.click()}
+                          >
+                            Upload Icon
+                          </Button>
                           )}
                         </div>
                       </div>
@@ -243,10 +241,12 @@ export const EditWorkspaceForm = ({
                 >
                   Cancel
                 </Button>
+            
                 <Button 
                 // disabled={isPending} 
                 type="submit" 
-                size="lg">
+                size="sm"
+                className="px-5">
                   Save Changes
                 </Button>
               </div>
@@ -254,7 +254,7 @@ export const EditWorkspaceForm = ({
           </Form>
         </CardContent>
       </Card>
-      <Card className="size-full border-none shadow-none">
+      <Card className="size-full border shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
             <h3 className="font-bold">Invite Members</h3>
@@ -270,8 +270,8 @@ export const EditWorkspaceForm = ({
                       .writeText(absoluteInviteLink)
                       .then(() => toast.success("Copied to clipboard"));
                   }}
-                  variant="secondary"
-                  className="size-12"
+                  variant="outline"
+                  className="size-10"
                 >
                   <CopyIcon className="size-5" />
                 </Button>
@@ -279,9 +279,9 @@ export const EditWorkspaceForm = ({
             </div>
             <DottedSeparator className="py-7" />
             <Button
-              className="mt-6 w-fit ml-auto"
+              className="mt-6 w-fit ml-auto border px-4"
               size="sm"
-              variant="destructive"
+              variant="secondary"
             //   disabled={isPending || resetingInviteCode}
               onClick={handleResetInviteCode}
             >
@@ -290,7 +290,7 @@ export const EditWorkspaceForm = ({
           </div>
         </CardContent>
       </Card>
-      <Card className="size-full border-none shadow-none">
+      <Card className="size-full border shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
             <h3 className="font-bold">Danger Zone</h3>

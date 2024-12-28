@@ -10,6 +10,7 @@ import {
   StandaloneLayout,
   DashboardLayout,
   NotFound,
+  WorkspaceIdSettings,
 } from "./pages";
 
 const AppRoutes = () => {
@@ -23,15 +24,17 @@ const AppRoutes = () => {
             <Route path="workspaces">
               <Route element={<StandaloneLayout />}>
                 <Route path="create" element={<CreateWorkspace />} />
+
+                <Route path=":workspaceId">
+                  <Route
+                    path="settings"
+                    element={<WorkspaceIdSettings />}
+                  />
+                </Route>
               </Route>
 
               <Route path=":workspaceId" element={<DashboardLayout />}>
                 <Route index element={<div>This is Workspace Page</div>} />
-
-                <Route
-                  path="settings"
-                  element={<div>This is Setting Page</div>}
-                />
 
                 <Route path="tasks" element={<div>This is Task Page</div>} />
 
