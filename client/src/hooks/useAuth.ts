@@ -66,6 +66,7 @@ export const useLogout = () => {
       setIsAuthenticated(false);
       queryClient.invalidateQueries({ queryKey: ["me"] });
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      window.location.href = "/";
     },
   });
 };

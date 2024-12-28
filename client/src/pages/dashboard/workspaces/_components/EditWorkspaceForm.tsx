@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, CopyIcon, ImageIcon } from "lucide-react";
+import { ArrowLeft, CopyIcon, ImageIcon, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -259,6 +259,7 @@ export const EditWorkspaceForm = ({
                   className="px-5"
                 >
                   Save Changes
+                  {isPending && <Loader2 className="w-14 h-14 animate-spin" />}
                 </Button>
               </div>
             </form>

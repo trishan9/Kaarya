@@ -1,31 +1,25 @@
-// import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { EditWorkspaceForm } from "@/pages/dashboard/workspaces/_components/EditWorkspaceForm";
-// import { useWorkspaceId } from "@/hooks/userWorkspaceId";
-
 import { PageError } from "@/components/PageError";
 import { PageLoader } from "@/components/PageLoader";
+import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { useGetWorkspace } from "@/hooks/useWorkspaces";
 
 const WorkspaceIdSettings = () => {
-    // const workspaceId = useWorkspaceId();
-    // const { data: initialValues, isLoading } = useGetWorkspace({ workspaceId });
-    const isLoading=false
-    
-        const initialValues = {
-            id: "W-1244",
-            name: "Nischay's Workspace",
-            imageUrl: "https://cdn.worldvectorlogo.com/logos/react-1.svg",
-            inviteCode : "I-1234",
-            userId: "U-123"
-        }
+  const workspaceId: string = useWorkspaceId();
+  const { data, isLoading } = useGetWorkspace({ workspaceId });
+  const workspace = data?.data?.workspace;
 
-    if (isLoading) return <PageLoader />;
-    if (!initialValues) return <PageError message="Workspace not found" />;
+  if (isLoading) return <PageLoader />;
 
-    return (
-        <div className="w-full lg:max-w-xl">
-            <EditWorkspaceForm initialValues={initialValues} />
-        </div>
-    );
+  if (!data?.data?.workspace)
+    return <PageError message="Workspace not found" />;
+
+  return (
+    <div className="w-full lg:max-w-xl">
+      <EditWorkspaceForm initialValues={workspace} />
+    </div>
+  );
 };
 
 export default WorkspaceIdSettings;
+

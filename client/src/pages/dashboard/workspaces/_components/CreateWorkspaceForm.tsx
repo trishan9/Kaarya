@@ -60,7 +60,6 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
       {
         onSuccess: ({ data }) => {
           form.reset();
-          console.log(data);
           navigate(`/workspaces/${data.workspace.id}`);
         },
       },
