@@ -39,6 +39,9 @@ const errorResponse = {
   TOKEN: {
     EXPIRED: "Invalid or expired token",
   },
+  WORKSPACE: {
+    INVALID: "Workspace not Found"
+  }
 };
 
 export { errorResponse };

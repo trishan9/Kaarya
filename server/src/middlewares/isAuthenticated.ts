@@ -21,7 +21,6 @@ export const isAuthenticated = async (
     }
 
     const headerParts = authHeader.split(" ");
-
     if (headerParts.length !== 2 || headerParts[0] !== "Bearer") {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
@@ -42,7 +41,6 @@ export const isAuthenticated = async (
       next(new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.TOKEN.EXPIRED));
 
     res.locals.user = user;
-
     return next();
   } catch (error) {
     return next(error);
