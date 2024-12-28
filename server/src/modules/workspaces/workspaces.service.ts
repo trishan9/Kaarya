@@ -17,7 +17,7 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
     throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.USER.NOT_FOUND);
   }
 
-  const newWorkspace = await db.workspace.create({
+  return await db.workspace.create({
     data: {
       name: data.name,
       imageUrl: data.imageUrl,
@@ -25,8 +25,6 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
       inviteCode: generateInviteCode(INVITECODE_LENGTH),
     },
   });
-
-  return newWorkspace;
 };
 
 export const getWorkspaces = async (userId: string) => {
@@ -53,7 +51,29 @@ export const getWorkspaces = async (userId: string) => {
   return workspaceIds;
 };
 
-export const getWorkspaceById = async (workspaceId: string) => {};
+export const getWorkspaceById = async (workspaceId: string) => {
+  if (!workspaceId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.WORKSPACE.INVALID,
+    );
+  }
+
+  const workspace = await db.workspace.findUnique({
+    where: {
+      id: workspaceId,
+    },
+    include: {
+      members: true,
+    },
+  });
+
+  if (!workspace) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
+  }
+
+  return workspace;
+};
 
 export const updateWorkspace = async (
   workspaceId: string,

@@ -78,9 +78,10 @@ export const getWorkspaceById = asyncHandler(
       params: { workspaceId },
     } = req;
 
-    await workspaceService.getWorkspaceById(workspaceId);
+    const workspace = await workspaceService.getWorkspaceById(workspaceId);
 
     return apiResponse(res, StatusCodes.OK, {
+      workspace,
       message: responseMessage.WORKSPACE.RETRIEVED,
     });
   },
