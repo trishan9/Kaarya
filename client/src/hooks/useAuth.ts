@@ -17,7 +17,7 @@ export const useLogin = () => {
       setAccessToken(accessToken);
       queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.success(response.data.message);
-      navigate("/workspaces/W-1234");
+      navigate("/");
     },
     onError: (error: CustomAxiosError) => {
       console.log(error);
@@ -56,6 +56,7 @@ export const useLogout = () => {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
   const setUser = useAuthStore((state) => state.setUser);
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: apiActions.auth.logout,
@@ -63,6 +64,9 @@ export const useLogout = () => {
       setUser(null);
       setAccessToken(null);
       setIsAuthenticated(false);
+      queryClient.invalidateQueries({ queryKey: ["me"] });
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      window.location.href = "/";
     },
   });
 };

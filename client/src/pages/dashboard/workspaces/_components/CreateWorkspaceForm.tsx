@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageIcon } from "lucide-react";
+import { ImageIcon, Loader2 } from "lucide-react";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -21,6 +21,8 @@ import {
   type CreateWorkspaceSchema,
   createWorkspaceSchema,
 } from "@/pages/dashboard/workspaces/_schemas";
+import { useCreateWorkspace } from "@/hooks/useWorkspaces";
+import { useNavigate } from "react-router";
 
 type CreateWorkspaceFormProps = {
   onCancel?: () => void;
@@ -29,16 +31,39 @@ type CreateWorkspaceFormProps = {
 export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
   onCancel,
 }) => {
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const form = useForm<CreateWorkspaceSchema>({
     resolver: zodResolver(createWorkspaceSchema),
     defaultValues: {
       name: "",
+      image: "",
     },
   });
+  const { mutate, isPending } = useCreateWorkspace();
 
   const onSubmit = (values: CreateWorkspaceSchema) => {
-    console.log(values);
+    const formData = new FormData();
+    Object.keys(values).forEach((key) => {
+      const typedKey = key as keyof CreateWorkspaceSchema;
+      if (typedKey === "image" && values[typedKey] instanceof File) {
+        formData.append("image", values[typedKey] as File);
+      } else {
+        formData.append(typedKey, values[typedKey] as string);
+      }
+    });
+
+    mutate(
+      {
+        data: values,
+      },
+      {
+        onSuccess: ({ data }) => {
+          form.reset();
+          navigate(`/workspaces/${data.workspace.id}`);
+        },
+      },
+    );
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,6 +139,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                           hidden
                           type="file"
                           ref={inputRef}
+                          disabled={isPending}
                           onChange={handleImageChange}
                           accept=".jpg, .jpeg, .png, .svg"
                         />
@@ -124,6 +150,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                             type="button"
                             variant="default"
                             className="w-fit mt-2 h-8 bg-red-100 text-red-500 hover:bg-red-100/80 border border-red-200 text-sm font-medium"
+                            disabled={isPending}
                             onClick={() => {
                               field.onChange(null);
                               if (inputRef.current) inputRef.current.value = "";
@@ -137,6 +164,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                             type="button"
                             variant="default"
                             className="w-fit mt-2 h-8 bg-green-100 text-green-500 hover:bg-green-100/80 border border-green-200 text-sm font-medium"
+                            disabled={isPending}
                             onClick={() => inputRef.current?.click()}
                           >
                             Upload Icon
@@ -157,13 +185,20 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                 size="default"
                 variant="secondary"
                 onClick={onCancel}
+                disabled={isPending}
                 className={cn(!onCancel && "invisible")}
               >
                 Cancel
               </Button>
 
-              <Button type="submit" size="lg" className="px-7">
+              <Button
+                disabled={isPending}
+                type="submit"
+                size="lg"
+                className="px-7"
+              >
                 Create workspace
+                {isPending && <Loader2 className="w-14 h-14 animate-spin" />}
               </Button>
             </div>
           </form>

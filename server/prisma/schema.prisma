@@ -18,6 +18,7 @@ model User {
   password   String
   workspaces Workspace[]
   members    Member[]
+  createdAt  DateTime    @default(now())
 }
 
 model Workspace {
@@ -28,6 +29,7 @@ model Workspace {
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   members    Member[]
+  createdAt  DateTime @default(now())
 }
 
 model Member {
@@ -37,6 +39,7 @@ model Member {
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   userId      String
   workspaceId String
+  createdAt   DateTime  @default(now())
 }
 
 enum Role {
