@@ -5,7 +5,7 @@ import { EditWorkspaceForm } from "@/pages/dashboard/workspaces/_components/Edit
 import { PageError } from "@/components/PageError";
 import { PageLoader } from "@/components/PageLoader";
 
-export const WorkspaceIdSettings = () => {
+const WorkspaceIdSettings = () => {
     // const workspaceId = useWorkspaceId();
     // const { data: initialValues, isLoading } = useGetWorkspace({ workspaceId });
     const isLoading=false
@@ -27,3 +27,5 @@ export const WorkspaceIdSettings = () => {
         </div>
     );
 };
+
+export default WorkspaceIdSettings;

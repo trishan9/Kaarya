@@ -7,6 +7,7 @@ import AuthWrapper from "./auth/_components/AuthWrapper";
 import StandaloneLayout from "./dashboard/_components/StandaloneLayout";
 import CreateWorkspace from "./dashboard/workspaces/CreateWorkspace";
 import DashboardLayout from "./dashboard/_components/DashboardLayout";
+import WorkspaceIdSettings from "./dashboard/workspaces/WorkspaceIdSettings";
 import NotFound from "./NotFound";
 
 export {
@@ -20,4 +21,5 @@ export {
   StandaloneLayout,
   NotFound,
   DashboardLayout,
+  WorkspaceIdSettings
 };
