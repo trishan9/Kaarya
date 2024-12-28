@@ -17,7 +17,7 @@ const StandaloneLayout = () => {
             </AvatarFallback>
           </Avatar>
         </nav>
-        <div className="flex flex-col items-center justify-center py-4 md:py-14">
+        <div className="flex flex-col items-center justify-center py-4 md:py-12">
           <Outlet />
         </div>
       </div>

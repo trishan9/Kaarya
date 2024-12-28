@@ -93,7 +93,7 @@ export const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                                 : field.value
                             }
                             alt="Workspace Icon"
-                            className="object-cover"
+                            className="absolute inset-0 w-full h-full object-cover"
                           />
                         </div>
                       ) : (
