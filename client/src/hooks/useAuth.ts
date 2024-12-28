@@ -17,7 +17,7 @@ export const useLogin = () => {
       setAccessToken(accessToken);
       queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.success(response.data.message);
-      navigate("/workspaces/W-1234");
+      navigate("/");
     },
     onError: (error: CustomAxiosError) => {
       console.log(error);

@@ -10,23 +10,22 @@ import {
 import { WorkspaceAvatar } from "@/pages/dashboard/workspaces/_components/WorkspaceAvatar";
 import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { useGetWorkspaces } from "@/hooks/useWorkspaces";
+
+export type TWorkspace = {
+  id: string;
+  name: string;
+  imageUrl: string;
+  inviteCode: string;
+  userId: string;
+};
 
 export const WorkspaceSwitcher = () => {
   const workspaceId = useWorkspaceId();
   const navigate = useNavigate();
   const { open } = useCreateWorkspaceModal();
-  const workspaces = [
-    {
-      id: "W-1234",
-      name: "Trishan's Workspace",
-      imageUrl: "",
-    },
-    {
-      id: "W-1244",
-      name: "Nischay's Workspace",
-      imageUrl: "https://cdn.worldvectorlogo.com/logos/react-1.svg",
-    },
-  ];
+  const { data } = useGetWorkspaces();
+  const workspaces = data?.data?.workspaces;
 
   const onSelect = (id: string) => {
     navigate(`/workspaces/${id}`);
@@ -49,7 +48,7 @@ export const WorkspaceSwitcher = () => {
         </SelectTrigger>
 
         <SelectContent>
-          {workspaces?.map((workspace) => (
+          {workspaces?.map((workspace: TWorkspace) => (
             <SelectItem value={workspace.id} key={workspace.id}>
               <div className="flex justify-start items-center gap-3 font-medium">
                 <WorkspaceAvatar
