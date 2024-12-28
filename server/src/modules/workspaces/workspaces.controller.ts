@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import * as workspaceService from "./workspaces.service";
-import { createWorkspaceSchema } from "./workspaces.validator";
+import {
+  createWorkspaceSchema,
+  updateWorkspaceSchema,
+} from "./workspaces.validator";
 
 import uploadToCloudinary from "@/lib/cloudinary";
 import { ApiError } from "@/utils/apiError";
@@ -21,7 +24,10 @@ export const createWorkspace = asyncHandler(
     const userId = res.locals?.user?.id;
 
     if (!result.success) {
-      throw new ApiError(StatusCodes.FORBIDDEN, result.error.issues);
+      throw new ApiError(
+        StatusCodes.BAD_REQUEST,
+        errorResponse.VALIDATION.FAILED,
+      );
     }
 
     const { name } = result.data;
@@ -31,7 +37,7 @@ export const createWorkspace = asyncHandler(
       const cloudinaryResponse = await uploadToCloudinary(req.file.path);
       if (cloudinaryResponse instanceof Error) {
         throw new ApiError(
-          StatusCodes.BAD_REQUEST,
+          StatusCodes.INTERNAL_SERVER_ERROR,
           errorResponse.WORKSPACE.IMAGE_FAIL,
         );
       }
@@ -97,9 +103,42 @@ export const updateWorkspace = asyncHandler(
       params: { workspaceId },
     } = req;
 
-    await workspaceService.updateWorkspace(workspaceId, body);
+    const result = updateWorkspaceSchema.safeParse(body);
+
+    if (!result.success) {
+      throw new ApiError(
+        StatusCodes.BAD_REQUEST,
+        errorResponse.VALIDATION.FAILED,
+      );
+    }
+
+    const { name } = result.data;
+    let imageUrl: string | null = null;
+
+    if (req.file?.path) {
+      const cloudinaryResponse = await uploadToCloudinary(req.file.path);
+      if (cloudinaryResponse instanceof Error) {
+        throw new ApiError(
+          StatusCodes.INTERNAL_SERVER_ERROR,
+          errorResponse.WORKSPACE.IMAGE_FAIL,
+        );
+      }
+      imageUrl = cloudinaryResponse?.secure_url;
+    }
+
+    const data = {
+      name,
+      imageUrl,
+    };
+
+    const workspace = await workspaceService.updateWorkspace(
+      workspaceId,
+      res.locals.user.id,
+      data,
+    );
 
     return apiResponse(res, StatusCodes.OK, {
+      workspace,
       message: responseMessage.WORKSPACE.UPDATED,
     });
   },

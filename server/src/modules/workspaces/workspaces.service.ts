@@ -5,6 +5,7 @@ import { errorResponse } from "@/utils/errorMessage";
 import { db } from "@/db";
 import { UpdateWorkspaceType } from "./workspaces.validator";
 import { generateInviteCode, INVITECODE_LENGTH } from "@/utils";
+import { UserRoles } from "../member/member.validator";
 
 interface CreateWorkspaceInput {
   userId: string;
@@ -15,6 +16,19 @@ interface CreateWorkspaceInput {
 export const createWorkspace = async (data: CreateWorkspaceInput) => {
   if (!data.userId) {
     throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.USER.NOT_FOUND);
+  }
+
+  const exists = await db.workspace.findFirst({
+    where: {
+      name: data.name,
+    },
+  });
+
+  if (exists) {
+    throw new ApiError(
+      StatusCodes.CONFLICT,
+      errorResponse.WORKSPACE.NAME_CONFLICT,
+    );
   }
 
   return await db.workspace.create({
@@ -55,7 +69,7 @@ export const getWorkspaceById = async (workspaceId: string, userId: string) => {
   if (!workspaceId || !userId) {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
-      errorResponse.WORKSPACE.INVALID,
+      errorResponse.VALIDATION.FAILED,
     );
   }
 
@@ -63,21 +77,23 @@ export const getWorkspaceById = async (workspaceId: string, userId: string) => {
     where: {
       id: workspaceId,
     },
-    include: {
-      members: true,
-    },
   });
 
   if (!workspace) {
     throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
   }
 
-  const isMember = workspace.members.some((member) => member.userId === userId);
+  const isMember = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId,
+    },
+  });
 
   if (!isMember) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      errorResponse.AUTH_HEADER.UNAUTHORIZED,
+      errorResponse.WORKSPACE.UNAUTHORIZED,
     );
   }
 
@@ -86,14 +102,13 @@ export const getWorkspaceById = async (workspaceId: string, userId: string) => {
 
 export const updateWorkspace = async (
   workspaceId: string,
+  userId: string,
   data: UpdateWorkspaceType,
-) => {};
-
-export const deleteWorkspace = async (workspaceId: string, userId: string) => {
+) => {
   if (!workspaceId || !userId) {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
-      errorResponse.WORKSPACE.INVALID,
+      errorResponse.VALIDATION.FAILED,
     );
   }
 
@@ -101,8 +116,46 @@ export const deleteWorkspace = async (workspaceId: string, userId: string) => {
     where: {
       id: workspaceId,
     },
-    include: {
-      members: true,
+  });
+
+  if (!workspace) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
+  }
+
+  const isAdmin = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId,
+      role: UserRoles.ADMIN,
+    },
+  });
+
+  if (!isAdmin) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      errorResponse.WORKSPACE.NO_PERMISSION,
+    );
+  }
+
+  return await db.workspace.update({
+    where: {
+      id: workspaceId,
+    },
+    data,
+  });
+};
+
+export const deleteWorkspace = async (workspaceId: string, userId: string) => {
+  if (!workspaceId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+
+  const workspace = await db.workspace.findUnique({
+    where: {
+      id: workspaceId,
     },
   });
 
@@ -115,7 +168,7 @@ export const deleteWorkspace = async (workspaceId: string, userId: string) => {
   if (!isSuperAdmin) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      errorResponse.AUTH_HEADER.UNAUTHORIZED,
+      errorResponse.WORKSPACE.NO_PERMISSION,
     );
   }
 

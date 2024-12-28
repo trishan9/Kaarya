@@ -11,7 +11,11 @@ workspaceRouter.post(
 );
 workspaceRouter.get("/", workspaceController.getWorkspaces);
 workspaceRouter.get("/:workspaceId", workspaceController.getWorkspaceById);
-workspaceRouter.patch("/:workspaceId", workspaceController.updateWorkspace);
+workspaceRouter.patch(
+  "/:workspaceId",
+  upload.single("image"),
+  workspaceController.updateWorkspace,
+);
 workspaceRouter.delete("/:workspaceId", workspaceController.deleteWorkspace);
 
 export { workspaceRouter };
