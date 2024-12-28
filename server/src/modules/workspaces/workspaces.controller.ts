@@ -111,7 +111,7 @@ export const deleteWorkspace = asyncHandler(
       params: { workspaceId },
     } = req;
 
-    await workspaceService.deleteWokspace(workspaceId);
+    await workspaceService.deleteWorkspace(workspaceId, res.locals.user.id);
 
     return apiResponse(res, StatusCodes.OK, {
       message: responseMessage.WORKSPACE.DELETED,

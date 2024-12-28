@@ -76,7 +76,7 @@ export const getWorkspaceById = async (workspaceId: string, userId: string) => {
 
   if (!isMember) {
     throw new ApiError(
-      StatusCodes.UNAUTHORIZED,
+      StatusCodes.FORBIDDEN,
       errorResponse.AUTH_HEADER.UNAUTHORIZED,
     );
   }
@@ -89,4 +89,39 @@ export const updateWorkspace = async (
   data: UpdateWorkspaceType,
 ) => {};
 
-export const deleteWokspace = async (workspaceId: string) => {};
+export const deleteWorkspace = async (workspaceId: string, userId: string) => {
+  if (!workspaceId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.WORKSPACE.INVALID,
+    );
+  }
+
+  const workspace = await db.workspace.findUnique({
+    where: {
+      id: workspaceId,
+    },
+    include: {
+      members: true,
+    },
+  });
+
+  if (!workspace) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
+  }
+
+  const isSuperAdmin = workspace.userId === userId;
+
+  if (!isSuperAdmin) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      errorResponse.AUTH_HEADER.UNAUTHORIZED,
+    );
+  }
+
+  return await db.workspace.delete({
+    where: {
+      id: workspaceId,
+    },
+  });
+};
