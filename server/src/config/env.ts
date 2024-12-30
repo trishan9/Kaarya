@@ -18,6 +18,8 @@ const envSchema = z.object({
   CLOUD_NAME: z.string(),
   CLOUDINARY_API_KEY: z.string(),
   CLOUDINARY_API_SECRET: z.string(),
+  GMAIL_ADDRESS: z.string().email(),
+  GMAIL_PASSWORD: z.string(),
 });
 
 export const env = envSchema.parse(process.env);

@@ -31,7 +31,6 @@ export default {
       expiresIn: env.REFRESH_TOKEN_EXPIRES_IN,
     },
   },
-
   oauth: {
     google: {
       client_id: env.GOOGLE_CLIENT_ID,
@@ -43,5 +42,9 @@ export default {
     cloud_name: env.CLOUD_NAME,
     api_key: env.CLOUDINARY_API_KEY,
     api_secret: env.CLOUDINARY_API_SECRET,
+  },
+  gmail: {
+    emailAddress: env.GMAIL_ADDRESS,
+    password: env.GMAIL_PASSWORD,
   },
 } as const;

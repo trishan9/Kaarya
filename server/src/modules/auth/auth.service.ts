@@ -12,6 +12,7 @@ import {
 import token from "@/lib/token";
 import { logger } from "@/logging/logger";
 import { db } from "@/db";
+import { sendOnboardingMail } from "../mail/mail.service";
 
 export const register = async (data: Prisma.UserCreateInput) => {
   const exists = await db.user.findFirst({
@@ -24,12 +25,16 @@ export const register = async (data: Prisma.UserCreateInput) => {
 
   const hashedPassword = await hash.generate(data.password);
 
-  return await db.user.create({
+  const newUser = await db.user.create({
     data: {
       ...data,
       password: hashedPassword,
     },
   });
+
+  await sendOnboardingMail(data);
+
+  return newUser;
 };
 
 export const login = async (data: loginUserType) => {

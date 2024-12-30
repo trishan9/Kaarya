@@ -13,7 +13,7 @@ const DashboardLayout = () => {
   const workspace = data?.data?.workspace;
 
   if (isLoading) return <PageLoader />;
-  if (!workspace) return <PageError message="Workspace not found" />;
+  if (!workspace) return <PageError message="Failed to load workspace data" />;
 
   return (
     <div className="min-h-screen">
