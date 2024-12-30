@@ -149,7 +149,7 @@ export const updateWorkspace = async (
     );
   }
 
-  let imageUrl: string | null = null;
+  let imageUrl: string = workspace.imageUrl as string;
 
   if (data.image) {
     const cloudinaryResponse = await uploadToCloudinary(data.image as string);
