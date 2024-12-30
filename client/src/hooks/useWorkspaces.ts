@@ -12,6 +12,7 @@ export const useGetWorkspaces = () => {
   return useQuery({
     queryKey: ["workspaces"],
     queryFn: apiActions.workspaces.getAll,
+    retry: 1,
   });
 };
 
@@ -19,6 +20,7 @@ export const useGetWorkspace = ({ workspaceId }: { workspaceId: string }) => {
   const query = useQuery({
     queryKey: ["workspace", workspaceId],
     queryFn: () => apiActions.workspaces.getById(workspaceId),
+    retry: 1,
   });
 
   return query;

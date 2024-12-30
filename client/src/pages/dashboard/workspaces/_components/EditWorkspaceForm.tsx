@@ -23,18 +23,11 @@ import { useConfirm } from "@/hooks/useConfirm";
 
 import { type UpdateWorkspaceSchema, updateWorkspaceSchema } from "../_schemas";
 import { useDeleteWorkspace, useUpdateWorkspace } from "@/hooks/useWorkspaces";
-
-type Workspace = {
-  id: string;
-  name: string;
-  imageUrl: string;
-  inviteCode: string;
-  userId: string;
-};
+import type { TWorkspace } from "@/components/WorkspaceSwitcher";
 
 interface EditWorkspaceFormProps {
   onCancel?: () => void;
-  initialValues: Workspace;
+  initialValues: TWorkspace;
 }
 
 export const EditWorkspaceForm = ({

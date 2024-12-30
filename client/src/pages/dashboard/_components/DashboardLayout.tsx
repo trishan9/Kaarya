@@ -2,8 +2,19 @@ import { Outlet } from "react-router";
 import { Navbar } from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
 import { CreateWorkspaceModal } from "../workspaces/_components/CreateWorkspaceModal";
+import { useWorkspaceId } from "@/hooks/useWorkspaceId";
+import { useGetWorkspace } from "@/hooks/useWorkspaces";
+import { PageLoader } from "@/components/PageLoader";
+import { PageError } from "@/components/PageError";
 
 const DashboardLayout = () => {
+  const workspaceId: string = useWorkspaceId();
+  const { data, isLoading } = useGetWorkspace({ workspaceId });
+  const workspace = data?.data?.workspace;
+
+  if (isLoading) return <PageLoader />;
+  if (!workspace) return <PageError message="Workspace not found" />;
+
   return (
     <div className="min-h-screen">
       <CreateWorkspaceModal />
