@@ -7,7 +7,6 @@ import {
   updateWorkspaceSchema,
 } from "./workspaces.validator";
 
-import uploadToCloudinary from "@/lib/cloudinary";
 import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
@@ -30,24 +29,13 @@ export const createWorkspace = asyncHandler(
       );
     }
 
-    const { name } = result.data;
-    let imageUrl: string | null = null;
-
-    if (req.file?.path) {
-      const cloudinaryResponse = await uploadToCloudinary(req.file.path);
-      if (cloudinaryResponse instanceof Error) {
-        throw new ApiError(
-          StatusCodes.INTERNAL_SERVER_ERROR,
-          errorResponse.WORKSPACE.IMAGE_FAIL,
-        );
-      }
-      imageUrl = cloudinaryResponse?.secure_url;
-    }
+    const { name } = body;
+    const image = req.file?.path;
 
     const newWorkspaceObj = {
       name,
       userId,
-      imageUrl,
+      image,
     };
 
     const newWorkspace =
@@ -112,23 +100,12 @@ export const updateWorkspace = asyncHandler(
       );
     }
 
-    const { name } = result.data;
-    let imageUrl: string | null = null;
-
-    if (req.file?.path) {
-      const cloudinaryResponse = await uploadToCloudinary(req.file.path);
-      if (cloudinaryResponse instanceof Error) {
-        throw new ApiError(
-          StatusCodes.INTERNAL_SERVER_ERROR,
-          errorResponse.WORKSPACE.IMAGE_FAIL,
-        );
-      }
-      imageUrl = cloudinaryResponse?.secure_url;
-    }
+    const { name } = body;
+    const image = req.file?.path;
 
     const data = {
       name,
-      imageUrl,
+      image,
     };
 
     const workspace = await workspaceService.updateWorkspace(

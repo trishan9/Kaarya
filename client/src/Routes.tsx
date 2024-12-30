@@ -26,10 +26,7 @@ const AppRoutes = () => {
                 <Route path="create" element={<CreateWorkspace />} />
 
                 <Route path=":workspaceId">
-                  <Route
-                    path="settings"
-                    element={<WorkspaceIdSettings />}
-                  />
+                  <Route path="settings" element={<WorkspaceIdSettings />} />
                 </Route>
               </Route>
 

@@ -36,27 +36,27 @@ export const apiActions = {
       return await api.delete(`${API_URLS.WORKSPACES}/${workspaceId}`);
     },
     create: async (data: z.infer<typeof createWorkspaceSchema>) => {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      return await api.post(API_URLS.WORKSPACES, data, config);
+      return await api.post(
+        API_URLS.WORKSPACES,
+        data,
+        MULTIPART_FORM_DATA_CONFIG,
+      );
     },
     update: async (
       workspaceId: string,
       data: z.infer<typeof updateWorkspaceSchema>,
     ) => {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
       return await api.patch(
         `${API_URLS.WORKSPACES}/${workspaceId}`,
         data,
-        config,
+        MULTIPART_FORM_DATA_CONFIG,
       );
     },
+  },
+};
+
+const MULTIPART_FORM_DATA_CONFIG = {
+  headers: {
+    "Content-Type": "multipart/form-data",
   },
 };

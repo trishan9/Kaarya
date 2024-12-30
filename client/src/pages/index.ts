@@ -21,5 +21,5 @@ export {
   StandaloneLayout,
   NotFound,
   DashboardLayout,
-  WorkspaceIdSettings
+  WorkspaceIdSettings,
 };

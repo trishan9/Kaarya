@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon, Loader2 } from "lucide-react";
@@ -22,7 +23,6 @@ import {
   createWorkspaceSchema,
 } from "@/pages/dashboard/workspaces/_schemas";
 import { useCreateWorkspace } from "@/hooks/useWorkspaces";
-import { useNavigate } from "react-router";
 
 type CreateWorkspaceFormProps = {
   onCancel?: () => void;
