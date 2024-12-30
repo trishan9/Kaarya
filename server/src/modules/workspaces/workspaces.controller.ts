@@ -134,3 +134,23 @@ export const deleteWorkspace = asyncHandler(
     });
   },
 );
+
+
+export const resetWorkspaceLink = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      params: { workspaceId },
+    } = req;
+    const userId = res.locals.user.id;
+
+    const workspace = await workspaceService.resetWorkspaceInviteCode(
+      workspaceId,
+      userId
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      workspace,
+      message: responseMessage.WORKSPACE.INVITE_CODE_RESET,
+    });
+  }
+);

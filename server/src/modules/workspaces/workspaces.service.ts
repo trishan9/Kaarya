@@ -208,3 +208,46 @@ export const deleteWorkspace = async (workspaceId: string, userId: string) => {
     },
   });
 };
+
+export const resetWorkspaceInviteCode = async (workspaceId: string, userId: string) => {
+  if (!workspaceId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+
+  const workspace = await db.workspace.findUnique({
+    where: {
+      id: workspaceId,
+    },
+  });
+
+  if (!workspace) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
+  }
+
+  const isAdmin = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId,
+      role: UserRoles.ADMIN,
+    },
+  });
+
+  if (!isAdmin) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      errorResponse.WORKSPACE.NO_PERMISSION,
+    );
+  }
+
+  return await db.workspace.update({
+    where: {
+      id: workspaceId,
+    },
+    data: {
+      inviteCode: generateInviteCode(INVITECODE_LENGTH),
+    },
+  });
+};
