@@ -16,10 +16,12 @@ const NotFound = () => {
           className="w-11/12 h-auto"
           src={notFoundImage}
         />
+
         <div className="w-11/12 mx-auto">
           <h6 className="mt-6 text-2xl font-medium">
             Oops! Sorry page not found
           </h6>
+
           <p className="mt-2 text-sm text-gray-600">
             The page you're trying to access doesn't exist on our website.
             Please check the URL and try again.
@@ -35,4 +37,3 @@ const NotFound = () => {
 };
 
 export default NotFound;
-

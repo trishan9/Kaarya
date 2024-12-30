@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiActions } from "@/api";
 import { z } from "zod";
+import { toast } from "react-toastify";
+import { apiActions } from "@/api";
 import {
   CreateWorkspaceSchema,
   updateWorkspaceSchema,
 } from "@/pages/dashboard/workspaces/_schemas";
-import { toast } from "react-toastify";
 import { CustomAxiosError } from "@/api/axiosInstance";
 
 export const useGetWorkspaces = () => {
@@ -40,7 +40,6 @@ export const useUpdateWorkspace = () => {
       return await apiActions.workspaces.update(workspaceId, data);
     },
     onSuccess: (response) => {
-      console.log(response);
       toast.success(response?.data?.message);
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       queryClient.invalidateQueries({
@@ -80,7 +79,6 @@ export const useDeleteWorkspace = () => {
       return await apiActions.workspaces.delete(workspaceId);
     },
     onSuccess: (response) => {
-      console.log(response);
       toast.success(response?.data?.message);
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       queryClient.invalidateQueries({
