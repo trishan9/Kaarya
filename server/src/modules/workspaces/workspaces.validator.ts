@@ -27,3 +27,9 @@ export const inviteCodeSchema = z.object({ code: z.string() });
 
 export type CreateWorkspaceType = z.infer<typeof createWorkspaceSchema>;
 export type UpdateWorkspaceType = z.infer<typeof updateWorkspaceSchema>;
+
+export interface CreateWorkspaceInput {
+  userId: string;
+  image: unknown | null;
+  name: string;
+}

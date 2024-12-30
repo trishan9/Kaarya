@@ -1,17 +1,15 @@
 import { StatusCodes } from "http-status-codes";
 
+import uploadToCloudinary from "@/lib/cloudinary";
 import { ApiError } from "@/utils/apiError";
 import { errorResponse } from "@/utils/errorMessage";
 import { db } from "@/db";
-import { UpdateWorkspaceType } from "./workspaces.validator";
+import type {
+  CreateWorkspaceInput,
+  UpdateWorkspaceType,
+} from "./workspaces.validator";
 import { generateInviteCode, INVITECODE_LENGTH } from "@/utils";
 import { UserRoles } from "../member/member.validator";
-
-interface CreateWorkspaceInput {
-  userId: string;
-  imageUrl?: string | null;
-  name: string;
-}
 
 export const createWorkspace = async (data: CreateWorkspaceInput) => {
   if (!data.userId) {
@@ -31,10 +29,23 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
     );
   }
 
+  let imageUrl: string | null = null;
+
+  if (data.image) {
+    const cloudinaryResponse = await uploadToCloudinary(data.image as string);
+    if (cloudinaryResponse instanceof Error) {
+      throw new ApiError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        errorResponse.WORKSPACE.IMAGE_FAIL,
+      );
+    }
+    imageUrl = cloudinaryResponse?.secure_url;
+  }
+
   return await db.workspace.create({
     data: {
       name: data.name,
-      imageUrl: data.imageUrl,
+      imageUrl: imageUrl,
       userId: data.userId,
       inviteCode: generateInviteCode(INVITECODE_LENGTH),
     },
@@ -138,11 +149,29 @@ export const updateWorkspace = async (
     );
   }
 
+  let imageUrl: string | null = null;
+
+  if (data.image) {
+    const cloudinaryResponse = await uploadToCloudinary(data.image as string);
+    if (cloudinaryResponse instanceof Error) {
+      throw new ApiError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        errorResponse.WORKSPACE.IMAGE_FAIL,
+      );
+    }
+    imageUrl = cloudinaryResponse?.secure_url;
+  }
+
+  const updatedData = {
+    name: data.name,
+    imageUrl,
+  };
+
   return await db.workspace.update({
     where: {
       id: workspaceId,
     },
-    data,
+    data: updatedData,
   });
 };
 
