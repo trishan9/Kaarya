@@ -10,7 +10,7 @@ const Home = () => {
     return <PageLoader />;
   }
 
-  if (workspaces.length == 0) {
+  if (workspaces?.length == 0) {
     return <Navigate to="/workspaces/create" replace />;
   } else {
     return <Navigate to={`/workspaces/${workspaces[0].id}`} replace />;
