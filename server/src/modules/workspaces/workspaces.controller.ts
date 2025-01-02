@@ -15,6 +15,7 @@ import { errorResponse } from "@/utils/errorMessage";
 
 import { UserRoles } from "../member/member.validator";
 import * as memberService from "../member/member.service";
+import { db } from "@/db";
 
 export const createWorkspace = asyncHandler(
   async (req: Request, res: Response) => {
@@ -154,3 +155,57 @@ export const resetWorkspaceLink = asyncHandler(
     });
   }
 );
+
+export const inviteToWorkspace = asyncHandler(async (req, res) => {
+  const { workspaceId } = req.params;
+  const { inviteCode } = req.body;
+  const userId = res.locals.user.id;
+
+  const workspace = await db.workspace.findUnique({
+    where: { id: workspaceId }
+  });
+
+  if (!workspace) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "Workspace not found");
+  }
+
+  const existingMember = await db.member.findFirst({
+    where: {
+      workspaceId,
+      userId,
+    }
+  });
+
+  if (existingMember) {
+    throw new ApiError(StatusCodes.CONFLICT, "Already a member of this workspace");
+  }
+
+  if (workspace.inviteCode !== inviteCode) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid invite code");
+  }
+
+  await db.member.create({
+    data: {
+      workspaceId,
+      userId: userId,
+      role: "MEMBER"
+    }
+  });
+
+  const updatedWorkspace = await db.workspace.findUnique({
+    where: { id: workspaceId },
+    include: {
+      members: {
+        include: { user: true }
+      }
+    }
+  });
+
+  return apiResponse(res, StatusCodes.OK, {
+    workspace: updatedWorkspace,
+    message: "Successfully joined workspace"
+
+  })
+})
+
+

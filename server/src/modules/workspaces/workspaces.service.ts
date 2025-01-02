@@ -25,7 +25,7 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
   if (exists) {
     throw new ApiError(
       StatusCodes.CONFLICT,
-      errorResponse.WORKSPACE.NAME_CONFLICT,
+      errorResponse.WORKSPACE.NAME_CONFLICT
     );
   }
 
@@ -36,7 +36,7 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
     if (cloudinaryResponse instanceof Error) {
       throw new ApiError(
         StatusCodes.INTERNAL_SERVER_ERROR,
-        errorResponse.WORKSPACE.IMAGE_FAIL,
+        errorResponse.WORKSPACE.IMAGE_FAIL
       );
     }
     imageUrl = cloudinaryResponse?.secure_url;
@@ -73,7 +73,6 @@ export const getWorkspaces = async (userId: string) => {
   if (!workspaces) {
     throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
   }
-
   return workspaces;
 };
 
@@ -81,7 +80,7 @@ export const getWorkspaceById = async (workspaceId: string, userId: string) => {
   if (!workspaceId || !userId) {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
-      errorResponse.VALIDATION.FAILED,
+      errorResponse.VALIDATION.FAILED
     );
   }
 
@@ -105,7 +104,7 @@ export const getWorkspaceById = async (workspaceId: string, userId: string) => {
   if (!isMember) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      errorResponse.WORKSPACE.UNAUTHORIZED,
+      errorResponse.WORKSPACE.UNAUTHORIZED
     );
   }
 
@@ -115,12 +114,12 @@ export const getWorkspaceById = async (workspaceId: string, userId: string) => {
 export const updateWorkspace = async (
   workspaceId: string,
   userId: string,
-  data: UpdateWorkspaceType,
+  data: UpdateWorkspaceType
 ) => {
   if (!workspaceId || !userId) {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
-      errorResponse.VALIDATION.FAILED,
+      errorResponse.VALIDATION.FAILED
     );
   }
 
@@ -145,7 +144,7 @@ export const updateWorkspace = async (
   if (!isAdmin) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      errorResponse.WORKSPACE.NO_PERMISSION,
+      errorResponse.WORKSPACE.NO_PERMISSION
     );
   }
 
@@ -156,7 +155,7 @@ export const updateWorkspace = async (
     if (cloudinaryResponse instanceof Error) {
       throw new ApiError(
         StatusCodes.INTERNAL_SERVER_ERROR,
-        errorResponse.WORKSPACE.IMAGE_FAIL,
+        errorResponse.WORKSPACE.IMAGE_FAIL
       );
     }
     imageUrl = cloudinaryResponse?.secure_url;
@@ -179,7 +178,7 @@ export const deleteWorkspace = async (workspaceId: string, userId: string) => {
   if (!workspaceId || !userId) {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
-      errorResponse.VALIDATION.FAILED,
+      errorResponse.VALIDATION.FAILED
     );
   }
 
@@ -198,7 +197,7 @@ export const deleteWorkspace = async (workspaceId: string, userId: string) => {
   if (!isSuperAdmin) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      errorResponse.WORKSPACE.NO_PERMISSION,
+      errorResponse.WORKSPACE.NO_PERMISSION
     );
   }
 
@@ -209,11 +208,14 @@ export const deleteWorkspace = async (workspaceId: string, userId: string) => {
   });
 };
 
-export const resetWorkspaceInviteCode = async (workspaceId: string, userId: string) => {
+export const resetWorkspaceInviteCode = async (
+  workspaceId: string,
+  userId: string
+) => {
   if (!workspaceId || !userId) {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
-      errorResponse.VALIDATION.FAILED,
+      errorResponse.VALIDATION.FAILED
     );
   }
 
@@ -238,7 +240,7 @@ export const resetWorkspaceInviteCode = async (workspaceId: string, userId: stri
   if (!isAdmin) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      errorResponse.WORKSPACE.NO_PERMISSION,
+      errorResponse.WORKSPACE.NO_PERMISSION
     );
   }
 

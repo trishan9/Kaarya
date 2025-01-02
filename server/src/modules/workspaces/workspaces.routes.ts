@@ -9,6 +9,7 @@ workspaceRouter.post(
   upload.single("image"),
   workspaceController.createWorkspace
 );
+
 workspaceRouter.get("/", workspaceController.getWorkspaces);
 workspaceRouter.get("/:workspaceId", workspaceController.getWorkspaceById);
 workspaceRouter.patch(
@@ -21,5 +22,7 @@ workspaceRouter.post(
   "/:workspaceId/reset-invite-code",
   workspaceController.resetWorkspaceLink
 );
+workspaceRouter.post("/:workspaceId/join",
+  workspaceController.inviteToWorkspace);
 
 export { workspaceRouter };
