@@ -97,12 +97,12 @@ export const useResetInviteCode = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({workspaceId }: {workspaceId:string}) => {
+    mutationFn: async ({ workspaceId }: { workspaceId: string }) => {
       return await apiActions.workspaces.resetInviteLink(workspaceId);
     },
     onSuccess: (response) => {
       toast.success(response?.data?.message);
-      queryClient.invalidateQueries({ queryKey: ["workspaces"] })
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       queryClient.invalidateQueries({
         queryKey: ["workspace", response?.data?.workspace?.id],
       });

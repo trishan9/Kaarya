@@ -22,7 +22,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useConfirm } from "@/hooks/useConfirm";
 
 import { type UpdateWorkspaceSchema, updateWorkspaceSchema } from "../_schemas";
-import { useDeleteWorkspace, useResetInviteCode, useUpdateWorkspace } from "@/hooks/useWorkspaces";
+import {
+  useDeleteWorkspace,
+  useResetInviteCode,
+  useUpdateWorkspace,
+} from "@/hooks/useWorkspaces";
 import type { TWorkspace } from "@/components/WorkspaceSwitcher";
 
 interface EditWorkspaceFormProps {
@@ -43,14 +47,15 @@ export const EditWorkspaceForm = ({
   const [DeleteWorkspaceDialog, confirmDelete] = useConfirm(
     "Delete workspace",
     "Are you sure you want to delete this workspace?",
-    "destructive",
+    "destructive"
   );
 
-  const { mutate: resetInviteCode, isPending: resetingInviteCode } = useResetInviteCode();
+  const { mutate: resetInviteCode, isPending: resetingInviteCode } =
+    useResetInviteCode();
   const [ResetDialog, confirmReset] = useConfirm(
     "Reset invite link",
     "This will invalidate the current invite link",
-    "destructive",
+    "destructive"
   );
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -98,7 +103,7 @@ export const EditWorkspaceForm = ({
         onSuccess: () => {
           window.location.href = "/";
         },
-      },
+      }
     );
   };
 
@@ -106,7 +111,7 @@ export const EditWorkspaceForm = ({
     const ok = await confirmReset();
     if (!ok) return;
     resetInviteCode({
-      workspaceId: initialValues.id ,
+      workspaceId: initialValues.id,
     });
   };
 
@@ -291,7 +296,7 @@ export const EditWorkspaceForm = ({
               className="px-4 mt-6 ml-auto border w-fit"
               size="sm"
               variant="secondary"
-                disabled={isPending || resetingInviteCode}
+              disabled={isPending || resetingInviteCode}
               onClick={handleResetInviteCode}
             >
               Reset invite link

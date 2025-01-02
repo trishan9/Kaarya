@@ -25,8 +25,7 @@ export const apiActions = {
       return await api.get(API_URLS.AUTH.ME);
     },
   },
-  workspaces: {
-    
+  workspaces: {    
     getAll: async () => {
       return await api.get(API_URLS.WORKSPACES);
     },
