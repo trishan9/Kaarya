@@ -22,7 +22,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useConfirm } from "@/hooks/useConfirm";
 
 import { type UpdateWorkspaceSchema, updateWorkspaceSchema } from "../_schemas";
-import { useDeleteWorkspace, useUpdateWorkspace } from "@/hooks/useWorkspaces";
+import {
+  useDeleteWorkspace,
+  useResetInviteCode,
+  useUpdateWorkspace,
+} from "@/hooks/useWorkspaces";
 import type { TWorkspace } from "@/components/WorkspaceSwitcher";
 
 interface EditWorkspaceFormProps {
@@ -43,14 +47,15 @@ export const EditWorkspaceForm = ({
   const [DeleteWorkspaceDialog, confirmDelete] = useConfirm(
     "Delete workspace",
     "Are you sure you want to delete this workspace?",
-    "destructive",
+    "destructive"
   );
 
-  //   const { mutate: resetInviteCode, isPending: resetingInviteCode } = useResetInviteCode();
+  const { mutate: resetInviteCode, isPending: resetingInviteCode } =
+    useResetInviteCode();
   const [ResetDialog, confirmReset] = useConfirm(
     "Reset invite link",
     "This will invalidate the current invite link",
-    "destructive",
+    "destructive"
   );
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -98,17 +103,16 @@ export const EditWorkspaceForm = ({
         onSuccess: () => {
           window.location.href = "/";
         },
-      },
+      }
     );
   };
 
   const handleResetInviteCode = async () => {
     const ok = await confirmReset();
     if (!ok) return;
-    // resetInviteCode({
-    //   param: { workspaceId: initialValues.$id },
-    // });
-    console.log("reset");
+    resetInviteCode({
+      workspaceId: initialValues.id,
+    });
   };
 
   const absoluteInviteLink = `${window.location.origin}/workspaces/${initialValues.id}/join/${initialValues.inviteCode}`;
@@ -119,8 +123,8 @@ export const EditWorkspaceForm = ({
 
       <ResetDialog />
 
-      <Card className="size-full border shadow-none">
-        <CardHeader className="flex flex-row items-center gap-x-4 space-y-0">
+      <Card className="border shadow-none size-full">
+        <CardHeader className="flex flex-row items-center space-y-0 gap-x-4">
           <Button
             variant="outline"
             onClick={
@@ -129,7 +133,7 @@ export const EditWorkspaceForm = ({
                 : () => navigate(`/workspaces/${initialValues.id}`)
             }
           >
-            <ArrowLeft className="size-4 mr-2" />
+            <ArrowLeft className="mr-2 size-4" />
             Back
           </Button>
 
@@ -174,7 +178,7 @@ export const EditWorkspaceForm = ({
                                   : field.value
                               }
                               alt="Workspace Icon"
-                              className="absolute inset-0 w-full h-full object-cover"
+                              className="absolute inset-0 object-cover w-full h-full"
                             />
                           </div>
                         ) : (
@@ -202,7 +206,7 @@ export const EditWorkspaceForm = ({
                               size="sm"
                               type="button"
                               variant="default"
-                              className="w-fit mt-2 h-8 bg-red-100 text-red-500 hover:bg-red-100/80 border border-red-200 text-sm font-medium"
+                              className="h-8 mt-2 text-sm font-medium text-red-500 bg-red-100 border border-red-200 w-fit hover:bg-red-100/80"
                               disabled={isPending}
                               onClick={() => {
                                 field.onChange(null);
@@ -217,7 +221,7 @@ export const EditWorkspaceForm = ({
                               size="sm"
                               type="button"
                               variant="default"
-                              className="w-fit mt-2 h-8 bg-green-100 text-green-500 hover:bg-green-100/80 border border-green-200 text-sm font-medium"
+                              className="h-8 mt-2 text-sm font-medium text-green-500 bg-green-100 border border-green-200 w-fit hover:bg-green-100/80"
                               disabled={isPending}
                               onClick={() => inputRef.current?.click()}
                             >
@@ -260,7 +264,7 @@ export const EditWorkspaceForm = ({
         </CardContent>
       </Card>
 
-      <Card className="size-full border shadow-none">
+      <Card className="border shadow-none size-full">
         <CardContent className="p-7">
           <div className="flex flex-col">
             <h3 className="font-bold">Invite Members</h3>
@@ -289,10 +293,10 @@ export const EditWorkspaceForm = ({
             <DottedSeparator className="py-7" />
 
             <Button
-              className="mt-6 w-fit ml-auto border px-4"
+              className="px-4 mt-6 ml-auto border w-fit"
               size="sm"
               variant="secondary"
-              //   disabled={isPending || resetingInviteCode}
+              disabled={isPending || resetingInviteCode}
               onClick={handleResetInviteCode}
             >
               Reset invite link
@@ -301,7 +305,7 @@ export const EditWorkspaceForm = ({
         </CardContent>
       </Card>
 
-      <Card className="size-full border shadow-none">
+      <Card className="border shadow-none size-full">
         <CardContent className="p-7">
           <div className="flex flex-col">
             <h3 className="font-bold">Danger Zone</h3>
@@ -314,7 +318,7 @@ export const EditWorkspaceForm = ({
             <DottedSeparator className="py-7" />
 
             <Button
-              className="mt-6 w-fit ml-auto"
+              className="mt-6 ml-auto w-fit"
               size="sm"
               variant="destructive"
               disabled={isPending || deletingWorkspace}

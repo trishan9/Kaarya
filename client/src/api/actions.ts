@@ -25,7 +25,7 @@ export const apiActions = {
       return await api.get(API_URLS.AUTH.ME);
     },
   },
-  workspaces: {
+  workspaces: {    
     getAll: async () => {
       return await api.get(API_URLS.WORKSPACES);
     },
@@ -50,6 +50,11 @@ export const apiActions = {
         `${API_URLS.WORKSPACES}/${workspaceId}`,
         data,
         MULTIPART_FORM_DATA_CONFIG,
+      );
+    },
+    resetInviteLink: async (workspaceId: string) => {
+      return await api.post(
+        `${API_URLS.WORKSPACES}/${workspaceId}/reset-invite-code`,
       );
     },
   },
