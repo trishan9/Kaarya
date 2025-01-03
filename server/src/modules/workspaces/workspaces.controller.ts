@@ -160,10 +160,10 @@ export const inviteToWorkspace = asyncHandler(async (req, res) => {
   const { inviteCode } = req.body;
   const userId = res.locals.user.id;
 
-  const updatedWorkspace = await workspaceService.inviteMemberToWorkspace(workspaceId, userId, inviteCode);
+  const updatedWorkspace = await workspaceService.joinWorkspace(workspaceId, userId, inviteCode);
 
   return apiResponse(res, StatusCodes.OK, {
     workspace: updatedWorkspace,
-    message: "Successfully joined workspace"
+    message: responseMessage.WORKSPACE.MEMBER_ADDED
   })
 })

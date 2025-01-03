@@ -254,7 +254,7 @@ export const resetWorkspaceInviteCode = async (
   });
 };
 
-export const inviteMemberToWorkspace = async (
+export const joinWorkspace = async (
   workspaceId: string,
   userId: string,
   inviteCode: string
@@ -265,7 +265,7 @@ export const inviteMemberToWorkspace = async (
   });
 
   if (!workspace) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "Workspace not found");
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
   }
 
   const existingMember = await db.member.findFirst({
@@ -276,11 +276,11 @@ export const inviteMemberToWorkspace = async (
   });
 
   if (existingMember) {
-    throw new ApiError(StatusCodes.CONFLICT, "Already a member of this workspace");
+    throw new ApiError(StatusCodes.CONFLICT, errorResponse.WORKSPACE.MEMBER_CONFLICT);
   }
 
   if (workspace.inviteCode !== inviteCode) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid invite code");
+    throw new ApiError(StatusCodes.BAD_REQUEST, errorResponse.WORKSPACE.INVALID_INVITE_CODE);
   }
 
   await db.member.create({
@@ -300,7 +300,5 @@ export const inviteMemberToWorkspace = async (
     }
   });
 
-
   return updatedWorkspace;
-
 }
