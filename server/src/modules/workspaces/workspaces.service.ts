@@ -253,3 +253,54 @@ export const resetWorkspaceInviteCode = async (
     },
   });
 };
+
+export const inviteMemberToWorkspace = async (
+  workspaceId: string,
+  userId: string,
+  inviteCode: string
+) => {
+
+  const workspace = await db.workspace.findUnique({
+    where: { id: workspaceId }
+  });
+
+  if (!workspace) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "Workspace not found");
+  }
+
+  const existingMember = await db.member.findFirst({
+    where: {
+      workspaceId,
+      userId,
+    }
+  });
+
+  if (existingMember) {
+    throw new ApiError(StatusCodes.CONFLICT, "Already a member of this workspace");
+  }
+
+  if (workspace.inviteCode !== inviteCode) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid invite code");
+  }
+
+  await db.member.create({
+    data: {
+      workspaceId,
+      userId: userId,
+      role: "MEMBER"
+    }
+  });
+
+  const updatedWorkspace = await db.workspace.findUnique({
+    where: { id: workspaceId },
+    include: {
+      members: {
+        include: { user: true }
+      }
+    }
+  });
+
+
+  return updatedWorkspace;
+
+}

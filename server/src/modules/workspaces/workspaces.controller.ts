@@ -15,7 +15,6 @@ import { errorResponse } from "@/utils/errorMessage";
 
 import { UserRoles } from "../member/member.validator";
 import * as memberService from "../member/member.service";
-import { db } from "@/db";
 
 export const createWorkspace = asyncHandler(
   async (req: Request, res: Response) => {
@@ -57,6 +56,7 @@ export const createWorkspace = asyncHandler(
   },
 );
 
+
 export const getWorkspaces = asyncHandler(async (_: Request, res: Response) => {
   const userId = res.locals.user.id;
   const workspaces = await workspaceService.getWorkspaces(userId);
@@ -66,6 +66,7 @@ export const getWorkspaces = asyncHandler(async (_: Request, res: Response) => {
     message: responseMessage.WORKSPACE.RETRIEVED_ALL,
   });
 });
+
 
 export const getWorkspaceById = asyncHandler(
   async (req: Request, res: Response) => {
@@ -103,7 +104,6 @@ export const updateWorkspace = asyncHandler(
 
     const { name } = body;
     const image = req.file?.path;
-
     const data = {
       name,
       image,
@@ -136,7 +136,6 @@ export const deleteWorkspace = asyncHandler(
   },
 );
 
-
 export const resetWorkspaceLink = asyncHandler(
   async (req: Request, res: Response) => {
     const {
@@ -161,51 +160,10 @@ export const inviteToWorkspace = asyncHandler(async (req, res) => {
   const { inviteCode } = req.body;
   const userId = res.locals.user.id;
 
-  const workspace = await db.workspace.findUnique({
-    where: { id: workspaceId }
-  });
-
-  if (!workspace) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "Workspace not found");
-  }
-
-  const existingMember = await db.member.findFirst({
-    where: {
-      workspaceId,
-      userId,
-    }
-  });
-
-  if (existingMember) {
-    throw new ApiError(StatusCodes.CONFLICT, "Already a member of this workspace");
-  }
-
-  if (workspace.inviteCode !== inviteCode) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid invite code");
-  }
-
-  await db.member.create({
-    data: {
-      workspaceId,
-      userId: userId,
-      role: "MEMBER"
-    }
-  });
-
-  const updatedWorkspace = await db.workspace.findUnique({
-    where: { id: workspaceId },
-    include: {
-      members: {
-        include: { user: true }
-      }
-    }
-  });
+  const updatedWorkspace = await workspaceService.inviteMemberToWorkspace(workspaceId, userId, inviteCode);
 
   return apiResponse(res, StatusCodes.OK, {
     workspace: updatedWorkspace,
     message: "Successfully joined workspace"
-
   })
 })
-
-
