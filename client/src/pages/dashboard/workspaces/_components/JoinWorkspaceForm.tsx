@@ -1,7 +1,5 @@
-"use client";
 // import { useNavigate } from "react-router"; 
 import { Link } from "react-router";
-
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import {
@@ -13,7 +11,6 @@ import {
 } from "@/components/ui/card";
 
 import { InvitePageWorkspaceAvatar } from "./InvitePageWorkspaceAvatar";
-
 // import { useJoinWorkspace } from "../api/use-join-workspace";
 
 interface JoinWorkspaceFormProps {
@@ -24,6 +21,7 @@ interface JoinWorkspaceFormProps {
     code: string;
     workspaceId: string;
 }
+
 export const JoinWorkspaceForm = ({
     initialValues,
     code: inviteCode,
@@ -56,16 +54,19 @@ export const JoinWorkspaceForm = ({
                                   className="mt-2"
                                 />
                 <div>
-                <CardTitle className="text-xl font-bold">Join workspace</CardTitle>
-                <CardDescription>
-                    You&apos;ve been invited to join <strong>{initialValues.name}</strong>{" "}
-                    workspace
-                </CardDescription>
+                    <CardTitle className="text-xl font-bold">Join workspace</CardTitle>
+
+                    <CardDescription>
+                        You&apos;ve been invited to join <strong>{initialValues.name}</strong>{" "}
+                        workspace
+                    </CardDescription>
                 </div>
             </CardHeader>
+
             <div className="px-7">
                 <DottedSeparator />
             </div>
+
             <CardContent className="p-7">
                 <div className="flex flex-col gap-2 lg:flex-row items-center justify-between">
                     <Button
@@ -78,6 +79,7 @@ export const JoinWorkspaceForm = ({
                     >
                         <Link to="/">Cancel</Link>
                     </Button>
+
                     <Button
                         className="w-full lg:w-fit"
                         // disabled={isPending}
