@@ -56,6 +56,7 @@ export const createWorkspace = asyncHandler(
   },
 );
 
+
 export const getWorkspaces = asyncHandler(async (_: Request, res: Response) => {
   const userId = res.locals.user.id;
   const workspaces = await workspaceService.getWorkspaces(userId);
@@ -65,6 +66,7 @@ export const getWorkspaces = asyncHandler(async (_: Request, res: Response) => {
     message: responseMessage.WORKSPACE.RETRIEVED_ALL,
   });
 });
+
 
 export const getWorkspaceById = asyncHandler(
   async (req: Request, res: Response) => {
@@ -102,7 +104,6 @@ export const updateWorkspace = asyncHandler(
 
     const { name } = body;
     const image = req.file?.path;
-
     const data = {
       name,
       image,
@@ -135,7 +136,6 @@ export const deleteWorkspace = asyncHandler(
   },
 );
 
-
 export const resetWorkspaceLink = asyncHandler(
   async (req: Request, res: Response) => {
     const {
@@ -154,3 +154,16 @@ export const resetWorkspaceLink = asyncHandler(
     });
   }
 );
+
+export const inviteToWorkspace = asyncHandler(async (req, res) => {
+  const { workspaceId } = req.params;
+  const { inviteCode } = req.body;
+  const userId = res.locals.user.id;
+
+  const updatedWorkspace = await workspaceService.joinWorkspace(workspaceId, userId, inviteCode);
+
+  return apiResponse(res, StatusCodes.OK, {
+    workspace: updatedWorkspace,
+    message: responseMessage.WORKSPACE.MEMBER_ADDED
+  })
+})

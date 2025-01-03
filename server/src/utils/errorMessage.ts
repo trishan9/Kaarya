@@ -45,6 +45,9 @@ const errorResponse = {
     DELETE_FAILED: "Failed to delete workspace",
     NO_PERMISSION: "You do not have permission to perform this action",
     UNAUTHORIZED: "Unauthorized to access this workspace",
+    MEMBER_CONFLICT: "Already a member of this workspace.",
+    INVALID_INVITE_CODE: "Invitation code is not valid.",
+    INVITE_FAILED: "Invitation successful, member added to the workspace.",
   },
   OTHER: {
     SERVER_ERROR: "Internal server error occurred",
