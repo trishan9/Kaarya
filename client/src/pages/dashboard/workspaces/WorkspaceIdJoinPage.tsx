@@ -1,5 +1,3 @@
-"use client";
-
 import { PageError } from "@/components/PageError";
 // import { PageLoader } from "@/components/PageLoader";
 // import { useGetWorkspaceInfo } from "@/features/workspaces/api/use-get-workspace-info";
