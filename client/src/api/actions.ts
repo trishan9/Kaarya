@@ -25,38 +25,57 @@ export const apiActions = {
       return await api.get(API_URLS.AUTH.ME);
     },
   },
-  workspaces: {
+  workspaces: {    
     getAll: async () => {
       return await api.get(API_URLS.WORKSPACES);
     },
     getById: async (workspaceId: string) => {
       return await api.get(`${API_URLS.WORKSPACES}/${workspaceId}`);
     },
+    getInfoById: async (workspaceId: string) => {
+      return await api.get(`${API_URLS.WORKSPACES}/${workspaceId}/info`);
+    },
     delete: async (workspaceId: string) => {
       return await api.delete(`${API_URLS.WORKSPACES}/${workspaceId}`);
     },
     create: async (data: z.infer<typeof createWorkspaceSchema>) => {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      return await api.post(API_URLS.WORKSPACES, data, config);
+      return await api.post(
+        API_URLS.WORKSPACES,
+        data,
+        MULTIPART_FORM_DATA_CONFIG,
+      );
     },
     update: async (
       workspaceId: string,
       data: z.infer<typeof updateWorkspaceSchema>,
     ) => {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
       return await api.patch(
         `${API_URLS.WORKSPACES}/${workspaceId}`,
         data,
-        config,
+        MULTIPART_FORM_DATA_CONFIG,
       );
     },
+    resetInviteLink: async (workspaceId: string) => {
+      return await api.post(
+        `${API_URLS.WORKSPACES}/${workspaceId}/reset-invite-code`,
+      );
+    },
+    joinWorkspace: async (workspaceId : string, inviteCode : string) => {
+      return await api.post(
+        `${API_URLS.WORKSPACES}/${workspaceId}/join`,
+        {inviteCode}
+      );
+    },
+  },
+  members:{
+    remove: async (memberId: string) => {
+      return await api.delete(`${API_URLS.MEMBERS}/${memberId}`);
+    },
+  }
+};
+
+const MULTIPART_FORM_DATA_CONFIG = {
+  headers: {
+    "Content-Type": "multipart/form-data",
   },
 };

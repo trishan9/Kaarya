@@ -8,6 +8,8 @@ import StandaloneLayout from "./dashboard/_components/StandaloneLayout";
 import CreateWorkspace from "./dashboard/workspaces/CreateWorkspace";
 import DashboardLayout from "./dashboard/_components/DashboardLayout";
 import WorkspaceIdSettings from "./dashboard/workspaces/WorkspaceIdSettings";
+import { WorkspaceIdJoinPage } from "./dashboard/workspaces/WorkspaceIdJoinPage";
+import { MembersList } from "./dashboard/workspaces/MemberList";
 import NotFound from "./NotFound";
 
 export {
@@ -21,5 +23,7 @@ export {
   StandaloneLayout,
   NotFound,
   DashboardLayout,
-  WorkspaceIdSettings
+  WorkspaceIdSettings,
+  WorkspaceIdJoinPage,
+  MembersList
 };

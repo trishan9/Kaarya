@@ -7,7 +7,6 @@ import {
   updateWorkspaceSchema,
 } from "./workspaces.validator";
 
-import uploadToCloudinary from "@/lib/cloudinary";
 import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
@@ -30,24 +29,13 @@ export const createWorkspace = asyncHandler(
       );
     }
 
-    const { name } = result.data;
-    let imageUrl: string | null = null;
-
-    if (req.file?.path) {
-      const cloudinaryResponse = await uploadToCloudinary(req.file.path);
-      if (cloudinaryResponse instanceof Error) {
-        throw new ApiError(
-          StatusCodes.INTERNAL_SERVER_ERROR,
-          errorResponse.WORKSPACE.IMAGE_FAIL,
-        );
-      }
-      imageUrl = cloudinaryResponse?.secure_url;
-    }
+    const { name } = body;
+    const image = req.file?.path;
 
     const newWorkspaceObj = {
       name,
       userId,
-      imageUrl,
+      image,
     };
 
     const newWorkspace =
@@ -96,6 +84,24 @@ export const getWorkspaceById = asyncHandler(
   },
 );
 
+export const getWorkspaceInfoById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      params: { workspaceId },
+    } = req;
+
+    const workspace = await workspaceService.getWorkspaceInfoById(
+      workspaceId,
+      res.locals.user.id,
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      workspace,
+      message: responseMessage.WORKSPACE.RETRIEVED,
+    });
+  },
+);
+
 export const updateWorkspace = asyncHandler(
   async (req: Request, res: Response) => {
     const {
@@ -112,23 +118,11 @@ export const updateWorkspace = asyncHandler(
       );
     }
 
-    const { name } = result.data;
-    let imageUrl: string | null = null;
-
-    if (req.file?.path) {
-      const cloudinaryResponse = await uploadToCloudinary(req.file.path);
-      if (cloudinaryResponse instanceof Error) {
-        throw new ApiError(
-          StatusCodes.INTERNAL_SERVER_ERROR,
-          errorResponse.WORKSPACE.IMAGE_FAIL,
-        );
-      }
-      imageUrl = cloudinaryResponse?.secure_url;
-    }
-
+    const { name } = body;
+    const image = req.file?.path;
     const data = {
       name,
-      imageUrl,
+      image,
     };
 
     const workspace = await workspaceService.updateWorkspace(
@@ -157,3 +151,39 @@ export const deleteWorkspace = asyncHandler(
     });
   },
 );
+
+export const resetWorkspaceLink = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      params: { workspaceId },
+    } = req;
+    const userId = res.locals.user.id;
+
+    const workspace = await workspaceService.resetWorkspaceInviteCode(
+      workspaceId,
+      userId,
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      workspace,
+      message: responseMessage.WORKSPACE.INVITE_CODE_RESET,
+    });
+  },
+);
+
+export const inviteToWorkspace = asyncHandler(async (req, res) => {
+  const { workspaceId } = req.params;
+  const { inviteCode } = req.body;
+  const userId = res.locals.user.id;
+
+  const updatedWorkspace = await workspaceService.joinWorkspace(
+    workspaceId,
+    userId,
+    inviteCode,
+  );
+
+  return apiResponse(res, StatusCodes.OK, {
+    workspace: updatedWorkspace,
+    message: responseMessage.WORKSPACE.MEMBER_ADDED,
+  });
+});

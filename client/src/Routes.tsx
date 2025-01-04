@@ -11,6 +11,8 @@ import {
   DashboardLayout,
   NotFound,
   WorkspaceIdSettings,
+  WorkspaceIdJoinPage,
+  MembersList,
 } from "./pages";
 
 const AppRoutes = () => {
@@ -26,10 +28,9 @@ const AppRoutes = () => {
                 <Route path="create" element={<CreateWorkspace />} />
 
                 <Route path=":workspaceId">
-                  <Route
-                    path="settings"
-                    element={<WorkspaceIdSettings />}
-                  />
+                  <Route path="settings" element={<WorkspaceIdSettings />} />
+                  <Route path="members" element={<MembersList />} />
+                  <Route path="join/:inviteCode" element={<WorkspaceIdJoinPage />} />
                 </Route>
               </Route>
 

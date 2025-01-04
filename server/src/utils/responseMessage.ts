@@ -17,6 +17,10 @@ const responseMessage = {
     DELETED: "Workspace deleted successfully",
     MEMBER_ADDED: "Member added to workspace successfully",
     MEMBER_REMOVED: "Member removed from workspace successfully",
+    INVITE_CODE_RESET: "Invitation code reset successfully",
+  },
+  MEMBER: {
+    DELETED: "Member deleted Successfully.",
   },
   OTHER: {
     SUCCESS: "Operation completed successfully",
