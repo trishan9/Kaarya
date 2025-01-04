@@ -67,6 +67,11 @@ export const apiActions = {
       );
     },
   },
+  members:{
+    remove: async (memberId: string) => {
+      return await api.delete(`${API_URLS.MEMBERS}/${memberId}`);
+    },
+  }
 };
 
 const MULTIPART_FORM_DATA_CONFIG = {

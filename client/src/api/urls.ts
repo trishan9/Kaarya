@@ -8,4 +8,5 @@ export const API_URLS = {
     ME: "/auth/me",
   },
   WORKSPACES: "/workspaces",
+  MEMBERS: "/members",
 };
