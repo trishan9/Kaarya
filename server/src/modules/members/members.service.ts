@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { db } from "@/db";
-import { CreateMemberType } from "./member.validator";
+import { CreateMemberType } from "./members.validator";
 import { ApiError } from "@/utils/apiError";
 import { errorResponse } from "@/utils/errorMessage";
 
