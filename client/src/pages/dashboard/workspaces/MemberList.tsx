@@ -18,10 +18,20 @@ import {
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { MemberAvatar } from "./_components/MemberAvatar"; 
 import { useConfirm } from "@/hooks/useConfirm";
+import { useGetWorkspace } from "@/hooks/useWorkspaces";
 
 export enum MemberRole {
     ADMIN = "ADMIN",
     MEMBER = "MEMBER",
+}
+
+type Member = {
+    id: string;
+    role: MemberRole;
+    userId: string;
+    workspaceId: string;
+    name?: string;  
+    email?: string;   
 }
 
 export const MembersList = () => {
@@ -32,13 +42,8 @@ export const MembersList = () => {
 		"destructive"
 	);
 
-	// const { data } = useGetMembers({ workspaceId });
-
-    const data=[
-        { id : "I-123", role : "member", userId :"U-456", name : "Trishan", email:"trishan@gmail.com"},
-        {id : "I-124", role : "admin", userId :"U-567", name : "Nischay", email:"nischay@gmail.com"},
-        {id : "I-125", role : "admin", userId :"U-567", name : "Bibek", email:"bibek@gmail.com"} 
-    ]
+	const memberData = useGetWorkspace({ workspaceId });
+    const data = memberData.data?.data.workspace.members as Member[]
 
 	// const { mutate: deleteMember, isPending: deletingMember } = useDeleteMember();
 	// const { mutate: updateMember, isPending: updatingMember } = useUpdateMember();
@@ -89,13 +94,13 @@ export const MembersList = () => {
                                 <MemberAvatar
                                     className="size-10"
                                     fallbackClassName="text-lg"
-                                    name={member.name}
+                                    name="test"
                                 />
 
                                 <div className="flex flex-col">
-                                    <p className="text-sm font-medium">{member.name}</p>
+                                    <p className="text-sm font-medium">Test</p>
 
-                                    <p className="text-xs font-medium">{member.email}</p>
+                                    <p className="text-xs font-medium">test@gmail.com</p>
                                 </div>
 
                                 <DropdownMenu>
