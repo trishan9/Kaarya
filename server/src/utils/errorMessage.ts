@@ -55,10 +55,8 @@ const errorResponse = {
     NOT_WORKSPACE_MEMBER: "You are not a member of this workspace",
     ADMIN_ONLY: "Only admins can delete members",
     ADMIN_DELETE_ADMIN: "Admins cannot delete other admins",
-    NO_PERMISSION: "You do not have permission to perform this action."
-
-  }
-  ,
+    NO_PERMISSION: "You do not have permission to perform this action.",
+  },
   OTHER: {
     SERVER_ERROR: "Internal server error occurred",
     INVALID_REQUEST: "The request is invalid",

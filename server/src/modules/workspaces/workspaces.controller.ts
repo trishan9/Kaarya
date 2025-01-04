@@ -8,14 +8,14 @@ import {
 } from "./workspaces.validator";
 
 import { ApiError } from "@/utils/apiError";
-import { apiResponse } from "@/utils/apiResponse"; 
+import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { responseMessage } from "@/utils/responseMessage";
 import { errorResponse } from "@/utils/errorMessage";
 
 import { UserRoles } from "../member/member.validator";
 import * as memberService from "../member/member.service";
- 
+
 export const createWorkspace = asyncHandler(
   async (req: Request, res: Response) => {
     const body = req.body;
@@ -56,7 +56,6 @@ export const createWorkspace = asyncHandler(
   },
 );
 
-
 export const getWorkspaces = asyncHandler(async (_: Request, res: Response) => {
   const userId = res.locals.user.id;
   const workspaces = await workspaceService.getWorkspaces(userId);
@@ -67,7 +66,6 @@ export const getWorkspaces = asyncHandler(async (_: Request, res: Response) => {
   });
 });
 
-
 export const getWorkspaceById = asyncHandler(
   async (req: Request, res: Response) => {
     const {
@@ -75,6 +73,24 @@ export const getWorkspaceById = asyncHandler(
     } = req;
 
     const workspace = await workspaceService.getWorkspaceById(
+      workspaceId,
+      res.locals.user.id,
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      workspace,
+      message: responseMessage.WORKSPACE.RETRIEVED,
+    });
+  },
+);
+
+export const getWorkspaceInfoById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      params: { workspaceId },
+    } = req;
+
+    const workspace = await workspaceService.getWorkspaceInfoById(
       workspaceId,
       res.locals.user.id,
     );
@@ -145,14 +161,14 @@ export const resetWorkspaceLink = asyncHandler(
 
     const workspace = await workspaceService.resetWorkspaceInviteCode(
       workspaceId,
-      userId
+      userId,
     );
 
     return apiResponse(res, StatusCodes.OK, {
       workspace,
       message: responseMessage.WORKSPACE.INVITE_CODE_RESET,
     });
-  }
+  },
 );
 
 export const inviteToWorkspace = asyncHandler(async (req, res) => {
@@ -160,10 +176,14 @@ export const inviteToWorkspace = asyncHandler(async (req, res) => {
   const { inviteCode } = req.body;
   const userId = res.locals.user.id;
 
-  const updatedWorkspace = await workspaceService.joinWorkspace(workspaceId, userId, inviteCode);
+  const updatedWorkspace = await workspaceService.joinWorkspace(
+    workspaceId,
+    userId,
+    inviteCode,
+  );
 
   return apiResponse(res, StatusCodes.OK, {
     workspace: updatedWorkspace,
-    message: responseMessage.WORKSPACE.MEMBER_ADDED
-  })
-})
+    message: responseMessage.WORKSPACE.MEMBER_ADDED,
+  });
+});
