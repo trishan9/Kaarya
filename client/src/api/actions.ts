@@ -32,6 +32,9 @@ export const apiActions = {
     getById: async (workspaceId: string) => {
       return await api.get(`${API_URLS.WORKSPACES}/${workspaceId}`);
     },
+    getInfoById: async (workspaceId: string) => {
+      return await api.get(`${API_URLS.WORKSPACES}/${workspaceId}/info`);
+    },
     delete: async (workspaceId: string) => {
       return await api.delete(`${API_URLS.WORKSPACES}/${workspaceId}`);
     },
@@ -57,7 +60,18 @@ export const apiActions = {
         `${API_URLS.WORKSPACES}/${workspaceId}/reset-invite-code`,
       );
     },
+    joinWorkspace: async (workspaceId : string, inviteCode : string) => {
+      return await api.post(
+        `${API_URLS.WORKSPACES}/${workspaceId}/join`,
+        {inviteCode}
+      );
+    },
   },
+  members:{
+    remove: async (memberId: string) => {
+      return await api.delete(`${API_URLS.MEMBERS}/${memberId}`);
+    },
+  }
 };
 
 const MULTIPART_FORM_DATA_CONFIG = {

@@ -12,6 +12,7 @@ export const MemberAvatar = ({
     className,
     fallbackClassName,
 }: MemberAvatarProps) => {
+    
     return (
         <Avatar
             className={cn(

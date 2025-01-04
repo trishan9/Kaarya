@@ -12,16 +12,24 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// import { useGetMembers } from "@/features/members/api/use-get-members";
-// import { useDeleteMember } from "@/features/members/api/use-delete-member";
-// import { useUpdateMember } from "@/features/members/api/use-update-member";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { MemberAvatar } from "./_components/MemberAvatar"; 
 import { useConfirm } from "@/hooks/useConfirm";
+import { useGetWorkspace } from "@/hooks/useWorkspaces";
+import { useRemoveMember } from "@/hooks/useMember";
 
 export enum MemberRole {
     ADMIN = "ADMIN",
     MEMBER = "MEMBER",
+}
+
+type Member = {
+    id: string;
+    role: MemberRole;
+    userId: string;
+    workspaceId: string;
+    name: string;  
+    email: string;   
 }
 
 export const MembersList = () => {
@@ -32,15 +40,11 @@ export const MembersList = () => {
 		"destructive"
 	);
 
-	// const { data } = useGetMembers({ workspaceId });
+	const memberData = useGetWorkspace({ workspaceId });
+    const data = memberData.data?.data.workspace.members as Member[]
+    console.log(data)
 
-    const data=[
-        { id : "I-123", role : "member", userId :"U-456", name : "Trishan", email:"trishan@gmail.com"},
-        {id : "I-124", role : "admin", userId :"U-567", name : "Nischay", email:"nischay@gmail.com"},
-        {id : "I-125", role : "admin", userId :"U-567", name : "Bibek", email:"bibek@gmail.com"} 
-    ]
-
-	// const { mutate: deleteMember, isPending: deletingMember } = useDeleteMember();
+	const { mutate: deleteMember, isPending: deletingMember } = useRemoveMember();
 	// const { mutate: updateMember, isPending: updatingMember } = useUpdateMember();
 
 	const handleUpdateMember = (memberId: string, role: MemberRole) => {
@@ -51,15 +55,9 @@ export const MembersList = () => {
 	const handleDeleteMember = async (memberId: string) => {
 		const ok = await confirm();
 		if (!ok) return;
-        console.log(memberId)
-		// deleteMember(
-		// 	{ param: { memberId } },
-		// 	{
-		// 		onSuccess: () => {
-		// 			window.location.reload();
-		// 		},
-		// 	}
-		// );
+		deleteMember(
+			{ memberId },
+		);
 	};
 
 	return (
@@ -100,7 +98,7 @@ export const MembersList = () => {
 
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button className="ml-auto" variant="secondary" size="icon">
+                                        <Button className="ml-auto" variant="outline" size="icon">
                                             <MoreVertical className="size-4 text-muted-foreground" />
                                         </Button>
                                     </DropdownMenuTrigger>
@@ -129,7 +127,7 @@ export const MembersList = () => {
                                         <DropdownMenuItem
                                             className="font-medium text-amber-700"
                                             onClick={() => handleDeleteMember(member.id)}
-                                            // disabled={deletingMember}
+                                            disabled={deletingMember}
                                         >
                                             Remove {member.name}
                                         </DropdownMenuItem>
