@@ -121,7 +121,7 @@ export const getWorkspaceById = async (workspaceId: string, userId: string) => {
   const transformedWorkspace = {
     ...workspace,
     members: workspace.members.map((member) => ({
-      memberId: member.id,
+      id: member.id,
       userId: member.userId,
       role: member.role,
       email: member.user.email,
