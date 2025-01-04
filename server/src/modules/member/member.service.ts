@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { CreateMemberType } from "./member.validator";
 import { ApiError } from "@/utils/apiError";
 import { StatusCodes } from "http-status-codes";
+import { errorResponse } from "@/utils/errorMessage";
 
 export const create = async (memberData: CreateMemberType) => {
   return await db.member.create({
@@ -19,7 +20,7 @@ export const deleteMember = async (memberId: string, userId: string) => {
   });
 
   if (!memberToDelete) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "Member not found");
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.MEMBER.INVALID);
   }
 
   const workspaceMembers = await db.member.findMany({
@@ -34,7 +35,7 @@ export const deleteMember = async (memberId: string, userId: string) => {
   if (workspaceMembers.length <= 1) {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
-      "Cannot delete the last member of a workspace"
+      errorResponse.MEMBER.LAST_MEMBER
     );
   }
 
@@ -48,28 +49,28 @@ export const deleteMember = async (memberId: string, userId: string) => {
   if (!requestingMember) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      "You are not a member of this workspace"
+      errorResponse.MEMBER.NOT_WORKSPACE_MEMBER
     );
   }
 
   if (requestingMember.role !== "ADMIN") {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      "Only admins can delete members"
+      errorResponse.MEMBER.ADMIN_ONLY
     );
   }
 
   if (memberToDelete.role === "ADMIN" && memberToDelete.userId !== memberToDelete.workspace.userId) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      "Admins cannot delete other admins"
+      errorResponse.MEMBER.ADMIN_DELETE_ADMIN
     );
   }
 
   if (memberToDelete.userId === memberToDelete.workspace.userId) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
-      "Cannot delete the workspace creator"
+      errorResponse.MEMBER.NO_PERMISSION
     );
   }
 
