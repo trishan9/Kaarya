@@ -1,4 +1,4 @@
-// import { useNavigate } from "react-router"; 
+import { useNavigate } from "react-router"; 
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/card";
 
 import { InvitePageWorkspaceAvatar } from "./InvitePageWorkspaceAvatar";
-// import { useJoinWorkspace } from "../api/use-join-workspace";
+import { useJoinWorkspace } from "@/hooks/useWorkspaces";
+
 
 interface JoinWorkspaceFormProps {
     initialValues: {
@@ -27,22 +28,21 @@ export const JoinWorkspaceForm = ({
     code: inviteCode,
     workspaceId,
 }: JoinWorkspaceFormProps) => {
-    // const navigate = useNavigate();
-    // const { mutate, isPending } = useJoinWorkspace();
+    const navigate = useNavigate();
+    const { mutate, isPending } = useJoinWorkspace();
 
     const onSubmit = () => {
-        // mutate(
-        //     {
-        //         param: { workspaceId },
-        //         json: { code: inviteCode },
-        //     },
-        //     {
-        //         onSuccess: ({ data }:{data:any}) => {
-        //             navigate(`/workspaces/${data.$id}`);
-        //         },
-        //     }
-        // );
-        console.log({code:inviteCode , workspaceId: workspaceId})
+        mutate(
+            {
+                workspaceId, 
+                inviteCode 
+            },
+            {
+                onSuccess: ({ data }:{data:any}) => {
+                    navigate(`/workspaces/${data.workspace.id}`);
+                },
+            }
+        );
     };
 
     return (
@@ -71,7 +71,7 @@ export const JoinWorkspaceForm = ({
                 <div className="flex flex-col gap-2 lg:flex-row items-center justify-between">
                     <Button
                         className="w-full lg:w-fit"
-                        // disabled={isPending}
+                        disabled={isPending}
                         variant="outline"
                         type="button"
                         size="lg"
@@ -82,7 +82,7 @@ export const JoinWorkspaceForm = ({
 
                     <Button
                         className="w-full lg:w-fit"
-                        // disabled={isPending}
+                        disabled={isPending}
                         onClick={onSubmit}
                         type="button"
                         size="lg"
