@@ -8,7 +8,7 @@ workspaceRouter.post(
   "/",
   upload.single("image"),
   workspaceController.createWorkspace
-);
+);   
 
 workspaceRouter.get("/", workspaceController.getWorkspaces);
 workspaceRouter.get("/:workspaceId", workspaceController.getWorkspaceById);
