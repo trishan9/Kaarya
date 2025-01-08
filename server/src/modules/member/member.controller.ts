@@ -8,6 +8,7 @@ import { responseMessage } from "@/utils/responseMessage";
 import { updateRoleSchema, UserRoles } from "./member.validator";
 import { ApiError } from "@/utils/apiError";
 import { db } from "@/db";
+import { errorResponse } from "@/utils/errorMessage";
 
 export const deleteMember = asyncHandler(
   async (req: Request, res: Response) => {
@@ -23,7 +24,6 @@ export const deleteMember = asyncHandler(
   },
 );
 
-
 export const updateMemberRole = asyncHandler(
 
   async (req: Request, res: Response) => {
@@ -37,57 +37,16 @@ export const updateMemberRole = asyncHandler(
     if (!validatedParams.success) {
       throw new ApiError(
         StatusCodes.BAD_REQUEST,
-        "Validation failed for update member role"
+        errorResponse.MEMBER.VALIDATION_FAILED
       );
     }
 
     const { memberId, role } = validatedParams.data;
-
-    const targetMember = await db.member.findUnique({
-      where: { id: memberId },
-      include: { workspace: true }
-    });
-
-    if (!targetMember) {
-      throw new ApiError(StatusCodes.NOT_FOUND, "member not found")
-    }
-
-    const isAdmin = await db.member.findFirst({
-      where: {
-        userId,
-        workspaceId: targetMember.workspaceId,
-        role: UserRoles.ADMIN
-      }
-    })
-
-    if (!isAdmin) {
-      throw new ApiError(
-        StatusCodes.FORBIDDEN,
-        "Only workspace admins can update member roles"
-      );
-    }
-
-    const updatedMember = await db.member.update({
-      where: {
-        id: memberId
-      },
-      data: { role },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          }
-        }
-      }
-    })
+    const updatedMember = await memberService.updateRole(memberId, role, userId)
 
     return apiResponse(res, StatusCodes.OK, {
       member: updatedMember,
-      messsage: "member role updated successfully",
+      messsage: responseMessage.MEMBER.ROLE_UPDATE,
     });
   },
 );
-
-

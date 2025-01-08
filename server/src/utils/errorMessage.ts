@@ -54,8 +54,10 @@ const errorResponse = {
     LAST_MEMBER: "Cannot delete the last member of a workspace",
     NOT_WORKSPACE_MEMBER: "You are not a member of this workspace",
     ADMIN_ONLY: "Only admins can delete members",
+    ADMIN_ONLY_ROLES: "Only admins can update members role",
     ADMIN_DELETE_ADMIN: "Admins cannot delete other admins",
     NO_PERMISSION: "You do not have permission to perform this action.",
+    VALIDATION_FAILED  : "Validation failed for role update."
   },
   OTHER: {
     SERVER_ERROR: "Internal server error occurred",
