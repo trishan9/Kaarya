@@ -16,7 +16,7 @@ import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { MemberAvatar } from "./_components/MemberAvatar"; 
 import { useConfirm } from "@/hooks/useConfirm";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
-import { useRemoveMember } from "@/hooks/useMember";
+import { useRemoveMember, useUpdateMember } from "@/hooks/useMember";
 import { useGetMe } from "@/hooks/useAuth";
 
 export enum MemberRole {
@@ -24,14 +24,14 @@ export enum MemberRole {
     MEMBER = "MEMBER",
 }
 
-// type Member = {
-//     id: string;
-//     role: MemberRole;
-//     userId: string;
-//     workspaceId: string;
-//     name: string;  
-//     email: string;   
-// }
+type Member = {
+    id: string;
+    role: MemberRole;
+    userId: string;
+    workspaceId: string;
+    name: string;  
+    email: string;   
+}
 
 export const MembersList = () => {
 	const workspaceId = useWorkspaceId();
@@ -44,49 +44,50 @@ export const MembersList = () => {
 	const workspaceData = useGetWorkspace({ workspaceId });
     const superAdminId = workspaceData?.data?.data.workspace.userId
 
-    // const memberdata = workspaceData.data?.data.workspace.members as Member[]
+    const memberdata = workspaceData.data?.data.workspace.members as Member[]
     // console.log(memberdata)
 
-    const memberdata = [
-        {
-          id: 'b5a74080-0bc6-4264-b1c3-205258c48b9e',
-          userId: 'e0c3051c-0932-4f16-be21-7ed36822c3e9',
-          role: 'ADMIN',
-          email: 'mailtotrishan@gmail.com',
-          name: 'Trishan Wagle',
-        },
-        {
-          id: '64c76dbc-4eab-4db6-a84d-c1b525be42d5',
-          userId: '6cc8a65b-61fe-4e25-aef7-21bde018fde8',
-          role: 'ADMIN',
-          email: 'nischaymaharjan@gmail.com',
-          name: 'nischay maharjan',
-        },
-        {
-            id: '54c76dbc-4eab-4db6-a84d-c1b525bbe42d5',
-            userId: '6cc8a65b-61fe-4e25-aef7-21bde018fde8rr',
-            role: 'ADMIN',
-            email: 'sushantprasai@gmail.com',
-            name: 'sushant babu prasai',
-          },
-        {
-          id: '522a29ee-a3ce-459e-a8b9-7d9f2eca3fce',
-          userId: 'f2b08410-09a2-44f8-9831-00cb40214b72',
-          role: 'MEMBER',
-          email: 'bibek@gmail.com',
-          name: 'Bibek',
-        },
-      ];
+    // const memberdata = [
+    //     {
+    //       id: 'b5a74080-0bc6-4264-b1c3-205258c48b9e',
+    //       userId: 'e0c3051c-0932-4f16-be21-7ed36822c3e9',
+    //       role: 'ADMIN',
+    //       email: 'mailtotrishan@gmail.com',
+    //       name: 'Trishan Wagle',
+    //     },
+    //     {
+    //       id: '64c76dbc-4eab-4db6-a84d-c1b525be42d5',
+    //       userId: '6cc8a65b-61fe-4e25-aef7-21bde018fde8',
+    //       role: 'ADMIN',
+    //       email: 'nischaymaharjan@gmail.com',
+    //       name: 'nischay maharjan',
+    //     },
+    //     {
+    //         id: '54c76dbc-4eab-4db6-a84d-c1b525bbe42d5',
+    //         userId: '6cc8a65b-61fe-4e25-aef7-21bde018fde8rr',
+    //         role: 'ADMIN',
+    //         email: 'sushantprasai@gmail.com',
+    //         name: 'sushant babu prasai',
+    //       },
+    //     {
+    //       id: '522a29ee-a3ce-459e-a8b9-7d9f2eca3fce',
+    //       userId: 'f2b08410-09a2-44f8-9831-00cb40214b72',
+    //       role: 'MEMBER',
+    //       email: 'bibek@gmail.com',
+    //       name: 'Bibek',
+    //     },
+    //   ];
       
     const currUser = useGetMe()
     const currUserId = currUser?.data?.data.data.id;
     const currMember = memberdata?.find((member) => member.userId == currUserId)
 
 	const { mutate: deleteMember, isPending: deletingMember } = useRemoveMember();
+    const { mutate: updateMember, isPending: updatingMember } = useUpdateMember();
+    
 
 	const handleUpdateMember = (memberId: string, role: MemberRole) => {
-        console.log(memberId,role)
-		// updateMember({ param: { memberId }, json: { role } });
+		updateMember( {memberId , role} );
 	};
 
 	const handleDeleteMember = async (memberId: string) => {
@@ -128,14 +129,14 @@ export const MembersList = () => {
                                 />
 
                                 <div className="flex flex-col">
-                                    <p className="text-sm font-medium">{member.name} {currMember?.id == member.id && <span className="text-xs font-normal">(me)</span>}</p>
+                                    <p className="text-sm font-medium capitalize">{member.name} {currMember?.id == member.id && <span className="text-xs font-normal lowercase">(me)</span>}</p>
                                     
                                     <div className="flex flex-row items-center text-xs">
                                         <p className="font-medium">{member.email} </p>
 
                                         <Dot className="-mx-[5px]" />
                                         
-                                        <p className="capitalize">{member.userId==superAdminId? "super admin" : member.role.toLowerCase()}</p>
+                                        <p className="capitalize text-green-700">{member.userId==superAdminId? "super admin" : member.role.toLowerCase()}</p>
                                     </div>
                                 </div>
 
@@ -155,7 +156,7 @@ export const MembersList = () => {
                                             onClick={() =>
                                                 handleUpdateMember(member.id, MemberRole.ADMIN)
                                             }
-                                            // disabled={updatingMember}
+                                            disabled={updatingMember}
                                         >
                                             Set as Administrator
                                         </DropdownMenuItem>
@@ -165,7 +166,7 @@ export const MembersList = () => {
                                             onClick={() =>
                                                 handleUpdateMember(member.id, MemberRole.MEMBER)
                                             }
-                                            // disabled={updatingMember}
+                                            disabled={updatingMember}
                                         >
                                             Set as Member
                                         </DropdownMenuItem>

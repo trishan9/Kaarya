@@ -71,6 +71,15 @@ export const apiActions = {
     remove: async (memberId: string) => {
       return await api.delete(`${API_URLS.MEMBERS}/${memberId}`);
     },
+    update: async (
+      memberId: string,
+      role : string,
+    ) => {
+      return await api.patch(
+        `${API_URLS.MEMBERS}/${memberId}`,
+        {role},
+      );
+    },
   }
 };
 

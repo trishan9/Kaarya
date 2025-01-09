@@ -99,7 +99,7 @@ export const EditProjectForm = ({
 			<Card className="size-full border-none shadow-none">
 				<CardHeader className="flex flex-row items-center gap-x-4 space-y-0">
 					<Button
-						variant="secondary"
+						variant="outline"
 						onClick={
 							onCancel
 								? onCancel
@@ -174,10 +174,10 @@ export const EditProjectForm = ({
 													/>
 													{field.value ? (
 														<Button
-															size="sm"
-															type="button"
-															variant="destructive"
-															className="w-fit mt-2"
+														size="sm"
+														type="button"
+														variant="default"
+														className="h-8 mt-2 text-sm font-medium text-red-500 bg-red-100 border border-red-200 w-fit hover:bg-red-100/80"
 															// disabled={isPending}
 															onClick={() => {
 																field.onChange(null);
@@ -189,10 +189,10 @@ export const EditProjectForm = ({
 														</Button>
 													) : (
 														<Button
-															size="sm"
-															type="button"
-															variant="default"
-															className="w-fit mt-2"
+														size="sm"
+														type="button"
+														variant="default"
+														className="h-8 mt-2 text-sm font-medium text-green-500 bg-green-100 border border-green-200 w-fit hover:bg-green-100/80"
 															// disabled={isPending}
 															onClick={() => inputRef.current?.click()}
 														>
@@ -220,7 +220,8 @@ export const EditProjectForm = ({
 								<Button 
                                 // disabled={isPending} 
                                 type="submit" 
-                                size="lg">
+								className="px-5"
+                                size="sm">
 									Save Changes
 								</Button>
 							</div>
@@ -238,8 +239,8 @@ export const EditProjectForm = ({
 						</p>
 						<DottedSeparator className="py-7" />
 						<Button
-							className="mt-6 w-fit ml-auto"
-							size="sm"
+							className="mt-6 ml-auto w-fit"
+              				size="sm"
 							variant="destructive"
 							// disabled={isPending || deletingProject}
 							onClick={handleDelete}
