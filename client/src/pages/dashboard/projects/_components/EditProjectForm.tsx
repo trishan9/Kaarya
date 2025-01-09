@@ -19,7 +19,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useConfirm } from "@/hooks/useConfirm";
-
 import { type UpdateProjectSchema, updateProjectSchema } from "../_schemas/index";
 import { type Project } from "../_schemas/index";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
@@ -247,7 +246,7 @@ export const EditProjectForm = ({
 						</p>
 
 						<DottedSeparator className="py-7" />
-						
+
 						<Button
 							className="mt-6 ml-auto w-fit"
               				size="sm"
