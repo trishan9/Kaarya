@@ -4,15 +4,15 @@ import { useLocation } from "react-router";
 import { RiAddCircleFill } from "react-icons/ri";
 
 import { cn } from "@/lib/utils";
-// import { useGetProjects } from "@/features/projects/api/use-get-projects";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useCreateProjectModal } from "@/hooks/useCreateProjectModal";
 import { ProjectAvatar } from "../pages/dashboard/projects/_components/ProjectAvatar";
+import { useGetProjects } from "@/hooks/useProjects";
 
 type Project = {
     name: string;
     imageUrl: string;
-    projectId: string;
+    id: string;
 };
 
 export const Projects = () => {
@@ -21,34 +21,25 @@ export const Projects = () => {
     const workspaceId = useWorkspaceId();
 
     const { open } = useCreateProjectModal();
-    // const { data } = useGetProjects({ workspaceId });
-    const data = [
-        {
-            name: "test1 project",
-            imageUrl: "",
-            projectId: "123",
-        },
-        {
-            name: "test2 project",
-            imageUrl: "",
-            projectId: "124",
-        }
-    ]
+    const { data } = useGetProjects({ workspaceId });
+
+    const projects = data?.data.projects
 
     return (
         <div className="flex flex-col gap-y-2">
             <div className="flex items-center justify-between">
                 <p className="text-xs uppercase text-neutral-500">Projects</p>
+                
                 <RiAddCircleFill
                     onClick={open}
                     className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
                 />
             </div>
-            {data?.map((project : Project) => {
-                const href = `/workspaces/${workspaceId}/projects/${project.projectId}`;
+            {projects?.map((project : Project) => {
+                const href = `/workspaces/${workspaceId}/projects/${project.id}`;
                 const isActive = pathname === href;
                 return (
-                    <Link to={href} key={project.projectId}>
+                    <Link to={href} key={project.id}>
                         <div
                             className={cn(
                                 "flex items-center gap-2.5 p-2.5 rounded-md hover:opacity-75 transition cursor-pointer text-neutral-500",
@@ -56,6 +47,7 @@ export const Projects = () => {
                             )}
                         >
                             <ProjectAvatar image={project.imageUrl} name={project.name} />
+
                             <span className="truncate">{project.name}</span>
                         </div>
                     </Link>

@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, ImageIcon } from "lucide-react";
-
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -19,14 +18,12 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
 import { useConfirm } from "@/hooks/useConfirm";
 
 import { type UpdateProjectSchema, updateProjectSchema } from "../_schemas/index";
-// import { useUpdateProject } from "../api/use-update-project";
 import { type Project } from "../_schemas/index";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-// import { useDeleteProject } from "../api/use-delete-project";
+import { useDeleteProject, useUpdateProject } from "@/hooks/useProjects";
 
 interface EditProjectFormProps {
 	onCancel?: () => void;
@@ -39,9 +36,9 @@ export const EditProjectForm = ({
 }: EditProjectFormProps) => {
 	const navigate = useNavigate();
 	const workspaceId = useWorkspaceId()
-	// const { mutate, isPending } = useUpdateProject();
-	// const { mutate: deleteProject, isPending: deletingProject } =
-	// 	useDeleteProject();
+	const { mutate, isPending } = useUpdateProject();
+	const { mutate: deleteProject, isPending: deletingProject } =
+		useDeleteProject();
 
 	const [DeleteWorkspaceDialog, confirmDelete] = useConfirm(
 		"Delete project",
@@ -63,10 +60,10 @@ export const EditProjectForm = ({
 			...values,
 			image: values.image instanceof File ? values.image : "",
 		};
-		// mutate({
-		// 	form: finalValues,
-		// 	param: { projectId: initialValues.$id },
-		// });
+		mutate({
+			projectId : initialValues.id,
+			data : finalValues,
+		});
         console.log(finalValues)
 	};
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,23 +76,23 @@ export const EditProjectForm = ({
 	const handleDelete = async () => {
 		const ok = await confirmDelete();
 		if (!ok) return;
-		// deleteProject(
-		// 	{
-		// 		param: { projectId: initialValues.$id },
-		// 	},
-		// 	{
-		// 		onSuccess: () => {
-		// 			// Hard refresh to clear cache
-		// 			window.location.href = `/workspaces/${initialValues.workspaceId}`;
-		// 		},
-		// 	}
-		// );
-        console.log("deleted")
+		deleteProject(
+			{
+				projectId: initialValues.id, 
+			},
+			{
+				onSuccess: () => {
+					// Hard refresh to clear cache
+					window.location.href = `/workspaces/${initialValues.workspaceId}`;
+				},
+			}
+		);
 	};
 
 	return (
 		<div className="flex flex-col gap-y-4">
 			<DeleteWorkspaceDialog />
+
 			<Card className="size-full border-none shadow-none">
 				<CardHeader className="flex flex-row items-center gap-x-4 space-y-0">
 					<Button
@@ -104,19 +101,22 @@ export const EditProjectForm = ({
 							onCancel
 								? onCancel
 								: () =>
-                                    navigate(`/workspaces/${workspaceId}/projects/${initialValues.projectId}`)
+                                    navigate(`/workspaces/${workspaceId}/projects/${initialValues.id}`)
 						}
 					>
 						<ArrowLeft className="size-4 mr-2" />
 						Back
 					</Button>
+
 					<CardTitle className="text-xl font-bold">
 						{initialValues.name}
 					</CardTitle>
 				</CardHeader>
+
 				<div className="px-7">
 					<DottedSeparator />
 				</div>
+
 				<CardContent className="p-7">
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSumbit)}>
@@ -134,6 +134,7 @@ export const EditProjectForm = ({
 										</FormItem>
 									)}
 								/>
+
 								<FormField
 									control={form.control}
 									name="image"
@@ -161,24 +162,27 @@ export const EditProjectForm = ({
 												)}
 												<div className="flex flex-col">
 													<p className="text-sm">Project Icon</p>
+
 													<p className="text-sm text-muted-foreground">
 														JPEG, PNG, SVG, or JPEG, max 1 mb
 													</p>
+
 													<input
 														hidden
 														type="file"
 														ref={inputRef}
-														// disabled={isPending}
+														disabled={isPending}
 														onChange={handleImageChange}
 														accept=".jpg, .jpeg, .png, .svg"
 													/>
+
 													{field.value ? (
 														<Button
 														size="sm"
 														type="button"
 														variant="default"
 														className="h-8 mt-2 text-sm font-medium text-red-500 bg-red-100 border border-red-200 w-fit hover:bg-red-100/80"
-															// disabled={isPending}
+															disabled={isPending}
 															onClick={() => {
 																field.onChange(null);
 																if (inputRef.current)
@@ -193,7 +197,7 @@ export const EditProjectForm = ({
 														type="button"
 														variant="default"
 														className="h-8 mt-2 text-sm font-medium text-green-500 bg-green-100 border border-green-200 w-fit hover:bg-green-100/80"
-															// disabled={isPending}
+															disabled={isPending}
 															onClick={() => inputRef.current?.click()}
 														>
 															Upload Icon
@@ -205,20 +209,23 @@ export const EditProjectForm = ({
 									)}
 								/>
 							</div>
+
 							<DottedSeparator className="py-7" />
+
 							<div className="flex items-center justify-between">
 								<Button
 									type="button"
 									size="lg"
 									variant="secondary"
 									onClick={onCancel}
-									// disabled={isPending}
+									disabled={isPending}
 									className={cn(!onCancel && "invisible")}
 								>
 									Cancel
 								</Button>
+
 								<Button 
-                                // disabled={isPending} 
+                                disabled={isPending} 
                                 type="submit" 
 								className="px-5"
                                 size="sm">
@@ -233,16 +240,19 @@ export const EditProjectForm = ({
 				<CardContent className="p-7">
 					<div className="flex flex-col">
 						<h3 className="font-bold">Danger Zone</h3>
+
 						<p className="text-sm text-muted-foreground">
 							Deleting a project is irreversible and will remove all associated
 							data
 						</p>
+
 						<DottedSeparator className="py-7" />
+						
 						<Button
 							className="mt-6 ml-auto w-fit"
               				size="sm"
 							variant="destructive"
-							// disabled={isPending || deletingProject}
+							disabled={isPending || deletingProject}
 							onClick={handleDelete}
 						>
 							Delete project
