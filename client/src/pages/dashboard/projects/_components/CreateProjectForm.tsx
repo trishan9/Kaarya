@@ -4,7 +4,6 @@ import { ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -18,10 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
-import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { cn } from "@/lib/utils";
-
+import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useCreateProject } from "@/hooks/useProjects";
 import { type CreateProjectSchema, createProjectSchema } from "../_schemas/index";
 
@@ -51,12 +48,11 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 			{ data: finalValues },
 			{
 				onSuccess: ({ data } : {data:any}) => {
-					form.reset();
-					navigate(`/workspaces/${workspaceId}/projects/${data.$id}`);
+					form.reset();					
+					navigate(`/workspaces/${workspaceId}/projects/${data.project.id}`);
 				},
 			}
 		);
-		console.log(finalValues)
 	};
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -70,9 +66,11 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 			<CardHeader className="flex p-7">
 				<CardTitle className="text-xl font-bold">Create new project</CardTitle>
 			</CardHeader>
+
 			<div className="px-7">
 				<DottedSeparator />
 			</div>
+
 			<CardContent className="p-7">
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSumit)}>
@@ -90,6 +88,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 									</FormItem>
 								)}
 							/>
+
 							<FormField
 								control={form.control}
 								name="image"
@@ -117,9 +116,11 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 											)}
 											<div className="flex flex-col">
 												<p className="text-sm">Project Icon</p>
+
 												<p className="text-sm text-muted-foreground">
 													JPEG, PNG, SVG, or JPEG, max 1 mb
 												</p>
+
 												<input
 													hidden
 													type="file"
@@ -128,6 +129,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 													onChange={handleImageChange}
 													accept=".jpg, .jpeg, .png, .svg"
 												/>
+											
 												{field.value ? (
 													<Button
 														size="sm"
@@ -160,7 +162,9 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 								)}
 							/>
 						</div>
+
 						<DottedSeparator className="py-7" />
+
 						<div className="flex items-center justify-between">
 							<Button
 								type="button"
@@ -172,6 +176,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 							>
 								Cancel
 							</Button>
+							
 							<Button 
                             disabled={isPending} 
                             type="submit" 

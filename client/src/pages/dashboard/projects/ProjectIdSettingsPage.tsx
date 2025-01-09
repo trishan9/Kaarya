@@ -1,28 +1,22 @@
 "use client";
-// import { useProjectId } from "@/hooks/userProjectId";
-// import { useGetProject } from "@/features/projects/api/use-get-project";
+import { useProjectId } from "@/hooks/userProjectId";
 import { EditProjectForm } from "./_components/EditProjectForm";
-import { type Project } from "./_schemas/index";
-
-// import { PageLoader } from "@/components/PageLoader";
-// import { PageError } from "@/components/PageError";
+import { useGetProject } from "@/hooks/useProjects";
+import { PageLoader } from "@/components/PageLoader";
+import { PageError } from "@/components/PageError";
 
 export const ProjectIdSettingsPage = () => {
 
-    const project: Project = {
-        name: "test project",
-        imageUrl: "",
-        projectId: "123",
-    };
-    // const projectId = useProjectId();
-    // const { data: initialValues, isLoading } = useGetProject({ projectId });
+    const projectId = useProjectId();
+    const { data, isLoading } = useGetProject({ projectId });
+    const initialValues = data?.data.projects
 
-    // if (isLoading) return <PageLoader />;
-    // if (!initialValues) return <PageError message="Project not found" />;
+    if (isLoading) return <PageLoader />;
+    if (!initialValues) return <PageError message="Project not found" />;
 
     return (
         <div className="w-full lg:max-w-xl">
-            <EditProjectForm initialValues={project} />
+            <EditProjectForm initialValues={initialValues} />
         </div>
     );
 };

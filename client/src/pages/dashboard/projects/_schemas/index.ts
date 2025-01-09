@@ -3,7 +3,8 @@ import { z } from "zod";
 export type Project = {
     name: string;
     imageUrl: string;
-    projectId: string;
+    id: string;
+    workspaceId? :string;
 };
 
 export const createProjectSchema = z.object({
@@ -17,6 +18,7 @@ export const createProjectSchema = z.object({
 
     workspaceId: z.string(),
 });
+
 export const updateProjectSchema = z.object({
     name: z
         .string()
