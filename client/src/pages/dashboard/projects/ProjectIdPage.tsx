@@ -3,7 +3,7 @@ import { Pencil } from "lucide-react";
 import { Link, useLocation } from "react-router";
 
 import { ProjectAvatar } from "./_components/ProjectAvatar";
-import { TaskViewSwitcher } from "./_components/TaskViewSwitcher";
+import { TaskViewSwitcher } from "../tasks/_components/TaskViewSwitcher";
 
 import { Button } from "@/components/ui/button";
 import { Project } from "./_schemas/index";

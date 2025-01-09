@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { DottedSeparator } from "@/components/ui/dotted-separator";
@@ -22,7 +22,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { cn } from "@/lib/utils";
 
-// import { useCreateProject } from "../api/use-create-project";
+import { useCreateProject } from "@/hooks/useProjects";
 import { type CreateProjectSchema, createProjectSchema } from "../_schemas/index";
 
 interface CreateProjectFormProps {
@@ -31,8 +31,8 @@ interface CreateProjectFormProps {
 
 export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 	const workspaceId = useWorkspaceId();
-	// const navigate = useNavigate();
-	// const { mutate, isPending } = useCreateProject();
+	const navigate = useNavigate();
+	const { mutate, isPending } = useCreateProject();
 	const inputRef = useRef<HTMLInputElement>(null);
 	const form = useForm<CreateProjectSchema>({
 		resolver: zodResolver(createProjectSchema.omit({ workspaceId: true })),
@@ -47,16 +47,16 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 			image: values.image instanceof File ? values.image : "",
 			workspaceId,
 		};
-		// mutate(
-		// 	{ form: finalValues },
-		// 	{
-		// 		onSuccess: ({ data } : {data:any}) => {
-		// 			form.reset();
-		// 			navigate(`/workspaces/${workspaceId}/projects/${data.$id}`);
-		// 		},
-		// 	}
-		// );
-        console.log(finalValues)
+		mutate(
+			{ data: finalValues },
+			{
+				onSuccess: ({ data } : {data:any}) => {
+					form.reset();
+					navigate(`/workspaces/${workspaceId}/projects/${data.$id}`);
+				},
+			}
+		);
+		console.log(finalValues)
 	};
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -124,7 +124,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 													hidden
 													type="file"
 													ref={inputRef}
-													// disabled={isPending}
+													disabled={isPending}
 													onChange={handleImageChange}
 													accept=".jpg, .jpeg, .png, .svg"
 												/>
@@ -134,7 +134,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 														type="button"
 														variant="destructive"
 														className="w-fit mt-2"
-														// disabled={isPending}
+														disabled={isPending}
 														onClick={() => {
 															field.onChange(null);
 															if (inputRef.current) inputRef.current.value = "";
@@ -148,7 +148,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 														type="button"
 														variant="default"
 														className="w-fit mt-2"
-														// disabled={isPending}
+														disabled={isPending}
 														onClick={() => inputRef.current?.click()}
 													>
 														Upload Icon
@@ -167,13 +167,13 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 								size="lg"
 								variant="secondary"
 								onClick={onCancel}
-								// disabled={isPending}
+								disabled={isPending}
 								className={cn(!onCancel && "invisible")}
 							>
 								Cancel
 							</Button>
 							<Button 
-                            // disabled={isPending} 
+                            disabled={isPending} 
                             type="submit" 
                             size="lg">
 								Create project
