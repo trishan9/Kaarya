@@ -20,7 +20,6 @@ export const WorkspaceIdJoinPage = () => {
     const { data, isLoading } = useGetWorkspaceInfo({
         workspaceId,
     });
-
     const workspace=data?.data.workspace;
     
     if (isLoading) return <PageLoader />;

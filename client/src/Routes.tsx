@@ -14,6 +14,7 @@ import {
   WorkspaceIdJoinPage,
   MembersList,
 } from "./pages";
+import LandingPage from "./pages/marketing/LandingPage";
 
 const AppRoutes = () => {
   return (
@@ -53,6 +54,7 @@ const AppRoutes = () => {
           </Route>
         </Route>
 
+        <Route path="/landing" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
