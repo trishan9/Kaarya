@@ -6,8 +6,8 @@ import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { errorResponse } from "@/utils/errorMessage";
 import * as projectServices from "./project.services";
-import { createProjectSchema } from "./project.validator";
-import { db } from "@/db";
+import { createProjectSchema, updateProjectSchema } from "./project.validator";
+import { responseMessage } from "@/utils/responseMessage";
 
 export const createProjects = asyncHandler(
   async (req: Request, res: Response) => {
@@ -49,12 +49,42 @@ export const getAllProjects = asyncHandler(
   },
 );
 
-// update projects
-export const updateProjects = asyncHandler(
+export const updateProject = asyncHandler(
   async (req: Request, res: Response) => {
-    // const updatedProjects = await db.project.update({});
+    const {
+      body,
+      params: { projectId },
+    } = req;
+    const userId = res.locals?.user?.id;
+
+    const result = updateProjectSchema.safeParse(body);
+    if (!result.success) {
+      throw new ApiError(
+        StatusCodes.BAD_REQUEST,
+        errorResponse.VALIDATION.FAILED,
+      );
+    }
+
+    const { name } = body;
+    const image = req.file?.path;
+
+    const data = {
+      name,
+      image,
+    };
+    console.log(projectId, res.locals.user.id);
+
+    const project = await projectServices.updateProject(
+      projectId,
+      userId,
+      data,
+    );
+
     return apiResponse(res, StatusCodes.OK, {
-      message: "All projects retrived successfully",
+      project,
+      message: responseMessage.PROJECT.UPDATED,
     });
   },
 );
+
+

@@ -6,6 +6,7 @@ import uploadToCloudinary from "@/lib/cloudinary";
 import { errorResponse } from "@/utils/errorMessage";
 import { CreateProjectInput } from "./project.validator";
 import { UserRoles } from "../member/member.validator";
+import { UpdateProjectType } from "./project.validator";
 
 export const create = async (projectData: CreateProjectInput) => {
   const { workspaceId, image, userId, name } = projectData;
@@ -55,9 +56,81 @@ export const create = async (projectData: CreateProjectInput) => {
   return newProject;
 };
 
+export const updateProject = async (
+  projectId: string,
+  userId: string,
+  data: UpdateProjectType,
+) => {
+  if (!projectId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+
+  const project = await db.project.findUnique({
+    where: {
+      id: projectId,
+    },
+    include: {
+      workspace: true,
+    },
+  });
+
+  if (!project) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.PROJECT.INVALID);
+  }
+
+  const member = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId: project.workspaceId,
+      OR: [{ role: UserRoles.ADMIN }, { userId: project.workspace.userId }],
+    },
+  });
+
+  if (!member) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      errorResponse.PROJECT.NO_PERMISSION,
+    );
+  }
+
+  let imageUrl: string = project.imageUrl as string;
+  if (data.image) {
+    const cloudinaryResponse = await uploadToCloudinary(data.image as string);
+    if (cloudinaryResponse instanceof Error) {
+      throw new ApiError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        errorResponse.PROJECT.IMAGE_FAIL,
+      );
+    }
+    imageUrl = cloudinaryResponse?.secure_url;
+  }
+
+  const updatedData = {
+    name: data.name,
+    imageUrl,
+  };
+
+  return await db.project.update({
+    where: {
+      id: projectId,
+    },
+    data: updatedData,
+    include: {
+      workspace: {
+        select: {
+          name: true,
+          imageUrl: true,
+        },
+      },
+    },
+  });
+};
+
 export const getProjects = async () => {
   return await db.project.findMany();
 };
 
-// update projects services
-export const updateProjects = async () => {};
+

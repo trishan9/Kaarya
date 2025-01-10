@@ -14,9 +14,11 @@ projectsRouter.post(
 );
 
 projectsRouter.get("/", isAuthenticated, projectsController.getAllProjects);
+
 projectsRouter.patch(
-  "/projects/:projectId",
+  "/:projectId",
+  isAuthenticated,
   upload.single("image"),
-  projectsController.updateProjects,
+  projectsController.updateProject,
 );
 export default projectsRouter;

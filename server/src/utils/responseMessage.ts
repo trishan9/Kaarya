@@ -21,8 +21,11 @@ const responseMessage = {
   },
   MEMBER: {
     DELETED: "Member deleted Successfully.",
-    ROLE_UPDATE:"Role Updated successfully"
-    
+    ROLE_UPDATE: "Role Updated successfully",
+  },
+  PROJECT: {
+    CREATED: "Project created successfully",
+    UPDATED: "Project updated successfully",
   },
   OTHER: {
     SUCCESS: "Operation completed successfully",
