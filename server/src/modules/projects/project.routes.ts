@@ -12,4 +12,6 @@ projectsRouter.post(
   projectsController.createProjects,
 );
 
+projectsRouter.get("/", isAuthenticated, projectsController.getAllProjects);
+
 export default projectsRouter;

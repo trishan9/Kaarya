@@ -53,3 +53,8 @@ export const create = async (projectData: CreateProjectInput) => {
   });
   return newProject;
 };
+
+export const getProjects = async () => {
+  const projects = await db.project.findMany();
+  return projects;
+};
