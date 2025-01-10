@@ -7,6 +7,7 @@ import { errorResponse } from "@/utils/errorMessage";
 import { createProjectSchema } from "./project.validator";
 
 import * as projectServices from "./project.services";
+import { db } from "@/db";
 
 export const createProjects = asyncHandler(
   async (req: Request, res: Response) => {
@@ -34,6 +35,16 @@ export const createProjects = asyncHandler(
     return apiResponse(res, StatusCodes.CREATED, {
       project: newProject,
       message: "Project created successfully",
+    });
+  },
+);
+
+export const getAllProjects = asyncHandler(
+  async (req: Request, res: Response) => {
+    const projects = await db.project.findMany();
+    return apiResponse(res, StatusCodes.OK, {
+      projects,
+      message: "All projects retrived successfully",
     });
   },
 );
