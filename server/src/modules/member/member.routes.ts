@@ -9,5 +9,8 @@ memberRouter.delete(
   isAuthenticated,
   membersController.deleteMember,
 );
+memberRouter.patch("/:memberId",
+  isAuthenticated,
+  membersController.updateMemberRole)
 
 export { memberRouter };
