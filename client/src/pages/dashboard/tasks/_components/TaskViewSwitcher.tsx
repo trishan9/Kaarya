@@ -3,11 +3,14 @@
 import { useQueryState } from "nuqs";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { DottedSeparator } from "@/components/ui/dotted-separator";
 
 // import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 
 // import { useProjectId } from "@/hooks/userProjectId";
-// import { useCreateTaskModal } from "../hooks/use-create-task-modal";
+import { useCreateTaskModal } from "@/hooks/useCreateTaskModal";
 // import { useTaskFilter } from "../hooks/use-task-filter";
 // import { useGetTasks } from "../api/use-get-tasks";
 // import { DataFilters } from "./data-filters";
@@ -31,7 +34,7 @@ export const TaskViewSwitcher = ({
 	const [view, setView] = useQueryState("task-view", {
 		defaultValue: "table",
 	});
-	// const { open } = useCreateTaskModal();
+	const { open } = useCreateTaskModal();
 	// const workspaceId = useWorkspaceId();
 	// const paramProjectId = useProjectId();
 	// const { mutate: bulkUpdate } = useBulkUpdateTasks();
@@ -80,14 +83,19 @@ export const TaskViewSwitcher = ({
 							Calendar
 						</TabsTrigger>
 					</TabsList>
-					{/* <Button 
-                    // onClick={open} 
+					<Button
+                    onClick={open} 
                     size="sm" 
-                    className="w-full lg:w-auto">
-						<Plus className="size-4 mr-2" />
+                    className="h-8 w-full lg:w-auto ml-1">
+						<Plus className="size-4" />
 						New
-					</Button> */}
+					</Button>
 				</div>
+				<DottedSeparator className="my-4"/>
+
+				<p>data filter</p>
+
+				<DottedSeparator className="my-4"/>
 				<>
 				<TabsContent value="table" className="mt-2">
 							<h1>I am table</h1>
