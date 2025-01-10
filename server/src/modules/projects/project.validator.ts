@@ -12,4 +12,11 @@ export const createProjectSchema = z.object({
   workspaceId: z.string(),
 });
 
-export type CreateProjectSchema = z.infer<typeof createProjectSchema>;
+export type CreateProjectType = z.infer<typeof createProjectSchema>;
+
+export interface CreateProjectInput {
+  userId: string;
+  image: unknown | null;
+  name: string;
+  workspaceId: string;
+}
