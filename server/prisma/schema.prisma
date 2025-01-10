@@ -19,14 +19,15 @@ model User {
 }
 
 model Workspace {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
   imageUrl   String?
   inviteCode String?
   userId     String
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
   members    Member[]
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projects   Project[]
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Member {
@@ -38,6 +39,19 @@ model Member {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 }
+
+
+model Project {
+  id          String    @id @default(uuid())
+  name        String
+  imageUrl    String?
+  workspaceId String
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+}
+
 
 enum Role {
   ADMIN
