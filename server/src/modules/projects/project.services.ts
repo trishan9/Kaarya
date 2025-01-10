@@ -1,10 +1,11 @@
 import { StatusCodes } from "http-status-codes";
+
 import { db } from "@/db";
 import { ApiError } from "@/utils/apiError";
+import uploadToCloudinary from "@/lib/cloudinary";
 import { errorResponse } from "@/utils/errorMessage";
 import { CreateProjectInput } from "./project.validator";
 import { UserRoles } from "../member/member.validator";
-import uploadToCloudinary from "@/lib/cloudinary";
 
 export const create = async (projectData: CreateProjectInput) => {
   const { workspaceId, image, userId, name } = projectData;
@@ -55,6 +56,8 @@ export const create = async (projectData: CreateProjectInput) => {
 };
 
 export const getProjects = async () => {
-  const projects = await db.project.findMany();
-  return projects;
+  return await db.project.findMany();
 };
+
+// update projects services
+export const updateProjects = async () => {};

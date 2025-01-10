@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+
+import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
-import { ApiError } from "@/utils/apiError";
 import { errorResponse } from "@/utils/errorMessage";
-import { createProjectSchema } from "./project.validator";
-
 import * as projectServices from "./project.services";
+import { createProjectSchema } from "./project.validator";
+import { db } from "@/db";
 
 export const createProjects = asyncHandler(
   async (req: Request, res: Response) => {
@@ -43,6 +44,16 @@ export const getAllProjects = asyncHandler(
     const projects = await projectServices.getProjects();
     return apiResponse(res, StatusCodes.OK, {
       projects,
+      message: "All projects retrived successfully",
+    });
+  },
+);
+
+// update projects
+export const updateProjects = asyncHandler(
+  async (req: Request, res: Response) => {
+    // const updatedProjects = await db.project.update({});
+    return apiResponse(res, StatusCodes.OK, {
       message: "All projects retrived successfully",
     });
   },
