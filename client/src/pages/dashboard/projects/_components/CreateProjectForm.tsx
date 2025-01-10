@@ -1,6 +1,6 @@
 "use client";
 import { useRef } from "react";
-import { ImageIcon } from "lucide-react";
+import { ImageIcon, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,6 +50,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 				onSuccess: ({ data } : {data:any}) => {
 					form.reset();					
 					navigate(`/workspaces/${workspaceId}/projects/${data.project.id}`);
+					navigate(0)
 				},
 			}
 		);
@@ -134,8 +135,8 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 													<Button
 														size="sm"
 														type="button"
-														variant="destructive"
-														className="w-fit mt-2"
+														variant="default"
+														className="h-8 mt-2 text-sm font-medium text-red-500 bg-red-100 border border-red-200 w-fit hover:bg-red-100/80"
 														disabled={isPending}
 														onClick={() => {
 															field.onChange(null);
@@ -149,7 +150,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 														size="sm"
 														type="button"
 														variant="default"
-														className="w-fit mt-2"
+														className="h-8 mt-2 text-sm font-medium text-green-500 bg-green-100 border border-green-200 w-fit hover:bg-green-100/80"
 														disabled={isPending}
 														onClick={() => inputRef.current?.click()}
 													>
@@ -180,8 +181,11 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
 							<Button 
                             disabled={isPending} 
                             type="submit" 
-                            size="lg">
+                            size="lg"
+                			className="px-7"
+							>
 								Create project
+								{isPending && <Loader2 className="w-14 h-14 animate-spin" />}
 							</Button>
 						</div>
 					</form>

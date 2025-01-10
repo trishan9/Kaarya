@@ -177,10 +177,10 @@ export const EditProjectForm = ({
 
 													{field.value ? (
 														<Button
-														size="sm"
-														type="button"
-														variant="default"
-														className="h-8 mt-2 text-sm font-medium text-red-500 bg-red-100 border border-red-200 w-fit hover:bg-red-100/80"
+															size="sm"
+															type="button"
+															variant="default"
+															className="h-8 mt-2 text-sm font-medium text-red-500 bg-red-100 border border-red-200 w-fit hover:bg-red-100/80"
 															disabled={isPending}
 															onClick={() => {
 																field.onChange(null);

@@ -19,7 +19,8 @@ export const ProjectIdPage : React.FC = () => {
     const { data, isLoading: projectsLoading } = useGetProject({
         projectId,
     });
-    const project = data?.data.projects
+    
+    const project = data?.data.project
     // const { data: analytics, isLoading: analyticsLoading } =
     //     useGetProjectAnalytics({ projectId });
 

@@ -9,7 +9,7 @@ export const ProjectIdSettingsPage = () => {
 
     const projectId = useProjectId();
     const { data, isLoading } = useGetProject({ projectId });
-    const initialValues = data?.data.projects
+    const initialValues = data?.data.project
 
     if (isLoading) return <PageLoader />;
     if (!initialValues) return <PageError message="Project not found" />;
