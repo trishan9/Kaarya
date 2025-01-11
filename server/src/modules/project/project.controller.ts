@@ -5,11 +5,11 @@ import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { errorResponse } from "@/utils/errorMessage";
-import * as projectServices from "./project.services";
+import * as projectServices from "./project.service";
 import { createProjectSchema, updateProjectSchema } from "./project.validator";
 import { responseMessage } from "@/utils/responseMessage";
 
-export const createProjects = asyncHandler(
+export const createProject = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = res.locals?.user?.id;
     const body = req.body;
@@ -43,10 +43,11 @@ export const getAllProjects = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = res.locals?.user.id;
     const workspaceId = req.query.workspaceId as string;
+
     const projects = await projectServices.getProjects(workspaceId, userId);
     return apiResponse(res, StatusCodes.OK, {
       projects,
-      message: responseMessage.PROJECT.RETRIVED,
+      message: responseMessage.PROJECT.RETRIEVED,
     });
   },
 );
@@ -88,7 +89,7 @@ export const updateProject = asyncHandler(
   },
 );
 
-export const deleteProjects = asyncHandler(
+export const deleteProject = asyncHandler(
   async (req: Request, res: Response) => {
     const {
       params: { projectId },
@@ -110,10 +111,10 @@ export const getProjectById = asyncHandler(
   async (req: Request, res: Response) => {
     const { projectId } = req.params;
     const userId = res.locals?.user.id;
-    const projects = await projectServices.getProjectById(projectId, userId);
+    const project = await projectServices.getProjectById(projectId, userId);
     return apiResponse(res, StatusCodes.OK, {
-      projects,
-      message: responseMessage.PROJECT.RETRIVED,
+      project,
+      message: responseMessage.PROJECT.RETRIEVED,
     });
   },
 );

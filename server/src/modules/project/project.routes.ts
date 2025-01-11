@@ -4,34 +4,30 @@ import upload from "@/utils/multer";
 import * as projectsController from "./project.controller";
 import { isAuthenticated } from "@/middlewares/isAuthenticated";
 
-const projectsRouter = Router();
+const projectRouter = Router();
 
-projectsRouter.post(
+projectRouter.post(
   "/",
   isAuthenticated,
   upload.single("image"),
-  projectsController.createProjects,
+  projectsController.createProject,
 );
-
-projectsRouter.patch(
+projectRouter.patch(
   "/:projectId",
   isAuthenticated,
   upload.single("image"),
   projectsController.updateProject,
 );
-
-projectsRouter.delete(
+projectRouter.delete(
   "/:projectId",
   isAuthenticated,
-  projectsController.deleteProjects,
+  projectsController.deleteProject,
 );
-
-projectsRouter.get("/", isAuthenticated, projectsController.getAllProjects);
-
-projectsRouter.get(
+projectRouter.get("/", isAuthenticated, projectsController.getAllProjects);
+projectRouter.get(
   "/:projectId",
   isAuthenticated,
   projectsController.getProjectById,
 );
 
-export default projectsRouter;
+export default projectRouter;

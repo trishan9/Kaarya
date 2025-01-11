@@ -7,7 +7,7 @@ import { db } from "@/db";
 import type {
   CreateWorkspaceInput,
   UpdateWorkspaceType,
-} from "./workspaces.validator";
+} from "./workspace.validator";
 import { generateInviteCode, INVITECODE_LENGTH } from "@/utils";
 import { UserRoles } from "../member/member.validator";
 

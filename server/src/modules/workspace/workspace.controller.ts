@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import * as workspaceService from "./workspaces.service";
+import * as workspaceService from "./workspace.service";
 import {
   createWorkspaceSchema,
   updateWorkspaceSchema,
-} from "./workspaces.validator";
+} from "./workspace.validator";
 
 import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";

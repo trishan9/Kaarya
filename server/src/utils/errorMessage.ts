@@ -1,77 +1,96 @@
 const errorResponse = {
   USER: {
-    NOT_FOUND: "User not found",
-    CREATION_FAILED: "Failed to create user",
-    UPDATE_FAILED: "Failed to update user",
-    DELETION_FAILED: "Failed to delete user",
-    INVALID_CREDENTIALS: "Invalid credentials provided",
+    NOT_FOUND: "The specified user does not exist in our system.",
+    CREATION_FAILED:
+      "We encountered an issue while creating your account. Please try again.",
+    UPDATE_FAILED:
+      "Unable to update the user information. Please check your input and try again.",
+    DELETION_FAILED: "We couldn't delete the user. Please try again later.",
+    INVALID_CREDENTIALS:
+      "The credentials provided are incorrect. Please check and try again.",
   },
   NAME: {
-    REQUIRED: "Name is required",
-    INVALID: "Invalid name format",
+    REQUIRED: "Please provide your name. This field cannot be left empty.",
+    INVALID:
+      "The name entered contains invalid characters. Please use only alphabets.",
   },
   USERNAME: {
-    CONFLICT: "This username is already associated with an existing account",
-    REQUIRED: "Username is required",
-    INVALID: "Invalid username format",
+    CONFLICT:
+      "The chosen username is already in use. Please select a different one.",
+    REQUIRED: "Username is required. Please enter a valid username.",
+    INVALID:
+      "The username format is invalid. Ensure it meets the required criteria.",
   },
   EMAIL: {
     CONFLICT:
-      "This email address is already associated with an existing account",
-    REQUIRED: "Email is required",
-    INVALID: "Invalid email address format",
+      "This email is already registered. Please log in or use a different email address.",
+    REQUIRED: "An email address is required. Please enter a valid email.",
+    INVALID: "The email format is incorrect. Please use a valid email address.",
   },
   PASSWORD: {
-    REQUIRED: "Password is required",
-    LENGTH: "Password must be between 8 to 16 characters",
-    INVALID: "Invalid password format",
+    REQUIRED: "A password is required. Please provide one.",
+    LENGTH: "Your password must be between 8 to 16 characters long.",
+    INVALID:
+      "The password provided does not meet the required format. Please try again.",
   },
   VALIDATION: {
     FAILED:
-      "The provided data is invalid. Please check the input and try again.",
+      "Some of the input data is invalid. Please review the highlighted fields and try again.",
   },
   AUTH_HEADER: {
-    REQUIRED: "No authorization header provided",
-    INVALID: "Invalid authorization header format",
+    REQUIRED:
+      "Authorization header is missing. Please include it in your request.",
+    INVALID:
+      "The authorization header format is incorrect. Please check and try again.",
   },
   TOKEN: {
-    EXPIRED: "The token provided is invalid or has expired",
+    EXPIRED: "Your session has expired. Please log in again to continue.",
   },
   WORKSPACE: {
-    INVALID: "Workspace not found",
-    IMAGE_FAIL: "Failed to upload workspace image",
-    NAME_CONFLICT: "A workspace with this name already exists",
-    UPDATE_FAILED: "Failed to update workspace details",
-    DELETE_FAILED: "Failed to delete workspace",
-    NO_PERMISSION: "You do not have permission to perform this action",
-    UNAUTHORIZED: "Unauthorized to access this workspace",
-    MEMBER_CONFLICT: "Already a member of this workspace.",
-    INVALID_INVITE_CODE: "Invitation code is not valid.",
-    INVITE_FAILED: "Invitation successful, member added to the workspace.",
+    INVALID: "The specified workspace could not be found.",
+    IMAGE_FAIL: "We couldn't upload the workspace image. Please try again.",
+    NAME_CONFLICT:
+      "A workspace with this name already exists. Please choose a different name.",
+    UPDATE_FAILED:
+      "Failed to update workspace details. Please try again later.",
+    DELETE_FAILED:
+      "Unable to delete the workspace. Please ensure you have the necessary permissions.",
+    NO_PERMISSION: "You lack the necessary permissions to perform this action.",
+    UNAUTHORIZED: "You are not authorized to access this workspace.",
+    MEMBER_CONFLICT: "This user is already a member of the workspace.",
+    INVALID_INVITE_CODE: "The invitation code provided is invalid.",
+    INVITE_FAILED: "Unable to send the invitation. Please try again.",
   },
   MEMBER: {
-    INVALID: "Member not found.",
-    LAST_MEMBER: "Cannot delete the last member of a workspace",
-    SELF_UPDATE: "You are not authorized to update your own role.",
-    NOT_WORKSPACE_MEMBER: "You are not a member of this workspace",
-    ADMIN_ONLY: "Only admins can delete members",
-    ADMIN_ONLY_ROLES: "Only admins can update members role",
-    ADMIN_DELETE_ADMIN: "Admins cannot delete other admins",
-    ADMIN_UPDATE_ADMIN: "Admins cannot update other admins role",
-    SUPER_ADMIN_UPDATE: "Cannot update workspace owner role.",
-    NO_PERMISSION: "You do not have permission to perform this action.",
-    VALIDATION_FAILED: "Validation failed for role update.",
+    INVALID: "The specified member could not be found.",
+    LAST_MEMBER: "The last member of a workspace cannot be removed.",
+    SELF_UPDATE:
+      "You cannot update your own role. Contact another admin for assistance.",
+    NOT_WORKSPACE_MEMBER: "You are not part of this workspace.",
+    ADMIN_ONLY: "This action is restricted to admins only.",
+    ADMIN_ONLY_ROLES: "Only admins can update member roles.",
+    ADMIN_DELETE_ADMIN: "Admins are not allowed to remove other admins.",
+    ADMIN_UPDATE_ADMIN: "Admins cannot update the roles of other admins.",
+    SUPER_ADMIN_UPDATE: "The workspace owner role cannot be changed.",
+    NO_PERMISSION: "You lack the required permissions to perform this action.",
+    VALIDATION_FAILED:
+      "The role update request is invalid. Please review and try again.",
   },
   PROJECT: {
-    INVALID: "Project not found",
-    NO_PERMISSION: "You do not have permission to update this project",
-    IMAGE_FAIL: "Failed to upload project image",
-    UPDATED: "Project updated successfully",
-    ACCESS: "Unauthorized, to perform the operation.",
+    INVALID: "The specified project could not be found.",
+    NO_PERMISSION:
+      "You do not have the necessary permissions to modify this project.",
+    NAME_CONFLICT:
+      "A project with this name already exists. Please choose a different name.",
+    IMAGE_FAIL: "Unable to upload the project image. Please try again.",
+    UPDATED: "The project was updated successfully.",
+    ACCESS: "Unauthorized action. Please check your permissions.",
   },
   OTHER: {
-    SERVER_ERROR: "Internal server error occurred",
-    INVALID_REQUEST: "The request is invalid",
+    SERVER_ERROR:
+      "An unexpected server error occurred. Please try again later.",
+    INVALID_REQUEST:
+      "The request is invalid. Please review your input and try again.",
   },
 };
 

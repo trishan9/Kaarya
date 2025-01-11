@@ -10,6 +10,24 @@ import { UpdateProjectType } from "./project.validator";
 
 export const create = async (projectData: CreateProjectInput) => {
   const { workspaceId, image, userId, name } = projectData;
+
+  if (!userId) {
+    throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.USER.NOT_FOUND);
+  }
+
+  const exists = await db.project.findFirst({
+    where: {
+      name: name,
+    },
+  });
+
+  if (exists) {
+    throw new ApiError(
+      StatusCodes.CONFLICT,
+      errorResponse.PROJECT.NAME_CONFLICT,
+    );
+  }
+
   const workspace = await db.workspace.findUnique({
     where: { id: workspaceId },
   });
@@ -18,42 +36,41 @@ export const create = async (projectData: CreateProjectInput) => {
     throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.WORKSPACE.INVALID);
   }
 
-  const isSuperAdmin = workspace.userId === userId;
+  const hasAccess = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId: workspaceId,
+      OR: [{ role: UserRoles.ADMIN }, { userId: workspace.userId }],
+    },
+  });
 
-  if (!isSuperAdmin) {
-    const member = await db.member.findFirst({
-      where: {
-        userId,
-        workspaceId,
-        role: UserRoles.ADMIN,
-      },
-    });
-
-    if (!member) {
-      throw new ApiError(StatusCodes.FORBIDDEN, errorResponse.NAME.INVALID);
-    }
+  if (!hasAccess) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      errorResponse.WORKSPACE.NO_PERMISSION,
+    );
   }
 
   let imageUrl: string | null = null;
+
   if (image) {
     const cloudinaryResponse = await uploadToCloudinary(image as string);
     if (cloudinaryResponse instanceof Error) {
       throw new ApiError(
         StatusCodes.INTERNAL_SERVER_ERROR,
-        "Failed to upload image",
+        errorResponse.PROJECT.IMAGE_FAIL,
       );
     }
     imageUrl = cloudinaryResponse?.secure_url;
   }
 
-  const newProject = await db.project.create({
+  return await db.project.create({
     data: {
       name,
       imageUrl,
       workspaceId,
     },
   });
-  return newProject;
 };
 
 export const updateProject = async (
@@ -81,7 +98,7 @@ export const updateProject = async (
     throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.PROJECT.INVALID);
   }
 
-  const member = await db.member.findFirst({
+  const hasAccess = await db.member.findFirst({
     where: {
       userId,
       workspaceId: project.workspaceId,
@@ -89,7 +106,7 @@ export const updateProject = async (
     },
   });
 
-  if (!member) {
+  if (!hasAccess) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
       errorResponse.PROJECT.NO_PERMISSION,
@@ -178,7 +195,7 @@ export const deleteProject = async (projectId: string, userId: string) => {
     throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.PROJECT.INVALID);
   }
 
-  const member = await db.member.findFirst({
+  const hasAccess = await db.member.findFirst({
     where: {
       userId,
       workspaceId: project.workspaceId,
@@ -186,7 +203,7 @@ export const deleteProject = async (projectId: string, userId: string) => {
     },
   });
 
-  if (!member) {
+  if (!hasAccess) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
       errorResponse.PROJECT.NO_PERMISSION,
