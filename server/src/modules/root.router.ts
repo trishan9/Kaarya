@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { authRouter } from "./auth/auth.routes";
-import { workspaceRouter } from "./workspaces/workspaces.routes";
+import { workspaceRouter } from "./workspace/workspace.routes";
 import { isAuthenticated } from "@/middlewares/isAuthenticated";
 import { memberRouter } from "./member/member.routes";
-import projectsRouter from "./projects/project.routes";
+import projectsRouter from "./project/project.routes";
 
 const rootRouter = Router();
 
