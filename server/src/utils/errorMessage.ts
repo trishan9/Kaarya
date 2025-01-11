@@ -67,6 +67,7 @@ const errorResponse = {
     NO_PERMISSION: "You do not have permission to update this project",
     IMAGE_FAIL: "Failed to upload project image",
     UPDATED: "Project updated successfully",
+    ACCESS: "Unauthorized, to perform the operation.",
   },
   OTHER: {
     SERVER_ERROR: "Internal server error occurred",

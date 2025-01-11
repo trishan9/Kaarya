@@ -129,9 +129,38 @@ export const updateProject = async (
   });
 };
 
-export const getProjects = async () => {
-  return await db.project.findMany();
+export const getProjects = async (workspaceId: string, userId: string) => {
+  if (!workspaceId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+  const isMember = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId,
+    },
+  });
+
+  if (!isMember) {
+    throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.PROJECT.ACCESS);
+  }
+
+  const projects = await db.project.findMany({
+    where: {
+      workspaceId,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  return projects;
 };
+
+
+
 
 export const deleteProject = async (projectId: string, userId: string) => {
   if (!projectId || !userId) {

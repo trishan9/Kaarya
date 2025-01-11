@@ -41,7 +41,9 @@ export const createProjects = asyncHandler(
 
 export const getAllProjects = asyncHandler(
   async (req: Request, res: Response) => {
-    const projects = await projectServices.getProjects();
+    const { workspaceId } = req.params;
+    const userId = res.locals?.user.id;
+    const projects = await projectServices.getProjects(workspaceId, userId);
     return apiResponse(res, StatusCodes.OK, {
       projects,
       message: "All projects retrived successfully",
@@ -72,7 +74,6 @@ export const updateProject = asyncHandler(
       name,
       image,
     };
-    console.log(projectId, res.locals.user.id);
 
     const project = await projectServices.updateProject(
       projectId,
