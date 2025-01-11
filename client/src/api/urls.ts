@@ -9,4 +9,5 @@ export const API_URLS = {
   },
   WORKSPACES: "/workspaces",
   MEMBERS: "/members",
+  PROJECTS : "/projects",
 };

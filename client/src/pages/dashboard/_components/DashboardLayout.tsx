@@ -6,6 +6,8 @@ import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
 import { PageLoader } from "@/components/PageLoader";
 import { PageError } from "@/components/PageError";
+import { CreateProjectModal } from "../projects/_components/CreateProjectModal";
+import { CreateTaskModal } from "../tasks/_components/CreateTaskModal";
 
 const DashboardLayout = () => {
   const workspaceId: string = useWorkspaceId();
@@ -18,6 +20,8 @@ const DashboardLayout = () => {
   return (
     <div className="min-h-screen">
       <CreateWorkspaceModal />
+      <CreateProjectModal />
+      <CreateTaskModal />
 
       <div className="flex h-full w-full">
         <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">

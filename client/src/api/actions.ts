@@ -6,6 +6,7 @@ import {
   createWorkspaceSchema,
   updateWorkspaceSchema,
 } from "@/pages/dashboard/workspaces/_schemas";
+import { createProjectSchema, updateProjectSchema } from "@/pages/dashboard/projects/_schemas";
 
 export const apiActions = {
   auth: {
@@ -70,6 +71,43 @@ export const apiActions = {
   members:{
     remove: async (memberId: string) => {
       return await api.delete(`${API_URLS.MEMBERS}/${memberId}`);
+    },
+    update: async (
+      memberId: string,
+      role : string,
+    ) => {
+      return await api.patch(
+        `${API_URLS.MEMBERS}/${memberId}`,
+        {role},
+      );
+    },
+  },
+  projects: {    
+    getAll: async (workspaceId : string) => {
+      return await api.get(`${API_URLS.PROJECTS}?workspaceId=${workspaceId}`);
+    },
+    getById: async (projectId: string) => {
+      return await api.get(`${API_URLS.PROJECTS}/${projectId}`);
+    },
+    create: async (data: z.infer<typeof createProjectSchema>) => {
+      return await api.post(
+        API_URLS.PROJECTS,
+        data,
+        MULTIPART_FORM_DATA_CONFIG,
+      );
+    },
+    update: async (
+      projectId: string,
+      data: z.infer<typeof updateProjectSchema>,
+    ) => {
+      return await api.patch(
+        `${API_URLS.PROJECTS}/${projectId}`,
+        data,
+        MULTIPART_FORM_DATA_CONFIG,
+      );
+    },
+    delete: async (projectId: string) => {
+      return await api.delete(`${API_URLS.PROJECTS}/${projectId}`);
     },
   }
 };

@@ -22,4 +22,32 @@ export const useRemoveMember = () => {
         toast.error(errorMessage);
       },
     });
-  };
+};
+
+export const useUpdateMember = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      memberId,
+      role,
+    }: {
+      memberId: string;
+      role : string
+    }) => {
+      return await apiActions.members.update(memberId, role);
+    },
+    onSuccess: (response) => {
+      toast.success(response?.data?.message);
+      queryClient.invalidateQueries({ queryKey: ["members"] });
+      queryClient.invalidateQueries({
+        queryKey: ["workspace", response?.data?.workspace?.id],
+      });
+    },
+    onError: (error: CustomAxiosError) => {
+      const errorMessage =
+        error?.response?.data?.message || "Failed to update workspace";
+      toast.error(errorMessage);
+    },
+  });
+};
