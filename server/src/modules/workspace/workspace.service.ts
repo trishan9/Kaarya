@@ -19,6 +19,7 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
   const exists = await db.workspace.findFirst({
     where: {
       name: data.name,
+      userId: data.userId,
     },
   });
 

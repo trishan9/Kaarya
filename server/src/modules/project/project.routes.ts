@@ -30,4 +30,4 @@ projectRouter.get(
   projectsController.getProjectById,
 );
 
-export default projectRouter;
+export { projectRouter };

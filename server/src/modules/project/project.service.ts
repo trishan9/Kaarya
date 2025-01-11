@@ -18,6 +18,7 @@ export const create = async (projectData: CreateProjectInput) => {
   const exists = await db.project.findFirst({
     where: {
       name: name,
+      workspaceId: workspaceId,
     },
   });
 
