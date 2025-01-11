@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export const useGetProjects = ({ workspaceId }: { workspaceId: string }) => {
   return useQuery({
-    queryKey: ["projects",workspaceId],
+    queryKey: ["projects"],
     queryFn: () => apiActions.projects.getAll(workspaceId),
     retry: 1,
   });
@@ -15,7 +15,7 @@ export const useGetProjects = ({ workspaceId }: { workspaceId: string }) => {
 
 export const useGetProject = ({ projectId }: { projectId: string }) => {
   const query = useQuery({
-    queryKey: ["projects", projectId],
+    queryKey: ["project", projectId],
     queryFn: () => apiActions.projects.getById(projectId),
     retry: 1,
   });
@@ -56,6 +56,9 @@ export const useUpdateProject = () => {
     onSuccess: (response) => {
       toast.success(response?.data?.message);
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["project", response?.data?.project?.id],
+      });
     },
     onError: (error: CustomAxiosError) => {
       const errorMessage =
@@ -75,6 +78,9 @@ export const useDeleteProject = () => {
     onSuccess: (response) => {
       toast.success(response?.data?.message);
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["project", response?.data?.project?.id],
+      });
     },
     onError: (error: CustomAxiosError) => {
       const errorMessage =
