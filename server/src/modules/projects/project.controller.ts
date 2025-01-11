@@ -34,19 +34,19 @@ export const createProjects = asyncHandler(
     const newProject = await projectServices.create(createProjectObj);
     return apiResponse(res, StatusCodes.CREATED, {
       project: newProject,
-      message: "Project created successfully",
+      message: responseMessage.PROJECT.CREATED,
     });
   },
 );
 
 export const getAllProjects = asyncHandler(
   async (req: Request, res: Response) => {
-    const { workspaceId } = req.params;
     const userId = res.locals?.user.id;
+    const workspaceId = req.query.workspaceId as string;
     const projects = await projectServices.getProjects(workspaceId, userId);
     return apiResponse(res, StatusCodes.OK, {
       projects,
-      message: "All projects retrived successfully",
+      message: responseMessage.PROJECT.RETRIVED,
     });
   },
 );
@@ -102,6 +102,18 @@ export const deleteProjects = asyncHandler(
     return apiResponse(res, StatusCodes.OK, {
       deletedProject,
       message: responseMessage.PROJECT.DELETED,
+    });
+  },
+);
+
+export const getProjectById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { projectId } = req.params;
+    const userId = res.locals?.user.id;
+    const projects = await projectServices.getProjectById(projectId, userId);
+    return apiResponse(res, StatusCodes.OK, {
+      projects,
+      message: responseMessage.PROJECT.RETRIVED,
     });
   },
 );

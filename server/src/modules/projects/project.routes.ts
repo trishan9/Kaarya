@@ -13,8 +13,6 @@ projectsRouter.post(
   projectsController.createProjects,
 );
 
-projectsRouter.get("/", isAuthenticated, projectsController.getAllProjects);
-
 projectsRouter.patch(
   "/:projectId",
   isAuthenticated,
@@ -27,4 +25,13 @@ projectsRouter.delete(
   isAuthenticated,
   projectsController.deleteProjects,
 );
+
+projectsRouter.get("/", isAuthenticated, projectsController.getAllProjects);
+
+projectsRouter.get(
+  "/:projectId",
+  isAuthenticated,
+  projectsController.getProjectById,
+);
+
 export default projectsRouter;

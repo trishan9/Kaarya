@@ -159,9 +159,6 @@ export const getProjects = async (workspaceId: string, userId: string) => {
   return projects;
 };
 
-
-
-
 export const deleteProject = async (projectId: string, userId: string) => {
   if (!projectId || !userId) {
     throw new ApiError(
@@ -201,4 +198,38 @@ export const deleteProject = async (projectId: string, userId: string) => {
       id: projectId,
     },
   });
+};
+
+export const getProjectById = async (projectId: string, userId: string) => {
+  if (!projectId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+  const project = await db.project.findFirst({
+    where: {
+      id: projectId,
+    },
+  });
+
+  if (!project) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.PROJECT.INVALID);
+  }
+
+  const isMember = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId: project.workspaceId,
+    },
+  });
+
+  if (!isMember) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      errorResponse.MEMBER.NOT_WORKSPACE_MEMBER,
+    );
+  }
+
+  return project;
 };
