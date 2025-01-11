@@ -62,6 +62,13 @@ const errorResponse = {
     NO_PERMISSION: "You do not have permission to perform this action.",
     VALIDATION_FAILED: "Validation failed for role update.",
   },
+  PROJECT: {
+    INVALID: "Project not found",
+    NO_PERMISSION: "You do not have permission to update this project",
+    IMAGE_FAIL: "Failed to upload project image",
+    UPDATED: "Project updated successfully",
+    ACCESS: "Unauthorized, to perform the operation.",
+  },
   OTHER: {
     SERVER_ERROR: "Internal server error occurred",
     INVALID_REQUEST: "The request is invalid",

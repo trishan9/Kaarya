@@ -5,9 +5,8 @@ import * as memberService from "./member.service";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { responseMessage } from "@/utils/responseMessage";
-import { updateRoleSchema, UserRoles } from "./member.validator";
+import { updateRoleSchema } from "./member.validator";
 import { ApiError } from "@/utils/apiError";
-import { db } from "@/db";
 import { errorResponse } from "@/utils/errorMessage";
 
 export const deleteMember = asyncHandler(

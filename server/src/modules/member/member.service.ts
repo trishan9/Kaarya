@@ -103,6 +103,15 @@ export const updateRole = async (
     throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.MEMBER.INVALID);
   }
 
+  const requestingUser = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId: targetMember.workspaceId,
+    },
+  });
+
+  const isWorkspaceOwner = targetMember.workspace.userId === userId;
+
   if (targetMember.userId === userId) {
     throw new ApiError(StatusCodes.CONFLICT, errorResponse.MEMBER.SELF_UPDATE);
   }
@@ -114,32 +123,25 @@ export const updateRole = async (
     );
   }
 
-  const isAdmin = await db.member.findFirst({
-    where: {
-      userId,
-      workspaceId: targetMember.workspaceId,
-      role: UserRoles.ADMIN,
-    },
-  });
-
-  if (!isAdmin) {
+  if (
+    !isWorkspaceOwner &&
+    (!requestingUser || requestingUser.role !== UserRoles.ADMIN)
+  ) {
     throw new ApiError(
       StatusCodes.FORBIDDEN,
       errorResponse.MEMBER.ADMIN_ONLY_ROLES,
     );
   }
 
-  if (targetMember.role === UserRoles.ADMIN) {
+  if (!isWorkspaceOwner && targetMember.role === UserRoles.ADMIN) {
     throw new ApiError(
       StatusCodes.CONFLICT,
       errorResponse.MEMBER.ADMIN_UPDATE_ADMIN,
     );
   }
 
-  const updatedMember = await db.member.update({
-    where: {
-      id: memberId,
-    },
+  return db.member.update({
+    where: { id: memberId },
     data: { role },
     include: {
       user: {
@@ -151,6 +153,4 @@ export const updateRole = async (
       },
     },
   });
-
-  return updatedMember;
 };
