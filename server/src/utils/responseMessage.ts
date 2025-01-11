@@ -26,6 +26,7 @@ const responseMessage = {
   PROJECT: {
     CREATED: "Project created successfully",
     UPDATED: "Project updated successfully",
+    DELETED: "Project deleted successfully",
   },
   OTHER: {
     SUCCESS: "Operation completed successfully",

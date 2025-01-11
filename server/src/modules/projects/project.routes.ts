@@ -21,4 +21,10 @@ projectsRouter.patch(
   upload.single("image"),
   projectsController.updateProject,
 );
+
+projectsRouter.delete(
+  "/:projectId",
+  isAuthenticated,
+  projectsController.deleteProjects,
+);
 export default projectsRouter;

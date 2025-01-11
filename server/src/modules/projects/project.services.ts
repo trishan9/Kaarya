@@ -133,4 +133,43 @@ export const getProjects = async () => {
   return await db.project.findMany();
 };
 
+export const deleteProject = async (projectId: string, userId: string) => {
+  if (!projectId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
 
+  const project = await db.project.findUnique({
+    where: {
+      id: projectId,
+    },
+    include: { workspace: true },
+  });
+
+  if (!project) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.PROJECT.INVALID);
+  }
+
+  const member = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId: project.workspaceId,
+      OR: [{ role: UserRoles.ADMIN }, { userId: project.workspace.userId }],
+    },
+  });
+
+  if (!member) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      errorResponse.PROJECT.NO_PERMISSION,
+    );
+  }
+
+  return await db.project.delete({
+    where: {
+      id: projectId,
+    },
+  });
+};

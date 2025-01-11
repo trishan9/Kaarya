@@ -87,4 +87,20 @@ export const updateProject = asyncHandler(
   },
 );
 
+export const deleteProjects = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      params: { projectId },
+    } = req;
 
+    const deletedProject = await projectServices.deleteProject(
+      projectId,
+      res.locals.user.id,
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      deletedProject,
+      message: responseMessage.PROJECT.DELETED,
+    });
+  },
+);
