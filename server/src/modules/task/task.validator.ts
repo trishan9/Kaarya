@@ -23,7 +23,7 @@ export type Task = {
   position: number;
   dueDate: string;
   sprint?: string;
-  storyPoints?: number;
+  storyPoints?: string;
   assigneeId: string;
   projectId: string;
   workspaceId: string;
@@ -36,7 +36,7 @@ export const createTaskSchema = z.object({
   priority: z.nativeEnum(Priority, { required_error: "Required" }),
   dueDate: z.coerce.date(),
   sprint: z.string().optional(),
-  storyPoints: z.number().optional(),
+  storyPoints: z.string().optional(),
 
   projectId: z.string().trim().min(1, { message: "Required" }),
   assigneeId: z.string().trim().min(1, { message: "Required" }),

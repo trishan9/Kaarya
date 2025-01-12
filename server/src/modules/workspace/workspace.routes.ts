@@ -1,6 +1,8 @@
 import { Router } from "express";
-import * as workspaceController from "./workspace.controller";
+
 import upload from "@/utils/multer";
+
+import * as workspaceController from "./workspace.controller";
 
 const workspaceRouter = Router();
 

@@ -79,7 +79,7 @@ model Task {
   position    Int // For drag and drop reordering
   dueDate     DateTime
   sprint      String?
-  storyPoints Int?
+  storyPoints String?
   createdAt   DateTime   @default(now())
 
   // Foreign keys

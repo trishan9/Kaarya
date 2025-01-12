@@ -5,9 +5,10 @@ import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { errorResponse } from "@/utils/errorMessage";
+import { responseMessage } from "@/utils/responseMessage";
+
 import * as projectServices from "./project.service";
 import { createProjectSchema, updateProjectSchema } from "./project.validator";
-import { responseMessage } from "@/utils/responseMessage";
 
 export const createProject = asyncHandler(
   async (req: Request, res: Response) => {

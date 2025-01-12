@@ -1,33 +1,24 @@
 import { Router } from "express";
 
-import upload from "@/utils/multer";
-import * as projectsController from "./project.controller";
 import { isAuthenticated } from "@/middlewares/isAuthenticated";
+import upload from "@/utils/multer";
+
+import * as projectControllers from "./project.controller";
 
 const projectRouter = Router();
 
 projectRouter.post(
   "/",
-  isAuthenticated,
   upload.single("image"),
-  projectsController.createProject,
+  projectControllers.createProject,
 );
 projectRouter.patch(
   "/:projectId",
-  isAuthenticated,
   upload.single("image"),
-  projectsController.updateProject,
+  projectControllers.updateProject,
 );
-projectRouter.delete(
-  "/:projectId",
-  isAuthenticated,
-  projectsController.deleteProject,
-);
-projectRouter.get("/", isAuthenticated, projectsController.getAllProjects);
-projectRouter.get(
-  "/:projectId",
-  isAuthenticated,
-  projectsController.getProjectById,
-);
+projectRouter.delete("/:projectId", projectControllers.deleteProject);
+projectRouter.get("/", isAuthenticated, projectControllers.getAllProjects);
+projectRouter.get("/:projectId", projectControllers.getProjectById);
 
 export { projectRouter };

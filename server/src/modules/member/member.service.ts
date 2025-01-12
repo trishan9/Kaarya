@@ -1,8 +1,9 @@
 import { StatusCodes } from "http-status-codes";
 import { db } from "@/db";
-import { CreateMemberType, UserRoles } from "./member.validator";
 import { ApiError } from "@/utils/apiError";
 import { errorResponse } from "@/utils/errorMessage";
+
+import { CreateMemberType, UserRoles } from "./member.validator";
 
 export const create = async (memberData: CreateMemberType) => {
   return await db.member.create({
