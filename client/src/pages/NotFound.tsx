@@ -2,9 +2,8 @@ import { useNavigate } from "react-router";
 import notFoundImage from "@/assets/error.png";
 import { Button } from "@/components/ui/button";
 
-
 const NotFound = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <main className="grid place-items-center bg-[#F2F4F7] w-full h-screen">
@@ -30,7 +29,10 @@ const NotFound = () => {
             Please check the URL and try again.
           </p>
         </div>
-          <Button className="mt-4" onClick={()=>navigate(-1)}>Back to Home</Button>
+
+        <Button className="mt-4" onClick={() => navigate(-1)}>
+          Back to Home
+        </Button>
       </div>
     </main>
   );

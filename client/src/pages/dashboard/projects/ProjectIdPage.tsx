@@ -1,4 +1,3 @@
-"use client";
 import { Pencil } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { ProjectAvatar } from "./_components/ProjectAvatar";
@@ -8,51 +7,45 @@ import { useGetProject } from "@/hooks/useProjects";
 import { useProjectId } from "@/hooks/userProjectId";
 import { PageLoader } from "@/components/PageLoader";
 import { PageError } from "@/components/PageError";
-// import { useGetProjectAnalytics } from "@/features/projects/api/use-get-project-analytics";
-// import { Analytics } from "@/components/";
 
-export const ProjectIdPage : React.FC = () => {
-    const location = useLocation()
-    const pathname=location.pathname
-    const projectId = useProjectId();
+export const ProjectIdPage: React.FC = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
+  const projectId = useProjectId();
 
-    const { data, isLoading: projectsLoading } = useGetProject({
-        projectId,
-    });
-    
-    const project = data?.data.project
-    // const { data: analytics, isLoading: analyticsLoading } =
-    //     useGetProjectAnalytics({ projectId });
+  const { data, isLoading: projectsLoading } = useGetProject({
+    projectId,
+  });
 
-    // const isLoading = projectsLoading || analyticsLoading;
+  const project = data?.data.project;
 
-    if (projectsLoading) return <PageLoader />;
-    if (!project) return <PageError message="Project not found" />;
+  if (projectsLoading) return <PageLoader />;
+  if (!project) return <PageError message="Project not found" />;
 
-    const href = `${pathname}/settings`;
+  const href = `${pathname}/settings`;
 
-    return (
-        <div className="flex flex-col gap-y-4">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-x-2">
-                    <ProjectAvatar
-                        name={project.name}
-                        image={project.imageUrl}
-                        className="size-8"
-                    />
+  return (
+    <div className="flex flex-col gap-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-x-2">
+          <ProjectAvatar
+            name={project.name}
+            image={project.imageUrl}
+            className="size-8"
+          />
 
-                    <p className="text-lg font-semibold">{project.name}</p>
-                </div>
-                
-                <Button variant="outline" size="default" asChild>
-                    <Link to={href}>
-                        <Pencil className="size-4 mr-2" />
-                        Edit Project
-                    </Link>
-                </Button>
-            </div>
-            {/* {analytics ? <Analytics data={analytics} /> : null} */}
-            <TaskViewSwitcher hideProjectFilter />
+          <p className="text-lg font-semibold">{project.name}</p>
         </div>
-    );
+
+        <Button variant="outline" size="default" asChild>
+          <Link to={href}>
+            <Pencil className="size-4 mr-2" />
+            Edit Project
+          </Link>
+        </Button>
+      </div>
+
+      <TaskViewSwitcher hideProjectFilter />
+    </div>
+  );
 };

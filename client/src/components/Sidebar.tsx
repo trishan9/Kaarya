@@ -23,7 +23,6 @@ export const Sidebar = () => {
       <DottedSeparator className="my-4" />
 
       <Projects />
-
     </aside>
   );
 };

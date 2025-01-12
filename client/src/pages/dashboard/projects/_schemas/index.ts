@@ -1,36 +1,36 @@
 import { z } from "zod";
 
 export type Project = {
-    name: string;
-    imageUrl: string;
-    id: string;
-    workspaceId? :string;
+  name: string;
+  imageUrl: string;
+  id: string;
+  workspaceId?: string;
 };
 
 export const createProjectSchema = z.object({
-    name: z.string().trim().min(1, { message: "Required" }),
-    image: z
-        .union([
-            z.instanceof(File),
-            z.string().transform((value) => (value === "" ? undefined : value)),
-        ])
-        .optional(),
+  name: z.string().trim().min(1, { message: "Required" }),
+  image: z
+    .union([
+      z.instanceof(File),
+      z.string().transform((value) => (value === "" ? undefined : value)),
+    ])
+    .optional(),
 
-    workspaceId: z.string(),
+  workspaceId: z.string(),
 });
 
 export const updateProjectSchema = z.object({
-    name: z
-        .string()
-        .trim()
-        .min(1, { message: "Minimum 1 character required" })
-        .optional(),
-    image: z
-        .union([
-            z.instanceof(File),
-            z.string().transform((value) => (value === "" ? undefined : value)),
-        ])
-        .optional(),
+  name: z
+    .string()
+    .trim()
+    .min(1, { message: "Minimum 1 character required" })
+    .optional(),
+  image: z
+    .union([
+      z.instanceof(File),
+      z.string().transform((value) => (value === "" ? undefined : value)),
+    ])
+    .optional(),
 });
 
 export type CreateProjectSchema = z.infer<typeof createProjectSchema>;

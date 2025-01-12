@@ -25,5 +25,5 @@ export {
   DashboardLayout,
   WorkspaceIdSettings,
   WorkspaceIdJoinPage,
-  MembersList
+  MembersList,
 };
