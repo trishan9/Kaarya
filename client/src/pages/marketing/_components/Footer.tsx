@@ -4,6 +4,7 @@ import { NavLink } from "./NavLink";
 import Logo from "@/assets/logo.png";
 
 export function Footer() {
+  
   return (
     <footer className="bg-slate-50">
       <Container>

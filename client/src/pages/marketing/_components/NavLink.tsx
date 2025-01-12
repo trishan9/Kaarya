@@ -7,6 +7,7 @@ export function NavLink({
   to: string;
   children: React.ReactNode;
 }) {
+  
   return (
     <Link
       to={to}

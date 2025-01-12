@@ -1,5 +1,5 @@
 import { Container } from "./Container";
-import backgroundImage from "@/assets/LandingPage/background-faqs.jpg";
+import backgroundImage from "@/assets/marketing/background-faqs.jpg";
 
 const faqs = [
   [
@@ -56,6 +56,7 @@ const faqs = [
 ];
 
 export function Faqs() {
+  
   return (
     <section
       id="faq"

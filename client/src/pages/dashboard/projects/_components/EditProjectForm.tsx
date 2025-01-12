@@ -1,4 +1,3 @@
-"use client";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router"; 
@@ -126,9 +125,11 @@ export const EditProjectForm = ({
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>Project name</FormLabel>
+
 											<FormControl>
 												<Input {...field} placeholder="Enter project name" />
 											</FormControl>
+											
 											<FormMessage />
 										</FormItem>
 									)}
@@ -192,10 +193,10 @@ export const EditProjectForm = ({
 														</Button>
 													) : (
 														<Button
-														size="sm"
-														type="button"
-														variant="default"
-														className="h-8 mt-2 text-sm font-medium text-green-500 bg-green-100 border border-green-200 w-fit hover:bg-green-100/80"
+															size="sm"
+															type="button"
+															variant="default"
+															className="h-8 mt-2 text-sm font-medium text-green-500 bg-green-100 border border-green-200 w-fit hover:bg-green-100/80"
 															disabled={isPending}
 															onClick={() => inputRef.current?.click()}
 														>
