@@ -36,15 +36,18 @@ export const MembersList = () => {
   const currUserId = currUser?.data?.data.data.id;
   const currMember = memberdata?.find((member) => member.userId == currUserId);
 
-  const isSuperAdmin = currMember?.userId === superAdminId;
-  const isAdmin = currMember?.role === "ADMIN";
-  const isMember = member?.role === "MEMBER";
-  const isMemberNotSuperAdmin =
-    member?.userId !== superAdminId && member?.role === "ADMIN";
+  const canUpdate = (member: Member) => {
+    const isSuperAdmin = currMember?.userId === superAdminId;
+    const isAdmin = currMember?.role === "ADMIN";
+    const isMember = member?.role === "MEMBER";
+    const isMemberNotSuperAdmin =
+      member?.userId !== superAdminId && member?.role === "ADMIN";
 
-  const canUpdate =
-    (isSuperAdmin && isAdmin && (isMemberNotSuperAdmin || isMember)) ||
-    (!isSuperAdmin && isAdmin && isMember);
+    return (
+      (isSuperAdmin && isAdmin && (isMemberNotSuperAdmin || isMember)) ||
+      (!isSuperAdmin && isAdmin && isMember)
+    );
+  };
 
   const { mutate: deleteMember, isPending: deletingMember } = useRemoveMember();
   const { mutate: updateMember, isPending: updatingMember } = useUpdateMember();
@@ -112,7 +115,7 @@ export const MembersList = () => {
                   </div>
                 </div>
 
-                {canUpdate && (
+                {canUpdate(member) && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button className="ml-auto" variant="outline" size="icon">
