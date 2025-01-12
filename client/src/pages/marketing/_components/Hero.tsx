@@ -1,12 +1,11 @@
-import Button  from './Button'
-import { Container } from './Container'
+import Button from "./Button";
+import { Container } from "./Container";
 
 export function Hero() {
-  
   return (
     <Container className="pb-16 pt-20 text-center lg:pt-32">
       <h1 className="mx-auto max-w-4xl text-5xl font-semibold tracking-tight text-slate-900 sm:text-7xl">
-      Collaborate{' '}
+        Collaborate{" "}
         <span className="relative whitespace-nowrap text-primaryGreen">
           <svg
             aria-hidden="true"
@@ -18,22 +17,22 @@ export function Hero() {
           </svg>
 
           <span className="relative">Smarter, Achieve</span>
-        </span>{' '}
+        </span>{" "}
         More with Kaarya.
       </h1>
 
       <p className="mx-auto mt-6 max-w-3xl text-lg font-medium text-slate-700">
-      Adapt, Iterate, Succeed. Kaarya captures the essence of Agile, empowering your team to boost productivity and streamline collaboration effortlessly.
+        Adapt, Iterate, Succeed. Kaarya captures the essence of Agile,
+        empowering your team to boost productivity and streamline collaboration
+        effortlessly.
       </p>
 
       <div className="mt-10 flex justify-center gap-x-6 pt-1">
-        <Button href="/register" className='py-3'>Get 6 months free</Button>
+        <Button href="/register" className="py-3">
+          Get 6 months free
+        </Button>
 
-        <Button
-          href="#"
-          variant="outline"
-          className='py-3'
-        >
+        <Button href="#" variant="outline" className="py-3">
           <svg
             aria-hidden="true"
             className="h-3 w-3 flex-none fill-blue-600 group-active:fill-current"
@@ -56,15 +55,32 @@ export function Hero() {
         >
           {[
             [
-              { name: 'Jira', logo: "https://store-images.s-microsoft.com/image/apps.56884.e2ba98e8-580f-430a-a0f6-2d54d53d7762.fb12baec-4bec-40e4-8dfc-21c060e87964.7ef37c2b-d095-4918-89f1-25637b11e385.png" },
-              { name: 'Trello', logo: "https://static.macupdate.com/products/60125/m/trello-logo.webp?v=1665560227" },
-              { name: 'Clickup', logo: "https://avatars.slack-edge.com/2024-05-01/7057208497908_a4351f6deb91094eac4c_512.png" },
-              
+              {
+                name: "Jira",
+                logo: "https://store-images.s-microsoft.com/image/apps.56884.e2ba98e8-580f-430a-a0f6-2d54d53d7762.fb12baec-4bec-40e4-8dfc-21c060e87964.7ef37c2b-d095-4918-89f1-25637b11e385.png",
+              },
+              {
+                name: "Trello",
+                logo: "https://static.macupdate.com/products/60125/m/trello-logo.webp?v=1665560227",
+              },
+              {
+                name: "Clickup",
+                logo: "https://avatars.slack-edge.com/2024-05-01/7057208497908_a4351f6deb91094eac4c_512.png",
+              },
             ],
             [
-              { name: 'Basecamp', logo: "https://x5h8w2v3.rocketcdn.me/wp-content/uploads/2023/03/Logo-Basecamp-Freelance-Stack.png" },
-              { name: 'Notion', logo: "https://static-00.iconduck.com/assets.00/notion-icon-2048x2048-bi8b4fm1.png" },
-              { name: 'Slack', logo: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/c8/01/ca/c801ca85-65c8-3099-e75a-e79f0bb4aace/electron.png/1200x630bb.png" },
+              {
+                name: "Basecamp",
+                logo: "https://x5h8w2v3.rocketcdn.me/wp-content/uploads/2023/03/Logo-Basecamp-Freelance-Stack.png",
+              },
+              {
+                name: "Notion",
+                logo: "https://static-00.iconduck.com/assets.00/notion-icon-2048x2048-bi8b4fm1.png",
+              },
+              {
+                name: "Slack",
+                logo: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/c8/01/ca/c801ca85-65c8-3099-e75a-e79f0bb4aace/electron.png/1200x630bb.png",
+              },
             ],
           ].map((group, groupIndex) => (
             <li key={groupIndex}>
@@ -73,10 +89,17 @@ export function Hero() {
                 className="flex flex-col items-center gap-y-8 sm:flex-row sm:gap-x-10 sm:gap-y-0"
               >
                 {group.map((company) => (
-                  <li key={company.name} className="flex items-center gap-[6px]">
-                    <img src={company.logo} alt={company.name} className='w-[46px] rounded-lg'/>
+                  <li
+                    key={company.name}
+                    className="flex items-center gap-[6px]"
+                  >
+                    <img
+                      src={company.logo}
+                      alt={company.name}
+                      className="w-[46px] rounded-lg"
+                    />
 
-                    <p className='font-bold text-[27px]'>{company.name}</p>
+                    <p className="font-bold text-[27px]">{company.name}</p>
                   </li>
                 ))}
               </ul>
@@ -85,5 +108,5 @@ export function Hero() {
         </ul>
       </div>
     </Container>
-  )
+  );
 }

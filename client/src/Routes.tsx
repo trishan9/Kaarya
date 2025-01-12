@@ -14,7 +14,6 @@ import {
   WorkspaceIdJoinPage,
   MembersList,
 } from "./pages";
-import LandingPage from "./pages/marketing/LandingPage";
 import { ProjectIdPage } from "./pages/dashboard/projects/ProjectIdPage";
 import { ProjectIdSettingsPage } from "./pages/dashboard/projects/ProjectIdSettingsPage";
 
@@ -32,13 +31,20 @@ const AppRoutes = () => {
 
                 <Route path=":workspaceId">
                   <Route path="settings" element={<WorkspaceIdSettings />} />
+
                   <Route path="members" element={<MembersList />} />
-                  <Route path="join/:inviteCode" element={<WorkspaceIdJoinPage />} />
+
+                  <Route
+                    path="join/:inviteCode"
+                    element={<WorkspaceIdJoinPage />}
+                  />
 
                   <Route path="projects">
-                  <Route path=":projectId/settings" element={<ProjectIdSettingsPage />} />
-                </Route>
-
+                    <Route
+                      path=":projectId/settings"
+                      element={<ProjectIdSettingsPage />}
+                    />
+                  </Route>
                 </Route>
               </Route>
 
@@ -65,7 +71,6 @@ const AppRoutes = () => {
           </Route>
         </Route>
 
-        <Route path="/landing" element={<LandingPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

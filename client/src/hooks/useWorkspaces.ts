@@ -26,7 +26,11 @@ export const useGetWorkspace = ({ workspaceId }: { workspaceId: string }) => {
   return query;
 };
 
-export const useGetWorkspaceInfo = ({ workspaceId }: { workspaceId: string }) => {
+export const useGetWorkspaceInfo = ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) => {
   const query = useQuery({
     queryKey: ["workspace-info", workspaceId],
     queryFn: () => apiActions.workspaces.getInfoById(workspaceId),
@@ -124,20 +128,26 @@ export const useResetInviteCode = () => {
 };
 
 export const useJoinWorkspace = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: async ({ workspaceId, inviteCode} : {workspaceId: string, inviteCode : string}) => {
-          return await apiActions.workspaces.joinWorkspace(workspaceId,inviteCode);
-        },
-        onSuccess: ({ data }) => {
-          toast.success(data?.message);
-          queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-          queryClient.invalidateQueries({ queryKey: ["workspace", data.id] });
-        },
-        onError: (error: CustomAxiosError) => {
-          const errorMessage =
-            error?.response?.data?.message || "Failed to join workspace";
-          toast.error(errorMessage);
-        },
-    });
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      workspaceId,
+      inviteCode,
+    }: {
+      workspaceId: string;
+      inviteCode: string;
+    }) => {
+      return await apiActions.workspaces.joinWorkspace(workspaceId, inviteCode);
+    },
+    onSuccess: ({ data }) => {
+      toast.success(data?.message);
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["workspace", data.id] });
+    },
+    onError: (error: CustomAxiosError) => {
+      const errorMessage =
+        error?.response?.data?.message || "Failed to join workspace";
+      toast.error(errorMessage);
+    },
+  });
 };

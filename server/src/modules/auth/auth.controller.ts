@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import * as authService from "./auth.service";
 import { ApiError } from "@/utils/apiError";
 import { apiResponse } from "@/utils/apiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { responseMessage } from "@/utils/responseMessage";
 import { errorResponse } from "@/utils/errorMessage";
+
+import * as authService from "./auth.service";
 import {
   loginUserSchema,
   loginUserType,

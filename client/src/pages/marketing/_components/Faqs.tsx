@@ -56,7 +56,6 @@ const faqs = [
 ];
 
 export function Faqs() {
-  
   return (
     <section
       id="faq"
@@ -98,7 +97,7 @@ export function Faqs() {
                     <h3 className="font-medium text-lg leading-7 text-slate-900">
                       {faq.question}
                     </h3>
-                    
+
                     <p className="mt-4 text-sm text-slate-700">{faq.answer}</p>
                   </li>
                 ))}

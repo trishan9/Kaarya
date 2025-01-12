@@ -1,5 +1,19 @@
 import { z } from "zod";
 
+export enum MemberRole {
+  ADMIN = "ADMIN",
+  MEMBER = "MEMBER",
+}
+
+export type Member = {
+  id: string;
+  role: MemberRole;
+  userId: string;
+  workspaceId: string;
+  name: string;
+  email: string;
+};
+
 export const createWorkspaceSchema = z.object({
   name: z.string().trim().min(1, { message: "Required" }),
   image: z

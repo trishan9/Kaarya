@@ -6,13 +6,12 @@ function CheckIcon({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"svg">) {
-
   return (
     <svg
       aria-hidden="true"
       className={clsx(
         "h-6 w-6 flex-none fill-current stroke-current",
-        className
+        className,
       )}
       {...props}
     >
@@ -48,12 +47,11 @@ function Plan({
   features: Array<string>;
   featured?: boolean;
 }) {
-
   return (
     <section
       className={clsx(
         "flex flex-col rounded-3xl px-6 sm:px-8",
-        featured ? "order-first bg-primaryGreen py-8 lg:order-none" : "lg:py-8"
+        featured ? "order-first bg-primaryGreen py-8 lg:order-none" : "lg:py-8",
       )}
     >
       <h3 className="mt-5 font-medium text-lg text-white">{name}</h3>
@@ -61,7 +59,7 @@ function Plan({
       <p
         className={clsx(
           "mt-2 text-base",
-          featured ? "text-white" : "text-slate-400"
+          featured ? "text-white" : "text-slate-400",
         )}
       >
         {description}
@@ -75,7 +73,7 @@ function Plan({
         role="list"
         className={clsx(
           "order-last mt-10 flex flex-col gap-y-3 text-sm",
-          featured ? "text-white" : "text-slate-200"
+          featured ? "text-white" : "text-slate-200",
         )}
       >
         {features.map((feature) => (
@@ -100,7 +98,6 @@ function Plan({
 }
 
 export function Pricing() {
-  
   return (
     <section
       id="pricing"
@@ -120,7 +117,6 @@ export function Pricing() {
             It doesn’t matter what size your business is, our software won’t
             work well for you.
           </p>
-
         </div>
         <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8">
           <Plan
@@ -153,7 +149,7 @@ export function Pricing() {
               "Track in multiple currencies",
             ]}
           />
-          
+
           <Plan
             name="Enterprise"
             price="$39"

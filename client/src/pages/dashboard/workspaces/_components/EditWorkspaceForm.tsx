@@ -18,9 +18,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
 import { useConfirm } from "@/hooks/useConfirm";
-
 import { type UpdateWorkspaceSchema, updateWorkspaceSchema } from "../_schemas";
 import {
   useDeleteWorkspace,
@@ -47,7 +45,7 @@ export const EditWorkspaceForm = ({
   const [DeleteWorkspaceDialog, confirmDelete] = useConfirm(
     "Delete workspace",
     "Are you sure you want to delete this workspace?",
-    "destructive"
+    "destructive",
   );
 
   const { mutate: resetInviteCode, isPending: resetingInviteCode } =
@@ -55,7 +53,7 @@ export const EditWorkspaceForm = ({
   const [ResetDialog, confirmReset] = useConfirm(
     "Reset invite link",
     "This will invalidate the current invite link",
-    "destructive"
+    "destructive",
   );
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -103,7 +101,7 @@ export const EditWorkspaceForm = ({
         onSuccess: () => {
           window.location.href = "/";
         },
-      }
+      },
     );
   };
 

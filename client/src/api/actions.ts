@@ -6,7 +6,11 @@ import {
   createWorkspaceSchema,
   updateWorkspaceSchema,
 } from "@/pages/dashboard/workspaces/_schemas";
-import { createProjectSchema, updateProjectSchema } from "@/pages/dashboard/projects/_schemas";
+import {
+  createProjectSchema,
+  updateProjectSchema,
+} from "@/pages/dashboard/projects/_schemas";
+import { createTaskSchema } from "@/pages/dashboard/tasks/_schemas";
 
 export const apiActions = {
   auth: {
@@ -26,7 +30,7 @@ export const apiActions = {
       return await api.get(API_URLS.AUTH.ME);
     },
   },
-  workspaces: {    
+  workspaces: {
     getAll: async () => {
       return await api.get(API_URLS.WORKSPACES);
     },
@@ -61,29 +65,22 @@ export const apiActions = {
         `${API_URLS.WORKSPACES}/${workspaceId}/reset-invite-code`,
       );
     },
-    joinWorkspace: async (workspaceId : string, inviteCode : string) => {
-      return await api.post(
-        `${API_URLS.WORKSPACES}/${workspaceId}/join`,
-        {inviteCode}
-      );
+    joinWorkspace: async (workspaceId: string, inviteCode: string) => {
+      return await api.post(`${API_URLS.WORKSPACES}/${workspaceId}/join`, {
+        inviteCode,
+      });
     },
   },
-  members:{
+  members: {
     remove: async (memberId: string) => {
       return await api.delete(`${API_URLS.MEMBERS}/${memberId}`);
     },
-    update: async (
-      memberId: string,
-      role : string,
-    ) => {
-      return await api.patch(
-        `${API_URLS.MEMBERS}/${memberId}`,
-        {role},
-      );
+    update: async (memberId: string, role: string) => {
+      return await api.patch(`${API_URLS.MEMBERS}/${memberId}`, { role });
     },
   },
-  projects: {    
-    getAll: async (workspaceId : string) => {
+  projects: {
+    getAll: async (workspaceId: string) => {
       return await api.get(`${API_URLS.PROJECTS}?workspaceId=${workspaceId}`);
     },
     getById: async (projectId: string) => {
@@ -109,7 +106,12 @@ export const apiActions = {
     delete: async (projectId: string) => {
       return await api.delete(`${API_URLS.PROJECTS}/${projectId}`);
     },
-  }
+  },
+  tasks: {
+    create: async (data: z.infer<typeof createTaskSchema>) => {
+      return await api.post(API_URLS.TASKS, data);
+    },
+  },
 };
 
 const MULTIPART_FORM_DATA_CONFIG = {

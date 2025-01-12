@@ -1,28 +1,34 @@
-import { Fragment } from 'react'
-import { Link } from 'react-router'
-import { Popover, PopoverButton, PopoverOverlay, PopoverPanel, Transition, TransitionChild } from '@headlessui/react'
-import clsx from 'clsx'
-import Button from './Button'
-import { Container } from './Container'
-import { NavLink } from './NavLink'
-import Logo from "@/assets/logo.png"
+import { Fragment } from "react";
+import { Link } from "react-router";
+import {
+  Popover,
+  PopoverButton,
+  PopoverOverlay,
+  PopoverPanel,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
+import clsx from "clsx";
+import Button from "./Button";
+import { Container } from "./Container";
+import { NavLink } from "./NavLink";
+import Logo from "@/assets/logo.png";
 
 function MobileNavLink({
-    to,
+  to,
   children,
 }: {
-    to: string
-  children: React.ReactNode
+  to: string;
+  children: React.ReactNode;
 }) {
   return (
     <PopoverButton as={Link} to={to} className="block w-full p-2">
       {children}
     </PopoverButton>
-  )
+  );
 }
 
 function MobileNavIcon({ open }: { open: boolean }) {
-
   return (
     <svg
       aria-hidden="true"
@@ -34,23 +40,22 @@ function MobileNavIcon({ open }: { open: boolean }) {
       <path
         d="M0 1H14M0 7H14M0 13H14"
         className={clsx(
-          'origin-center transition',
-          open && 'scale-90 opacity-0',
+          "origin-center transition",
+          open && "scale-90 opacity-0",
         )}
       />
       <path
         d="M2 2L12 12M12 2L2 12"
         className={clsx(
-          'origin-center transition',
-          !open && 'scale-90 opacity-0',
+          "origin-center transition",
+          !open && "scale-90 opacity-0",
         )}
       />
     </svg>
-  )
+  );
 }
 
 function MobileNavigation() {
-
   return (
     <Popover>
       <PopoverButton
@@ -86,7 +91,6 @@ function MobileNavigation() {
             as="div"
             className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5"
           >
-
             <MobileNavLink to="#features">Features</MobileNavLink>
 
             <MobileNavLink to="#testimonials">Testimonials</MobileNavLink>
@@ -100,11 +104,10 @@ function MobileNavigation() {
         </TransitionChild>
       </Transition.Root>
     </Popover>
-  )
+  );
 }
 
 export function Header() {
-  
   return (
     <header className="py-10">
       <Container>
@@ -127,10 +130,12 @@ export function Header() {
               <NavLink to="/login">Sign in</NavLink>
             </div>
 
-            <Button href="/register" color="default" className="text-[15px] py-3">
-              <span>
-                Get started now
-              </span>
+            <Button
+              href="/register"
+              color="default"
+              className="text-[15px] py-3"
+            >
+              <span>Get started now</span>
             </Button>
 
             <div className="-mr-1 md:hidden">
@@ -140,5 +145,5 @@ export function Header() {
         </nav>
       </Container>
     </header>
-  )
+  );
 }

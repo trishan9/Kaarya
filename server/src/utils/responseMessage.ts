@@ -30,6 +30,9 @@ const responseMessage = {
     DELETED: "The project has been deleted successfully.",
     RETRIEVED: "The project data has been retrieved successfully.",
   },
+  TASK: {
+    CREATED: "The task has been created successfully.",
+  },
   OTHER: {
     SUCCESS: "The operation was completed successfully.",
   },

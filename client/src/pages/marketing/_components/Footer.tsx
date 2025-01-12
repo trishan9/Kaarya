@@ -4,12 +4,11 @@ import { NavLink } from "./NavLink";
 import Logo from "@/assets/logo.png";
 
 export function Footer() {
-  
   return (
     <footer className="bg-slate-50">
       <Container>
         <div className="py-16">
-          <img src={Logo} className="mx-auto h-12 w-auto" />
+          <img src={Logo} className="mx-auto h-16 w-auto" />
 
           <nav className="mt-10 text-sm" aria-label="quick links">
             <div className="-my-1 flex justify-center gap-x-6">
@@ -50,7 +49,7 @@ export function Footer() {
               </svg>
             </Link>
           </div>
-          
+
           <p className="mt-6 text-sm text-slate-500 sm:mt-0">
             Copyright &copy; {new Date().getFullYear()} Kaarya. All rights
             reserved.

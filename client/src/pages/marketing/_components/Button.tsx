@@ -14,7 +14,8 @@ const variantStyles = {
     blue: "bg-blue-600 text-white hover:text-slate-100 hover:bg-blue-500 active:bg-blue-800 active:text-blue-100 focus-visible:outline-blue-600",
     white:
       "bg-white text-slate-900 hover:bg-blue-50 active:bg-blue-200 active:text-slate-600 focus-visible:outline-white",
-    default: "bg-primaryGreen text-white hover:bg-primaryGreenHover hover:text-slate-100",
+    default:
+      "bg-primaryGreen text-white hover:bg-primaryGreenHover hover:text-slate-100",
   },
   outline: {
     slate:
@@ -30,7 +31,7 @@ type ColorKey<Variant extends VariantKey> =
 
 type ButtonProps<
   Variant extends VariantKey,
-  Color extends ColorKey<Variant>
+  Color extends ColorKey<Variant>,
 > = {
   variant?: Variant;
   color?: Color;
@@ -44,7 +45,7 @@ type ButtonProps<
 
 const Button = <
   Color extends ColorKey<Variant>,
-  Variant extends VariantKey = "solid"
+  Variant extends VariantKey = "solid",
 >({
   variant = "solid" as Variant,
   color = "slate" as Color,

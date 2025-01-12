@@ -70,4 +70,3 @@ export const useConfirm = (
   );
   return [ConfirmDialog, confirm];
 };
-

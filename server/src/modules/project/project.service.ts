@@ -2,8 +2,9 @@ import { StatusCodes } from "http-status-codes";
 
 import { db } from "@/db";
 import { ApiError } from "@/utils/apiError";
-import uploadToCloudinary from "@/lib/cloudinary";
 import { errorResponse } from "@/utils/errorMessage";
+import uploadToCloudinary from "@/lib/cloudinary";
+
 import { CreateProjectInput } from "./project.validator";
 import { UserRoles } from "../member/member.validator";
 import { UpdateProjectType } from "./project.validator";
