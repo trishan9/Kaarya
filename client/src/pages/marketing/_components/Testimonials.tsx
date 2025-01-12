@@ -1,9 +1,9 @@
 import { Container } from './Container'
-import avatarImage1 from '@/assets/landingpage/avatars/avatar-1.png'
-import avatarImage2 from '@/assets/landingpage/avatars/avatar-2.png'
-import avatarImage3 from '@/assets/landingpage/avatars/avatar-3.png'
-import avatarImage4 from '@/assets/landingpage/avatars/avatar-4.png'
-import avatarImage5 from '@/assets/landingpage/avatars/avatar-5.png'
+import avatarImage1 from '@/assets/marketing/avatars/avatar-1.png'
+import avatarImage2 from '@/assets/marketing/avatars/avatar-2.png'
+import avatarImage3 from '@/assets/marketing/avatars/avatar-3.png'
+import avatarImage4 from '@/assets/marketing/avatars/avatar-4.png'
+import avatarImage5 from '@/assets/marketing/avatars/avatar-5.png'
 
 const testimonials = [
   [

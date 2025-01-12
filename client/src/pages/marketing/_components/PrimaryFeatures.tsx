@@ -1,14 +1,11 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import clsx from 'clsx'
 import { Container } from './Container'
-import backgroundImage from '@/assets/landingpage/background-features.jpg'
-import screenshotExpenses from '@/assets/landingpage/expenses.png'
-import screenshotPayroll from '@/assets/landingpage/payroll.png'
-import screenshotReporting from '@/assets/landingpage/reporting.png'
-import screenshotVatReturns from '@/assets/landingpage/vat-returns.png'
+import screenshotExpenses from '@/assets/marketing/expenses.png'
+import screenshotPayroll from '@/assets/marketing/payroll.png'
+import screenshotReporting from '@/assets/marketing/reporting.png'
+import screenshotVatReturns from '@/assets/marketing/vat-returns.png'
 
 const features = [
   {
@@ -61,15 +58,8 @@ export function PrimaryFeatures() {
     <section
       id="features"
       aria-label="Features for running your books"
-      className="relative overflow-hidden bg-blue-600 pb-28 pt-20 sm:py-32"
+      className="relative overflow-hidden bg-gradient-to-r to-green-400 from-primaryGreen pb-28 pt-20 sm:py-32"
     >
-      <img
-        className="absolute left-1/2 top-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
-        src={backgroundImage}
-        alt=""
-        width={2245}
-        height={1636}
-      />
 
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
@@ -77,7 +67,7 @@ export function PrimaryFeatures() {
             Everything You Need for Agile Project Success.
           </h2>
 
-          <p className="mt-6 text-lg tracking-tight text-blue-100">
+          <p className="mt-6 text-lg tracking-tight text-green-100">
           Well, Everything You Need If You’re Not Too Fussy About Complex Workflows.
           </p>
         </div>
@@ -97,8 +87,8 @@ export function PrimaryFeatures() {
                       className={clsx(
                         'group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6',
                         selectedIndex === featureIndex
-                          ? 'bg-white lg:bg-white/10 lg:ring-1 lg:ring-inset lg:ring-white/10'
-                          : 'hover:bg-white/10 lg:hover:bg-white/5',
+                          ? 'bg-white lg:bg-white/15 lg:ring-1 lg:ring-inset lg:ring-white/15'
+                          : 'hover:bg-white/15 lg:hover:bg-white/5',
                       )}
                     >
                       <h3>
@@ -106,8 +96,8 @@ export function PrimaryFeatures() {
                           className={clsx(
                             'font-medium text-lg ui-not-focus-visible:outline-none',
                             selectedIndex === featureIndex
-                              ? 'text-blue-600 lg:text-white'
-                              : 'text-blue-100 hover:text-white lg:text-white',
+                              ? 'text-green-600 lg:text-white'
+                              : 'text-green-100 hover:text-white lg:text-white',
                           )}
                         >
                           <span className="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none" />
@@ -117,10 +107,10 @@ export function PrimaryFeatures() {
 
                       <p
                         className={clsx(
-                          'mt-2 hidden text-sm lg:block',
+                          'mt-2 hidden text-sm lg:text-[15px] lg:block',
                           selectedIndex === featureIndex
                             ? 'text-white'
-                            : 'text-blue-100 group-hover:text-white',
+                            : 'text-green-100 group-hover:text-white',
                         )}
                       >
                         {feature.description}

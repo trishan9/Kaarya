@@ -1,5 +1,3 @@
-'use client'
-
 import { Fragment } from 'react'
 import { Link } from 'react-router'
 import { Popover, PopoverButton, PopoverOverlay, PopoverPanel, Transition, TransitionChild } from '@headlessui/react'
@@ -24,6 +22,7 @@ function MobileNavLink({
 }
 
 function MobileNavIcon({ open }: { open: boolean }) {
+
   return (
     <svg
       aria-hidden="true"
@@ -51,6 +50,7 @@ function MobileNavIcon({ open }: { open: boolean }) {
 }
 
 function MobileNavigation() {
+
   return (
     <Popover>
       <PopoverButton
@@ -104,6 +104,7 @@ function MobileNavigation() {
 }
 
 export function Header() {
+  
   return (
     <header className="py-10">
       <Container>
@@ -126,7 +127,7 @@ export function Header() {
               <NavLink to="/login">Sign in</NavLink>
             </div>
 
-            <Button href="/register" color="blue" className="text-[15px] py-3">
+            <Button href="/register" color="default" className="text-[15px] py-3">
               <span>
                 Get started now
               </span>
