@@ -1,17 +1,20 @@
 import { Prisma } from "@prisma/client";
 import { StatusCodes } from "http-status-codes";
 
+import { db } from "@/db";
+
+import { logger } from "@/logging/logger";
+
+import token from "@/lib/token";
+import hash from "@/lib/hash";
 import { ApiError } from "@/utils/apiError";
 import { errorResponse } from "@/utils/errorMessage";
-import hash from "@/lib/hash";
+
 import { loginUserType } from "./auth.validator";
 import {
   generateAccessToken,
   generateRefreshToken,
 } from "@/modules/token/token.service";
-import token from "@/lib/token";
-import { logger } from "@/logging/logger";
-import { db } from "@/db";
 import { sendOnboardingMail } from "../mail/mail.service";
 
 export const register = async (data: Prisma.UserCreateInput) => {

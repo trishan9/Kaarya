@@ -1,14 +1,15 @@
 import { StatusCodes } from "http-status-codes";
 
+import { db } from "@/db";
 import uploadToCloudinary from "@/lib/cloudinary";
+import { generateInviteCode, INVITECODE_LENGTH } from "@/utils";
 import { ApiError } from "@/utils/apiError";
 import { errorResponse } from "@/utils/errorMessage";
-import { db } from "@/db";
+
 import type {
   CreateWorkspaceInput,
   UpdateWorkspaceType,
-} from "./workspaces.validator";
-import { generateInviteCode, INVITECODE_LENGTH } from "@/utils";
+} from "./workspace.validator";
 import { UserRoles } from "../member/member.validator";
 
 export const createWorkspace = async (data: CreateWorkspaceInput) => {
@@ -19,6 +20,7 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
   const exists = await db.workspace.findFirst({
     where: {
       name: data.name,
+      userId: data.userId,
     },
   });
 

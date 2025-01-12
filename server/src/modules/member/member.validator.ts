@@ -11,4 +11,9 @@ export const createMemberSchema = z.object({
   role: z.nativeEnum(UserRoles, { message: "Invalid role" }),
 });
 
+export const updateRoleSchema = z.object({
+  memberId: z.string().uuid({ message: "Invalid user ID format" }),
+  role: z.nativeEnum(UserRoles, { message: "Invalid role" }),
+});
+
 export type CreateMemberType = z.infer<typeof createMemberSchema>;

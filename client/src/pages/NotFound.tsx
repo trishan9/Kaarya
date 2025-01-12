@@ -1,8 +1,10 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import notFoundImage from "@/assets/error.png";
 import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
+  const navigate = useNavigate();
+
   return (
     <main className="grid place-items-center bg-[#F2F4F7] w-full h-screen">
       <div className="max-w-[450px] text-center flex items-center flex-col flex-wrap">
@@ -28,9 +30,9 @@ const NotFound = () => {
           </p>
         </div>
 
-        <Link to="/workspaces/W-1234">
-          <Button className="mt-4 ">Back to Home</Button>
-        </Link>
+        <Button className="mt-4" onClick={() => navigate(-1)}>
+          Back to Home
+        </Button>
       </div>
     </main>
   );

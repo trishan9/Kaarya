@@ -14,6 +14,8 @@ import {
   WorkspaceIdJoinPage,
   MembersList,
 } from "./pages";
+import { ProjectIdPage } from "./pages/dashboard/projects/ProjectIdPage";
+import { ProjectIdSettingsPage } from "./pages/dashboard/projects/ProjectIdSettingsPage";
 
 const AppRoutes = () => {
   return (
@@ -29,8 +31,20 @@ const AppRoutes = () => {
 
                 <Route path=":workspaceId">
                   <Route path="settings" element={<WorkspaceIdSettings />} />
+
                   <Route path="members" element={<MembersList />} />
-                  <Route path="join/:inviteCode" element={<WorkspaceIdJoinPage />} />
+
+                  <Route
+                    path="join/:inviteCode"
+                    element={<WorkspaceIdJoinPage />}
+                  />
+
+                  <Route path="projects">
+                    <Route
+                      path=":projectId/settings"
+                      element={<ProjectIdSettingsPage />}
+                    />
+                  </Route>
                 </Route>
               </Route>
 
@@ -38,6 +52,10 @@ const AppRoutes = () => {
                 <Route index element={<div>This is Workspace Page</div>} />
 
                 <Route path="tasks" element={<div>This is Task Page</div>} />
+
+                <Route path="projects">
+                  <Route path=":projectId" element={<ProjectIdPage />} />
+                </Route>
 
                 <Route
                   path="members"

@@ -3,6 +3,7 @@ import { Navigation } from "./Navigation";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import logo from "@/assets/logo.png";
 import { WorkspaceSwitcher } from "./WorkspaceSwitcher";
+import { Projects } from "@/components/Projects";
 
 export const Sidebar = () => {
   return (
@@ -20,6 +21,8 @@ export const Sidebar = () => {
       <Navigation />
 
       <DottedSeparator className="my-4" />
+
+      <Projects />
     </aside>
   );
 };
