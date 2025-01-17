@@ -4,7 +4,13 @@ import { db } from "@/db";
 import { ApiError } from "@/utils/apiError";
 import { errorResponse } from "@/utils/errorMessage";
 
-import { CreateTaskSchema, Priority, TaskStatus } from "./task.validator";
+import {
+  BulkUpdateTasksType,
+  CreateTaskSchema,
+  Priority,
+  TaskStatus,
+  UpdateTaskType,
+} from "./task.validator";
 import { Prisma } from "@prisma/client";
 
 interface GetTasksParams {
@@ -176,4 +182,250 @@ export const create = async (taskData: CreateTaskSchema, userId: string) => {
       position: newPosition,
     },
   });
+};
+
+export const deleteTask = async (taskId: string, userId: string) => {
+  if (!taskId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+
+  const task = await db.task.findUnique({
+    where: {
+      id: taskId,
+    },
+    include: {
+      workspace: true,
+    },
+  });
+
+  if (!task) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.TASK.INVALID);
+  }
+
+  const hasAccess = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId: task.workspaceId,
+    },
+  });
+
+  if (!hasAccess) {
+    throw new ApiError(StatusCodes.FORBIDDEN, errorResponse.TASK.NO_PERMISSION);
+  }
+
+  return await db.task.delete({
+    where: {
+      id: taskId,
+    },
+  });
+};
+
+export const updateTask = async (
+  taskId: string,
+  userId: string,
+  data: UpdateTaskType,
+) => {
+  if (!taskId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+
+  const task = await db.task.findUnique({
+    where: {
+      id: taskId,
+    },
+    include: {
+      workspace: true,
+    },
+  });
+
+  if (!task) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.TASK.INVALID);
+  }
+
+  const hasAccess = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId: task.workspaceId,
+    },
+  });
+
+  if (!hasAccess) {
+    throw new ApiError(StatusCodes.FORBIDDEN, errorResponse.TASK.NO_PERMISSION);
+  }
+
+  return await db.task.update({
+    where: {
+      id: taskId,
+    },
+    data: {
+      name: data.name,
+      status: data.status,
+      dueDate: data.dueDate,
+      projectId: data.projectId,
+      assigneeId: data.assigneeId,
+      description: data.description,
+      priority: data.priority,
+      sprint: data.sprint,
+      storyPoints: data.storyPoints,
+    },
+    include: {
+      project: {
+        select: {
+          name: true,
+        },
+      },
+      assignee: {
+        select: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
+    },
+  });
+};
+
+export const getTask = async (taskId: string, userId: string) => {
+  if (!taskId || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+
+  const task = await db.task.findFirst({
+    where: {
+      id: taskId,
+    },
+    include: {
+      project: true,
+      assignee: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!task) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.TASK.INVALID);
+  }
+
+  const currentMember = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId: task.workspaceId,
+    },
+  });
+
+  if (!currentMember) {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      errorResponse.MEMBER.NOT_WORKSPACE_MEMBER,
+    );
+  }
+
+  return {
+    ...task,
+    assignee: {
+      ...task.assignee,
+      name: task.assignee.user.name || task.assignee.user.email,
+      email: task.assignee.user.email,
+    },
+  };
+};
+
+export const bulkUpdateTasks = async (
+  tasks: BulkUpdateTasksType["tasks"],
+  userId: string,
+) => {
+  if (!tasks.length || !userId) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+
+  const taskIds = tasks.map((task) => task.id);
+
+  const existingTasks = await db.task.findMany({
+    where: {
+      id: {
+        in: taskIds,
+      },
+    },
+    include: {
+      workspace: true,
+    },
+  });
+
+  if (existingTasks.length !== taskIds.length) {
+    throw new ApiError(StatusCodes.NOT_FOUND, errorResponse.TASK.INVALID);
+  }
+
+  const workspaceIds = new Set(existingTasks.map((task) => task.workspaceId));
+  if (workspaceIds.size !== 1) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.TASK.INVALID_WORKSPACE,
+    );
+  }
+
+  const workspaceId = existingTasks[0].workspaceId;
+
+  const hasAccess = await db.member.findFirst({
+    where: {
+      userId,
+      workspaceId,
+    },
+  });
+
+  if (!hasAccess) {
+    throw new ApiError(StatusCodes.FORBIDDEN, errorResponse.TASK.NO_PERMISSION);
+  }
+
+  return await db.$transaction(
+    tasks.map((task) =>
+      db.task.update({
+        where: {
+          id: task.id,
+        },
+        data: {
+          status: task.status,
+          position: task.position,
+        },
+        include: {
+          project: {
+            select: {
+              name: true,
+            },
+          },
+          assignee: {
+            select: {
+              user: {
+                select: {
+                  name: true,
+                  email: true,
+                },
+              },
+            },
+          },
+        },
+      }),
+    ),
+  );
 };

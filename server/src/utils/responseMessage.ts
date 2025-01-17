@@ -33,6 +33,8 @@ const responseMessage = {
   TASK: {
     CREATED: "The task has been created successfully.",
     FETCHED: "Tasks fetched successfully.",
+    UPDATED: "Task updated successfully",
+    DELETED: "Task deleted successfully",
   },
   OTHER: {
     SUCCESS: "The operation was completed successfully.",
