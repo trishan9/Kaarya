@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router"; 
 import { ExternalLinkIcon, PencilIcon, TrashIcon } from "lucide-react";
-
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -10,7 +9,8 @@ import {
 import { useConfirm } from "@/hooks/useConfirm";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 
-// import { useDeleteTask } from "../api/use-delete-task";
+import { useDeleteTask } from "@/hooks/useTasks";
+import { useEditTaskModal } from "@/hooks/useEditTaskModal";
 // import { useEditTaskModal } from "../hooks/use-update-task-modal";
 interface TaskActionsProps {
 	id: string;
@@ -21,17 +21,17 @@ interface TaskActionsProps {
 export const TaskActions = ({ children, id, projectId }: TaskActionsProps) => {
 	const navigate = useNavigate();
 	const workspaceId = useWorkspaceId();
-	// const { open } = useEditTaskModal();
+	const { open } = useEditTaskModal();
 	const [ConfirmDialog, confirm] = useConfirm(
 		"Delete Task",
 		"Are you sure you want to delete this task?",
 		"destructive"
 	);
-	// const { mutate, isPending } = useDeleteTask();
+	const { mutate, isPending } = useDeleteTask();
 	const onDelete = async () => {
 		const ok = await confirm();
 		if (!ok) return;
-		// mutate({ param: { taskId: id } });
+		mutate( { taskId: id } );
 	};
 
 	const onOpenTask = () => {
@@ -43,6 +43,7 @@ export const TaskActions = ({ children, id, projectId }: TaskActionsProps) => {
 	return (
 		<div className="flex justify-end">
 			<ConfirmDialog />
+			
 			<DropdownMenu modal={false}>
 				<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 
@@ -70,10 +71,10 @@ export const TaskActions = ({ children, id, projectId }: TaskActionsProps) => {
 						<PencilIcon className="size-5 mr-2 sroke-2" />
 						Edit Task
 					</DropdownMenuItem>
-					
+
 					<DropdownMenuItem
 						onClick={onDelete}
-						// disabled={isPending}
+						disabled={isPending}
 						className="font-medium p-[10px] text-amber-700 focus:text-amber-700"
 					>
 						<TrashIcon className="size-5 mr-2 sroke-2" />

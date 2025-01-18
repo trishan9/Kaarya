@@ -1,5 +1,5 @@
 import { useQueryState } from "nuqs";
-import { Loader, Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator"; 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +10,6 @@ import { useTaskFilter } from "./useTaskFilter";
 import { useGetTasks } from "@/hooks/useTasks"; 
 import { DataFilters } from "./DataFilters"; 
 // import { DataKanban } from "./data-kanban";
-// import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { DataTable } from "./DataTable";
 
@@ -97,7 +96,7 @@ export const TaskViewSwitcher = ({
 
 				{tasksLoading ? (
 					<div className="w-full border rounded-lg h-[200px] flex flex-col items-center justify-center">
-						<Loader className="size-5 animate-spin text-muted-foreground" />
+						<Loader2 className="size-5 animate-spin text-muted-foreground" />
 					</div>
 				) : (
 					<>
