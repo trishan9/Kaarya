@@ -21,7 +21,7 @@ export const useGetTasks = ({
   dueDate,
   search,
   status,
-      priority
+  priority
 }: useGetTasksProps) => {
   const query = useQuery({
       queryKey: [
@@ -29,21 +29,23 @@ export const useGetTasks = ({
           workspaceId,
           projectId,
           status,
-                      priority,
+          priority,
           search,
           assigneeId,
           dueDate,
       ],
       queryFn: async () => {
+          console.log(priority)
           const response = await apiActions.tasks.getAll({
                   workspaceId,
                   projectId: projectId ?? undefined,
                   status: status ?? undefined,
-                                      priority: priority ?? undefined,
+                  priority: priority ?? undefined,
                   search: search ?? undefined,
                   assigneeId: assigneeId ?? undefined,
                   dueDate: dueDate ?? undefined,
           });
+
           if (!response.data) {
               throw new Error("Failed to get tasks");
           }
@@ -54,7 +56,6 @@ export const useGetTasks = ({
 
   return query;
 };
-
 
 export const useCreateTask = () => {
   const queryClient = useQueryClient();

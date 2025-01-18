@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
 	ColumnDef,
@@ -74,6 +72,7 @@ export function DataTable<TData, TValue>({
 							</TableRow>
 						))}
 					</TableHeader>
+
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
@@ -82,7 +81,7 @@ export function DataTable<TData, TValue>({
 									data-state={row.getIsSelected() && "selected"}
 								>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
+										<TableCell key={cell.id} className="pl-8">
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext()
@@ -113,6 +112,7 @@ export function DataTable<TData, TValue>({
 				>
 					Previous
 				</Button>
+				
 				<Button
 					variant="secondary"
 					size="sm"
