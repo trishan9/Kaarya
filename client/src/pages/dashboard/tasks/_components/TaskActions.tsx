@@ -45,6 +45,7 @@ export const TaskActions = ({ children, id, projectId }: TaskActionsProps) => {
 			<ConfirmDialog />
 			<DropdownMenu modal={false}>
 				<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+
 				<DropdownMenuContent align="end" className="w-48">
 					<DropdownMenuItem
 						onClick={onOpenTask}
@@ -53,6 +54,7 @@ export const TaskActions = ({ children, id, projectId }: TaskActionsProps) => {
 						<ExternalLinkIcon className="size-5 mr-2 sroke-2" />
 						Task Details
 					</DropdownMenuItem>
+
 					<DropdownMenuItem
 						onClick={onOpenProject}
 						className="font-medium p-[10px]"
@@ -60,6 +62,7 @@ export const TaskActions = ({ children, id, projectId }: TaskActionsProps) => {
 						<ExternalLinkIcon className="size-5 mr-2 sroke-2" />
 						Open Project
 					</DropdownMenuItem>
+
 					<DropdownMenuItem
 						onClick={() => open(id)}
 						className="font-medium p-[10px]"
@@ -67,6 +70,7 @@ export const TaskActions = ({ children, id, projectId }: TaskActionsProps) => {
 						<PencilIcon className="size-5 mr-2 sroke-2" />
 						Edit Task
 					</DropdownMenuItem>
+					
 					<DropdownMenuItem
 						onClick={onDelete}
 						// disabled={isPending}
