@@ -43,4 +43,15 @@ export const createTaskSchema = z.object({
   workspaceId: z.string().trim().min(1, { message: "Required" }),
 });
 
+export const getTasksSchema = z.object({
+  workspaceId: z.string(),
+  projectId: z.string().optional(),
+  assigneeId: z.string().optional(),
+  search: z.string().optional(),
+  dueDate: z.string().optional(),
+  status: z.nativeEnum(TaskStatus).optional(),
+  priority: z.nativeEnum(Priority).optional(),
+});
+
+export type GetTasksSchema = z.infer<typeof getTasksSchema>;
 export type CreateTaskSchema = z.infer<typeof createTaskSchema>;

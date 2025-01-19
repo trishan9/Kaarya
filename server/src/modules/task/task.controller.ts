@@ -7,8 +7,28 @@ import { apiResponse } from "@/utils/apiResponse";
 import { responseMessage } from "@/utils/responseMessage";
 import { asyncHandler } from "@/utils/asyncHandler";
 
-import { createTaskSchema } from "./task.validator";
+import { createTaskSchema, getTasksSchema } from "./task.validator";
 import * as taskServices from "./task.service";
+
+export const getTasks = asyncHandler(async (req: Request, res: Response) => {
+  const query = req.query;
+  const userId = res.locals?.user?.id;
+  const result = getTasksSchema.safeParse(query);
+
+  if (!result.success) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      errorResponse.VALIDATION.FAILED,
+    );
+  }
+
+  const tasks = await taskServices.getTasks(result.data, userId);
+
+  return apiResponse(res, StatusCodes.OK, {
+    tasks,
+    message: responseMessage.TASK.FETCHED,
+  });
+});
 
 export const createTask = asyncHandler(async (req: Request, res: Response) => {
   const body = req.body;

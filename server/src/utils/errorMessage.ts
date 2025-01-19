@@ -86,6 +86,12 @@ const errorResponse = {
     UPDATED: "The project was updated successfully.",
     ACCESS: "Unauthorized action. Please check your permissions.",
   },
+  TASK: {
+    INVALID: "The specified task could not be found.",
+    NO_PERMISSION: "You don't have permission to access these tasks.",
+    UPDATED: "The task was updated successfully.",
+    ACCESS: "Unauthorized action. Please check your permissions.",
+  },
   OTHER: {
     SERVER_ERROR:
       "An unexpected server error occurred. Please try again later.",
