@@ -4,7 +4,7 @@ import { ProjectAvatar } from "./_components/ProjectAvatar";
 import { TaskViewSwitcher } from "../tasks/_components/TaskViewSwitcher";
 import { Button } from "@/components/ui/button";
 import { useGetProject } from "@/hooks/useProjects";
-import { useProjectId } from "@/hooks/userProjectId";
+import { useProjectId } from "@/hooks/useProjectId";
 import { PageLoader } from "@/components/PageLoader";
 import { PageError } from "@/components/PageError";
 
