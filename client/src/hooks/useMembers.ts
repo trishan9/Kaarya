@@ -1,7 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiActions } from "@/api";
 import { CustomAxiosError } from "@/api/axiosInstance";
+
+export const useGetMembers = ({ workspaceId }: { workspaceId: string }) => {
+  const query = useQuery({
+    queryKey: ["member", workspaceId],
+    queryFn: () => apiActions.workspaces.getById(workspaceId),
+    retry: 1,
+  });
+
+  return query;
+};
 
 export const useRemoveMember = () => {
   const queryClient = useQueryClient();

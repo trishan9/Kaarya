@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { Project } from "../../projects/_schemas";
+import { Member } from "../../workspaces/_schemas";
 
 export enum TaskStatus {
   BACKLOG = "BACKLOG",
@@ -36,6 +38,8 @@ export type Task = {
   assigneeId: string;
   projectId: string;
   workspaceId: string;
+  project : Project;
+  assignee : Member;
 };
 
 export const createTaskSchema = z.object({

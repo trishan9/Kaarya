@@ -248,7 +248,7 @@ export const EditWorkspaceForm = ({
                 </Button>
 
                 <Button
-                  disabled={isPending}
+                  disabled={isPending || deletingWorkspace || resetingInviteCode}
                   type="submit"
                   size="sm"
                   className="px-5"
@@ -294,10 +294,11 @@ export const EditWorkspaceForm = ({
               className="px-4 mt-6 ml-auto border w-fit"
               size="sm"
               variant="secondary"
-              disabled={isPending || resetingInviteCode}
+              disabled={isPending || deletingWorkspace || resetingInviteCode}
               onClick={handleResetInviteCode}
             >
               Reset invite link
+              {resetingInviteCode && <Loader2 className="w-14 h-14 animate-spin" />}
             </Button>
           </div>
         </CardContent>
@@ -323,6 +324,7 @@ export const EditWorkspaceForm = ({
               onClick={handleDelete}
             >
               Delete workspace
+              {deletingWorkspace && <Loader2 className="w-14 h-14 animate-spin" />}
             </Button>
           </div>
         </CardContent>
