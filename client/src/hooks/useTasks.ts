@@ -4,6 +4,7 @@ import { apiActions } from "@/api";
 import { CustomAxiosError } from "@/api/axiosInstance";
 import { createTaskSchema, CreateTaskSchema, Priority, TaskStatus } from "@/pages/dashboard/tasks/_schemas";
 import { z } from "zod";
+import { BulkUpdateParams } from "@/pages/dashboard/tasks/_components/TaskViewSwitcher";
 
 export interface useGetTasksProps {
     workspaceId: string;
@@ -112,7 +113,6 @@ export const useUpdateTask = () => {
   });
 };
 
-
 export const useDeleteTask = () => {
   const queryClient = useQueryClient();
 
@@ -131,4 +131,24 @@ export const useDeleteTask = () => {
       toast.error(errorMessage);
     },
   });
+};
+
+export const useBulkUpdateTasks = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+      mutationFn: async ({ data } : { data : BulkUpdateParams[]}) => {
+      return await apiActions.tasks.bulkUpdate(data);
+      },
+      onSuccess: (response) => {
+          toast.success(response?.data?.message);
+          queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      },
+      onError: (error: CustomAxiosError) => {
+        const errorMessage =
+        error?.response?.data?.message || "Failed to delete task";
+        toast.error(errorMessage);
+      },
+  });
+
+  return mutation;
 };

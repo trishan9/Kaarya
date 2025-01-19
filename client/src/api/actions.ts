@@ -12,6 +12,7 @@ import {
 } from "@/pages/dashboard/projects/_schemas";
 import { createTaskSchema } from "@/pages/dashboard/tasks/_schemas";
 import { useGetTasksProps } from "@/hooks/useTasks";
+import { BulkUpdateParams } from "@/pages/dashboard/tasks/_components/TaskViewSwitcher";
 
 export const apiActions = {
   auth: {
@@ -129,6 +130,14 @@ export const apiActions = {
     },
     delete: async (taskId: string) => {
       return await api.delete(`${API_URLS.TASKS}/${taskId}`);
+    },
+    bulkUpdate: async (
+      data: BulkUpdateParams[],
+    ) => {
+      return await api.post(
+        `${API_URLS.TASKS}/bulk-update`,
+        {tasks : data}
+      );
     },
   },
 };
