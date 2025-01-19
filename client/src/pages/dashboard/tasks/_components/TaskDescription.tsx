@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Pencil, X } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator"; 
-
 import { Task } from "../_schemas"; 
-// import { useUpdateTask } from "@/hooks/useTasks";
-import { Textarea } from "@/components/ui/textarea";
+import { useUpdateTask } from "@/hooks/useTasks";
+import { Editor } from "./Editor";
+import { Preview } from "./Preview";
 
 interface TaskDescriptionProps {
     task: Task;
@@ -15,25 +14,25 @@ interface TaskDescriptionProps {
 export const TaskDescription = ({ task }: TaskDescriptionProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState(task.description);
-    // const { mutate, isPending } = useUpdateTask();
+    const { mutate, isPending } = useUpdateTask();
 
     const handleSave = () => {
-        // mutate({
-        //     taskId : task.id,
-        //     data : value,
-        //   },{
-        //     onSuccess: () => setIsEditing(false),
-        // });
-        console.log("save")
+        mutate({
+            taskId : task.id,
+            data : { description : value},
+          },{
+            onSuccess: () => setIsEditing(false),
+        });
     };
     return (
         <div className="p-4 border rounded-lg">
             <div className="flex items-center justify-between">
-                <p className="text-lg font-semibold">Overview</p>
+                <p className="text-lg font-semibold">Description</p>
+
                 <Button
                     onClick={() => setIsEditing((prev) => !prev)}
                     size="sm"
-                    variant="secondary"
+                    variant="outline"
                 >
                     {isEditing ? (
                         <X className="size-4 mr-2" />
@@ -43,28 +42,25 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
                     {isEditing ? "Cancel" : "Edit"}
                 </Button>
             </div>
+
             <DottedSeparator className="my-4" />
+            
             {isEditing ? (
                 <div className="flex flex-col gap-y-4">
-                    <Textarea
-                        placeholder="Add a description..."
-                        value={value}
-                        rows={4}
-                        onChange={(e) => setValue(e.target.value)}
-                        // disabled={isPending}
-                    />
+                    <Editor value={value || "<div><p>As a <strong>user</strong>, I want to <strong>perform some task</strong>, so that I can <strong>achieve something</strong> </p> <br/> <p><strong>Acceptance criteria</strong></p> <ul><li>Criteria 1</li> <li>Criteria 2</li> <li>Criteria 3</li></ul></div>"} onChange={setValue}/>
+
                     <Button
                         size="sm"
                         className="w-fit ml-auto"
                         onClick={handleSave}
-                        // disabled={isPending}
+                        disabled={isPending}
                     >
-                        {/* {isPending ? "Saving..." : "Save Changes"} */}
+                        {isPending ? "Saving..." : "Save Changes"}
                     </Button>
                 </div>
             ) : (
                 <div>
-                    {task.description || (
+                    {task.description ? <Preview value={task.description} /> : (
                         <span className="text-muted-foreground">No description set</span>
                     )}
                 </div>

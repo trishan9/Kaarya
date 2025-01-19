@@ -26,6 +26,8 @@ import { MemberAvatar } from "../../workspaces/_components/MemberAvatar";
 import {
 	type CreateTaskSchema,
 	createTaskSchema,
+	FibonacciSeries,
+	Priority,
 } from "../_schemas/index";
 
 import { TaskStatus, Task } from "../_schemas/index";
@@ -122,6 +124,87 @@ export const EditTaskForm = ({
 									</FormItem>
 								)}
 							/>
+
+							<FormField
+								control={form.control}
+								name="sprint"
+								render={({ field }) => (
+								<FormItem>
+									<FormLabel>Sprint</FormLabel>
+									<FormControl>
+									<Input {...field} placeholder="Enter sprint details" />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+								)}
+							/>
+				
+							<FormField
+								control={form.control}
+								name="storyPoints"
+								render={({ field }) => (
+								<FormItem>
+									<FormLabel>Story Points</FormLabel>
+									<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+									>
+									<FormControl>
+										<SelectTrigger>
+										<SelectValue placeholder="Select story points" />
+										</SelectTrigger>
+									</FormControl>
+									<FormMessage />
+									<SelectContent>
+										{Object.entries(FibonacciSeries).map(([key, value]) => (
+										<SelectItem
+											key={value}
+											value={value.toString().toUpperCase()}
+										>
+											{key
+											.replace("_", " ")
+											.toLowerCase()
+											.replace(/\b\w/g, (char) => char.toUpperCase())}
+										</SelectItem>
+										))}
+										<FormMessage />
+									</SelectContent>
+									</Select>
+								</FormItem>
+								)}
+							/>
+				
+							<FormField
+								control={form.control}
+								name="priority"
+								render={({ field }) => (
+								<FormItem>
+									<FormLabel>Priority</FormLabel>
+									<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+									>
+									<FormControl>
+										<SelectTrigger>
+										<SelectValue placeholder="Select priority" />
+										</SelectTrigger>
+									</FormControl>
+									<FormMessage />
+									<SelectContent>
+										{Object.entries(Priority).map(([key, value]) => (
+										<SelectItem key={value} value={value.toUpperCase()}>
+											{key
+											.replace("_", " ")
+											.toLowerCase()
+											.replace(/\b\w/g, (char) => char.toUpperCase())}
+										</SelectItem>
+										))}
+										<FormMessage />
+									</SelectContent>
+									</Select>
+								</FormItem>
+								)}
+							/>				
 
 							<FormField
 								control={form.control}
@@ -232,7 +315,7 @@ export const EditTaskForm = ({
 								)}
 							/>
 						</div>
-						
+
 						<DottedSeparator className="py-7" />
 
 						<div className="flex items-center justify-between">

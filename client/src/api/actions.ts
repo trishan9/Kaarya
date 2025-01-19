@@ -121,7 +121,7 @@ export const apiActions = {
     },
     update: async (
       taskId: string,
-      data: z.infer<typeof createTaskSchema>,
+      data: unknown,
     ) => {
       return await api.patch(
         `${API_URLS.TASKS}/${taskId}`,

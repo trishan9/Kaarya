@@ -1,13 +1,10 @@
 import { Pencil } from "lucide-react";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator"; 
-
 import { MemberAvatar } from "../../workspaces/_components/MemberAvatar"; 
 import { useEditTaskModal } from "@/hooks/useEditTaskModal"; 
 import { snakeCaseToTitleCase } from "@/lib/utils";
-
 import { TaskDate } from "./TaskDate"; 
 import { Task } from "../_schemas"; 
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
@@ -20,15 +17,14 @@ interface TaskOverviewProps {
 export const TaskOverview = ({ task }: TaskOverviewProps) => {
 	const { open } = useEditTaskModal();
     const workspace = useGetWorkspace({workspaceId : task.workspaceId})
-    console.log(workspace?.data?.data.workspace)
 
 	return (
 		<div className="flex flex-col gap-y-4 col-span-1">
-			<div className="bg-muted rounded-lg p-4">
+			<div className="bg-neutral-100 rounded-lg p-4">
 				<div className="flex items-center justify-between">
 					<p className="text-lg font-semibold">Overview</p>
 
-					<Button onClick={() => open(task.id)} size="sm" variant="secondary">
+					<Button onClick={() => open(task.id)} size="sm" variant="outline">
 						<Pencil className="size-4 mr-2" />
 						Edit
 					</Button>
@@ -89,7 +85,7 @@ interface OverviewPropertiesProps {
 
 const OverviewProperty = ({ children, label }: OverviewPropertiesProps) => {
 	return (
-		<div className="flex items-start gap-x-2">
+		<div className="flex items-start gap-x-12">
 			<div className="min-w-[100px]">
 				<p className="text-sm text-muted-foreground">{label}</p>
 			</div>
