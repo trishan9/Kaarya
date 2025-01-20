@@ -37,12 +37,14 @@ export const ProjectIdPage: React.FC = () => {
           <p className="text-lg font-semibold">{project.name}</p>
         </div>
 
-        <Button variant="outline" size="default" asChild>
-          <Link to={href}>
-            <Pencil className="size-4 mr-2" />
-            Edit Project
-          </Link>
-        </Button>
+        <div>
+          <Button variant="outline" size="default" asChild>
+            <Link to={href}>
+              <Pencil className="size-4 mr-2" />
+              Edit Project
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <TaskViewSwitcher hideProjectFilter />

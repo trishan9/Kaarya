@@ -22,6 +22,7 @@ export const ResponsiveModal = ({
       </Dialog>
     );
   }
+
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent>
