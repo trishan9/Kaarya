@@ -10,7 +10,7 @@ import {
 
 export const useGetProjects = ({ workspaceId }: { workspaceId: string }) => {
   return useQuery({
-    queryKey: ["projects"],
+    queryKey: ["projects", workspaceId],
     queryFn: () => apiActions.projects.getAll(workspaceId),
     retry: 1,
   });
@@ -35,7 +35,9 @@ export const useCreateProject = () => {
     },
     onSuccess: (response) => {
       toast.success(response?.data?.message);
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["projects", response.data.project.workspaceId],
+      });
     },
     onError: (error: CustomAxiosError) => {
       toast.error(error?.response?.data?.message);
@@ -58,7 +60,9 @@ export const useUpdateProject = () => {
     },
     onSuccess: (response) => {
       toast.success(response?.data?.message);
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["projects", response.data.project.workspaceId],
+      });
       queryClient.invalidateQueries({
         queryKey: ["project", response?.data?.project?.id],
       });
@@ -80,7 +84,9 @@ export const useDeleteProject = () => {
     },
     onSuccess: (response) => {
       toast.success(response?.data?.message);
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["projects", response.data.deletedProject.workspaceId],
+      });
       queryClient.invalidateQueries({
         queryKey: ["project", response?.data?.project?.id],
       });
