@@ -2,8 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiActions } from "@/api";
 import { CustomAxiosError } from "@/api/axiosInstance";
-import { createTaskSchema, CreateTaskSchema, Priority, TaskStatus } from "@/pages/dashboard/tasks/_schemas";
-import { z } from "zod";
+import { CreateTaskSchema, Priority, TaskStatus } from "@/pages/dashboard/tasks/_schemas";
 import { BulkUpdateParams } from "@/pages/dashboard/tasks/_components/TaskViewSwitcher";
 
 export interface useGetTasksProps {
@@ -94,7 +93,7 @@ export const useUpdateTask = () => {
       data,
     }: {
       taskId: string;
-      data: z.infer<typeof createTaskSchema>;
+      data: unknown;
     }) => {
       return await apiActions.tasks.update(taskId, data);
     },
