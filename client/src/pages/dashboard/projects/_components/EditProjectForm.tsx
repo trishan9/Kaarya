@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, ImageIcon } from "lucide-react";
+import { ArrowLeft, ImageIcon, Loader2 } from "lucide-react";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -230,12 +230,13 @@ export const EditProjectForm = ({
                 </Button>
 
                 <Button
-                  disabled={isPending}
+                  disabled={isPending || deletingProject}
                   type="submit"
                   className="px-5"
                   size="sm"
                 >
                   Save Changes
+                  {isPending && <Loader2 className="w-14 h-14 animate-spin" />}
                 </Button>
               </div>
             </form>
@@ -263,6 +264,7 @@ export const EditProjectForm = ({
               onClick={handleDelete}
             >
               Delete project
+              {deletingProject && <Loader2 className="w-14 h-14 animate-spin" />}
             </Button>
           </div>
         </CardContent>

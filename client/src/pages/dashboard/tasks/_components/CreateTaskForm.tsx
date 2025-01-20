@@ -32,6 +32,7 @@ import {
   TaskStatus,
 } from "../_schemas";
 import { useCreateTask } from "@/hooks/useTasks";
+import { Loader2 } from "lucide-react";
 
 interface CreateTaskFormProps {
   onCancel?: () => void;
@@ -315,6 +316,7 @@ export const CreateTaskForm = ({
 
               <Button disabled={isPending} type="submit" size="lg">
                 Create Task
+                {isPending && <Loader2 className="w-14 h-14 animate-spin" />}
               </Button>
             </div>
           </form>

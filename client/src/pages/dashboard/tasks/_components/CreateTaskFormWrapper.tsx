@@ -2,10 +2,10 @@ import { Loader2 } from "lucide-react";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
 import { CreateTaskForm } from "./CreateTaskForm";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { MemberRole } from "@/pages/dashboard/workspaces/MemberList";
 import { useGetProjects } from "@/hooks/useProjects";
 import { Project } from "@/pages/dashboard/projects/_schemas";
 import { Card, CardContent } from "@/components/ui/card";
+import { MemberRole } from "../../workspaces/_schemas";
 
 type Member = {
   id: string;
