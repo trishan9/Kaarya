@@ -148,6 +148,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
 					))}
 				</SelectContent>
 			</Select>
+			
 			{!hideProjectFilter && (
 				<Select
 					defaultValue={projectId ?? undefined}

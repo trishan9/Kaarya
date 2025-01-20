@@ -12,6 +12,7 @@ import {
 } from "@/pages/dashboard/projects/_schemas";
 import { createTaskSchema } from "@/pages/dashboard/tasks/_schemas";
 import { useGetTasksProps } from "@/hooks/useTasks";
+import { BulkUpdateParams } from "@/pages/dashboard/tasks/_components/TaskViewSwitcher";
 
 export const apiActions = {
   auth: {
@@ -109,11 +110,34 @@ export const apiActions = {
     },
   },
   tasks: {
+    getById : async (taskId: string) => {
+      return await api.get(`${API_URLS.TASKS}/${taskId}`);
+    },
     getAll: async (query: useGetTasksProps) => {
       return await api.get(API_URLS.TASKS, { params: query });
     },
     create: async (data: z.infer<typeof createTaskSchema>) => {
       return await api.post(API_URLS.TASKS, data);
+    },
+    update: async (
+      taskId: string,
+      data: z.infer<typeof createTaskSchema>,
+    ) => {
+      return await api.patch(
+        `${API_URLS.TASKS}/${taskId}`,
+        data
+      );
+    },
+    delete: async (taskId: string) => {
+      return await api.delete(`${API_URLS.TASKS}/${taskId}`);
+    },
+    bulkUpdate: async (
+      data: BulkUpdateParams[],
+    ) => {
+      return await api.post(
+        `${API_URLS.TASKS}/bulk-update`,
+        {tasks : data}
+      );
     },
   },
 };

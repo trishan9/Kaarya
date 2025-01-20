@@ -2,7 +2,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiActions } from "@/api";
 import { CustomAxiosError } from "@/api/axiosInstance";
-import { CreateTaskSchema, Priority, TaskStatus } from "@/pages/dashboard/tasks/_schemas";
+import { createTaskSchema, CreateTaskSchema, Priority, TaskStatus } from "@/pages/dashboard/tasks/_schemas";
+import { z } from "zod";
+import { BulkUpdateParams } from "@/pages/dashboard/tasks/_components/TaskViewSwitcher";
 
 export interface useGetTasksProps {
     workspaceId: string;
@@ -13,6 +15,16 @@ export interface useGetTasksProps {
     dueDate?: string | null;
     search?: string | null;
 }
+
+export const useGetTask = ({ taskId }: { taskId: string }) => {
+  const query = useQuery({
+    queryKey: ["task", taskId],
+    queryFn: () => apiActions.tasks.getById(taskId),
+    retry: 1,
+  });
+
+  return query;
+};
 
 export const useGetTasks = ({
   workspaceId,
@@ -35,7 +47,6 @@ export const useGetTasks = ({
           dueDate,
       ],
       queryFn: async () => {
-          console.log(priority)
           const response = await apiActions.tasks.getAll({
                   workspaceId,
                   projectId: projectId ?? undefined,
@@ -72,4 +83,72 @@ export const useCreateTask = () => {
       toast.error(error?.response?.data?.message);
     },
   });
+};
+
+export const useUpdateTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      taskId,
+      data,
+    }: {
+      taskId: string;
+      data: z.infer<typeof createTaskSchema>;
+    }) => {
+      return await apiActions.tasks.update(taskId, data);
+    },
+    onSuccess: (response) => {
+      toast.success(response?.data?.message);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({
+        queryKey: ["task", response?.data?.task?.id],
+      });
+    },
+    onError: (error: CustomAxiosError) => {
+      const errorMessage =
+        error?.response?.data?.message || "Failed to update tasks";
+      toast.error(errorMessage);
+    },
+  });
+};
+
+export const useDeleteTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ taskId }: { taskId: string }) => {
+      return await apiActions.tasks.delete(taskId);
+    },
+    onSuccess: (response) => {
+      toast.success(response?.data?.message);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["task", response.data.id] });
+    },
+    onError: (error: CustomAxiosError) => {
+      const errorMessage =
+        error?.response?.data?.message || "Failed to delete task";
+      toast.error(errorMessage);
+    },
+  });
+};
+
+export const useBulkUpdateTasks = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+      mutationFn: async ({ data } : { data : BulkUpdateParams[]}) => {
+      return await apiActions.tasks.bulkUpdate(data);
+      },
+      onSuccess: (response) => {
+          toast.success(response?.data?.message);
+          queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      },
+      onError: (error: CustomAxiosError) => {
+        const errorMessage =
+        error?.response?.data?.message || "Failed to delete task";
+        toast.error(errorMessage);
+      },
+  });
+
+  return mutation;
 };
