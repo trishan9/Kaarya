@@ -1,4 +1,4 @@
-import { Loader, LogOut } from "lucide-react";
+import { Loader2, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -16,7 +16,7 @@ export const UserButton = () => {
   if (isLoading) {
     return (
       <div className="size-10 rounded-full flex items-center justify-center bg-neutral-200 border border-neutral-300">
-        <Loader className="size-4 animate-spin text-muted-foreground" />
+        <Loader2 className="size-4 animate-spin text-muted-foreground" />
       </div>
     );
   }

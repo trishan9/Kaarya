@@ -17,13 +17,11 @@ export const useGetWorkspaces = () => {
 };
 
 export const useGetWorkspace = ({ workspaceId }: { workspaceId: string }) => {
-  const query = useQuery({
+  return useQuery({
     queryKey: ["workspace", workspaceId],
     queryFn: () => apiActions.workspaces.getById(workspaceId),
     retry: 1,
   });
-
-  return query;
 };
 
 export const useGetWorkspaceInfo = ({

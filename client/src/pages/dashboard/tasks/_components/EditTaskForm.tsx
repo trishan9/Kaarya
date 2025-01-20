@@ -21,20 +21,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { ProjectAvatar } from "@/pages/dashboard/projects/_components/ProjectAvatar";
-import { MemberAvatar } from "@/pages/dashboard/workspaces/_components/MemberAvatar";
+import { ProjectAvatar } from "../../projects/_components/ProjectAvatar";
+import { MemberAvatar } from "../../workspaces/_components/MemberAvatar";
 import {
   type CreateTaskSchema,
   createTaskSchema,
   FibonacciSeries,
   Priority,
-  TaskStatus,
-} from "../_schemas";
-import { useCreateTask } from "@/hooks/useTasks";
-import { Loader2 } from "lucide-react";
+} from "../_schemas/index";
 
-interface CreateTaskFormProps {
+import { TaskStatus, Task } from "../_schemas/index";
+import { useUpdateTask } from "@/hooks/useTasks";
+
+interface EditTaskFormProps {
   onCancel?: () => void;
   projectOptions: {
     id: string;
@@ -45,25 +44,32 @@ interface CreateTaskFormProps {
     id: string;
     name: string;
   }[];
+  initialValues: Task;
 }
 
-export const CreateTaskForm = ({
+export const EditTaskForm = ({
   onCancel,
   memberOptions,
   projectOptions,
-}: CreateTaskFormProps) => {
-  const workspaceId = useWorkspaceId();
-  const { mutate, isPending } = useCreateTask();
+  initialValues,
+}: EditTaskFormProps) => {
+  const { mutate, isPending } = useUpdateTask();
   const form = useForm<CreateTaskSchema>({
-    resolver: zodResolver(createTaskSchema.omit({ workspaceId: true })),
+    resolver: zodResolver(
+      createTaskSchema.omit({ workspaceId: true, description: true }),
+    ),
     defaultValues: {
-      workspaceId,
+      ...initialValues,
+      dueDate: initialValues.dueDate
+        ? new Date(initialValues.dueDate)
+        : undefined,
     },
   });
 
   const onSubmit = (values: CreateTaskSchema) => {
+    console.log(values);
     mutate(
-      { data: { ...values, workspaceId } },
+      { taskId: initialValues.id, data: values },
       {
         onSuccess: () => {
           form.reset();
@@ -76,7 +82,7 @@ export const CreateTaskForm = ({
   return (
     <Card className="size-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Create new task</CardTitle>
+        <CardTitle className="text-xl font-bold">Edit a task</CardTitle>
       </CardHeader>
 
       <div className="px-7">
@@ -93,9 +99,11 @@ export const CreateTaskForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Task name</FormLabel>
+
                     <FormControl>
                       <Input {...field} placeholder="Enter task name" />
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -107,9 +115,11 @@ export const CreateTaskForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Due Date</FormLabel>
+
                     <FormControl>
                       <DatePicker {...field} />
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -211,7 +221,9 @@ export const CreateTaskForm = ({
                           <SelectValue placeholder="Select an assignee" />
                         </SelectTrigger>
                       </FormControl>
+
                       <FormMessage />
+
                       <SelectContent>
                         {memberOptions.map((member) => (
                           <SelectItem key={member.id} value={member.id}>
@@ -224,19 +236,19 @@ export const CreateTaskForm = ({
                             </div>
                           </SelectItem>
                         ))}
-                        <FormMessage />
                       </SelectContent>
                     </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="status"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Status</FormLabel>
+
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -246,7 +258,9 @@ export const CreateTaskForm = ({
                           <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                       </FormControl>
+
                       <FormMessage />
+
                       <SelectContent>
                         {Object.entries(TaskStatus).map(([key, value]) => (
                           <SelectItem key={value} value={value.toUpperCase()}>
@@ -256,13 +270,13 @@ export const CreateTaskForm = ({
                               .replace(/\b\w/g, (char) => char.toUpperCase())}
                           </SelectItem>
                         ))}
-                        <FormMessage />
                       </SelectContent>
                     </Select>
+
+                    <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="projectId"
@@ -278,7 +292,9 @@ export const CreateTaskForm = ({
                           <SelectValue placeholder="Select a project" />
                         </SelectTrigger>
                       </FormControl>
+
                       <FormMessage />
+
                       <SelectContent>
                         {projectOptions.map((project) => (
                           <SelectItem key={project.id} value={project.id}>
@@ -292,9 +308,9 @@ export const CreateTaskForm = ({
                             </div>
                           </SelectItem>
                         ))}
-                        <FormMessage />
                       </SelectContent>
                     </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -306,7 +322,7 @@ export const CreateTaskForm = ({
               <Button
                 type="button"
                 size="lg"
-                variant="outline"
+                variant="secondary"
                 onClick={onCancel}
                 disabled={isPending}
                 className={cn(!onCancel && "invisible")}
@@ -315,8 +331,7 @@ export const CreateTaskForm = ({
               </Button>
 
               <Button disabled={isPending} type="submit" size="lg">
-                Create Task
-                {isPending && <Loader2 className="w-14 h-14 animate-spin" />}
+                Save Changes
               </Button>
             </div>
           </form>

@@ -4,7 +4,7 @@ import { ProjectAvatar } from "./_components/ProjectAvatar";
 import { TaskViewSwitcher } from "../tasks/_components/TaskViewSwitcher";
 import { Button } from "@/components/ui/button";
 import { useGetProject } from "@/hooks/useProjects";
-import { useProjectId } from "@/hooks/userProjectId";
+import { useProjectId } from "@/hooks/useProjectId";
 import { PageLoader } from "@/components/PageLoader";
 import { PageError } from "@/components/PageError";
 
@@ -37,12 +37,14 @@ export const ProjectIdPage: React.FC = () => {
           <p className="text-lg font-semibold">{project.name}</p>
         </div>
 
-        <Button variant="outline" size="default" asChild>
-          <Link to={href}>
-            <Pencil className="size-4 mr-2" />
-            Edit Project
-          </Link>
-        </Button>
+        <div>
+          <Button variant="outline" size="default" asChild>
+            <Link to={href}>
+              <Pencil className="size-4 mr-2" />
+              Edit Project
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <TaskViewSwitcher hideProjectFilter />

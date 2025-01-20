@@ -1,8 +1,71 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiActions } from "@/api";
 import { CustomAxiosError } from "@/api/axiosInstance";
-import { CreateTaskSchema } from "@/pages/dashboard/tasks/_schemas";
+import { CreateTaskSchema, Priority, TaskStatus } from "@/pages/dashboard/tasks/_schemas";
+import { BulkUpdateParams } from "@/pages/dashboard/tasks/_components/TaskViewSwitcher";
+
+export interface useGetTasksProps {
+    workspaceId: string;
+    projectId?: string | null;
+    status?: TaskStatus | null;
+    priority?: Priority | null;
+    assigneeId?: string | null;
+    dueDate?: string | null;
+    search?: string | null;
+}
+
+export const useGetTask = ({ taskId }: { taskId: string }) => {
+  const query = useQuery({
+    queryKey: ["task", taskId],
+    queryFn: () => apiActions.tasks.getById(taskId),
+    retry: 1,
+  });
+
+  return query;
+};
+
+export const useGetTasks = ({
+  workspaceId,
+  assigneeId,
+  projectId,
+  dueDate,
+  search,
+  status,
+  priority
+}: useGetTasksProps) => {
+  const query = useQuery({
+      queryKey: [
+          "tasks",
+          workspaceId,
+          projectId,
+          status,
+          priority,
+          search,
+          assigneeId,
+          dueDate,
+      ],
+      queryFn: async () => {
+          const response = await apiActions.tasks.getAll({
+                  workspaceId,
+                  projectId: projectId ?? undefined,
+                  status: status ?? undefined,
+                  priority: priority ?? undefined,
+                  search: search ?? undefined,
+                  assigneeId: assigneeId ?? undefined,
+                  dueDate: dueDate ?? undefined,
+          });
+
+          if (!response.data) {
+              throw new Error("Failed to get tasks");
+          }
+
+          return response.data;
+      },
+  });
+
+  return query;
+};
 
 export const useCreateTask = () => {
   const queryClient = useQueryClient();
@@ -19,4 +82,72 @@ export const useCreateTask = () => {
       toast.error(error?.response?.data?.message);
     },
   });
+};
+
+export const useUpdateTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      taskId,
+      data,
+    }: {
+      taskId: string;
+      data: unknown;
+    }) => {
+      return await apiActions.tasks.update(taskId, data);
+    },
+    onSuccess: (response) => {
+      toast.success(response?.data?.message);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({
+        queryKey: ["task", response?.data?.task?.id],
+      });
+    },
+    onError: (error: CustomAxiosError) => {
+      const errorMessage =
+        error?.response?.data?.message || "Failed to update tasks";
+      toast.error(errorMessage);
+    },
+  });
+};
+
+export const useDeleteTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ taskId }: { taskId: string }) => {
+      return await apiActions.tasks.delete(taskId);
+    },
+    onSuccess: (response) => {
+      toast.success(response?.data?.message);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["task", response.data.id] });
+    },
+    onError: (error: CustomAxiosError) => {
+      const errorMessage =
+        error?.response?.data?.message || "Failed to delete task";
+      toast.error(errorMessage);
+    },
+  });
+};
+
+export const useBulkUpdateTasks = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+      mutationFn: async ({ data } : { data : BulkUpdateParams[]}) => {
+      return await apiActions.tasks.bulkUpdate(data);
+      },
+      onSuccess: (response) => {
+          toast.success(response?.data?.message);
+          queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      },
+      onError: (error: CustomAxiosError) => {
+        const errorMessage =
+        error?.response?.data?.message || "Failed to delete task";
+        toast.error(errorMessage);
+      },
+  });
+
+  return mutation;
 };

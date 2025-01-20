@@ -1,4 +1,4 @@
-import { useProjectId } from "@/hooks/userProjectId";
+import { useProjectId } from "@/hooks/useProjectId";
 import { EditProjectForm } from "./_components/EditProjectForm";
 import { useGetProject } from "@/hooks/useProjects";
 import { PageLoader } from "@/components/PageLoader";

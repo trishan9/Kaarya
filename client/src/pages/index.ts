@@ -11,7 +11,7 @@ import WorkspaceIdSettings from "./dashboard/workspaces/WorkspaceIdSettings";
 import { WorkspaceIdJoinPage } from "./dashboard/workspaces/WorkspaceIdJoinPage";
 import { MembersList } from "./dashboard/workspaces/MemberList";
 import NotFound from "./NotFound";
-
+import { WorkspaceIdPage } from "./dashboard/workspaces/WorkspaceIdPage";
 export {
   ProtectedLayout,
   Home,
@@ -23,6 +23,7 @@ export {
   StandaloneLayout,
   NotFound,
   DashboardLayout,
+  WorkspaceIdPage,
   WorkspaceIdSettings,
   WorkspaceIdJoinPage,
   MembersList,
