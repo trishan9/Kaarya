@@ -88,7 +88,8 @@ const errorResponse = {
   },
   TASK: {
     INVALID: "The specified task could not be found.",
-    NO_PERMISSION: "You don't have permission to access these tasks.",
+    INVALID_WORKSPACE: "All tasks must belong to the same workspace",
+    NO_PERMISSION: "You don't have permission to access/modify these tasks.",
     UPDATED: "The task was updated successfully.",
     ACCESS: "Unauthorized action. Please check your permissions.",
   },

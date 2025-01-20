@@ -53,5 +53,29 @@ export const getTasksSchema = z.object({
   priority: z.nativeEnum(Priority).optional(),
 });
 
+export const updateTaskSchema = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  status: z.nativeEnum(TaskStatus).optional(),
+  dueDate: z.string().datetime().optional(),
+  projectId: z.string().optional(),
+  assigneeId: z.string().optional(),
+  priority: z.nativeEnum(Priority).optional(),
+  sprint: z.string().optional(),
+  storyPoints: z.string().optional(),
+});
+
+export const bulkUpdateTasksSchema = z.object({
+  tasks: z.array(
+    z.object({
+      id: z.string(),
+      status: z.nativeEnum(TaskStatus),
+      position: z.number().int().positive().min(1000).max(1_000_000),
+    }),
+  ),
+});
+
 export type GetTasksSchema = z.infer<typeof getTasksSchema>;
 export type CreateTaskSchema = z.infer<typeof createTaskSchema>;
+export type UpdateTaskType = z.infer<typeof updateTaskSchema>;
+export type BulkUpdateTasksType = z.infer<typeof bulkUpdateTasksSchema>;
