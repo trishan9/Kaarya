@@ -2,17 +2,21 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { apiActions } from "@/api";
 import { CustomAxiosError } from "@/api/axiosInstance";
-import { CreateTaskSchema, Priority, TaskStatus } from "@/pages/dashboard/tasks/_schemas";
+import {
+  CreateTaskSchema,
+  Priority,
+  TaskStatus,
+} from "@/pages/dashboard/tasks/_schemas";
 import { BulkUpdateParams } from "@/pages/dashboard/tasks/_components/TaskViewSwitcher";
 
 export interface useGetTasksProps {
-    workspaceId: string;
-    projectId?: string | null;
-    status?: TaskStatus | null;
-    priority?: Priority | null;
-    assigneeId?: string | null;
-    dueDate?: string | null;
-    search?: string | null;
+  workspaceId: string;
+  projectId?: string | null;
+  status?: TaskStatus | null;
+  priority?: Priority | null;
+  assigneeId?: string | null;
+  dueDate?: string | null;
+  search?: string | null;
 }
 
 export const useGetTask = ({ taskId }: { taskId: string }) => {
@@ -32,36 +36,36 @@ export const useGetTasks = ({
   dueDate,
   search,
   status,
-  priority
+  priority,
 }: useGetTasksProps) => {
   const query = useQuery({
-      queryKey: [
-          "tasks",
-          workspaceId,
-          projectId,
-          status,
-          priority,
-          search,
-          assigneeId,
-          dueDate,
-      ],
-      queryFn: async () => {
-          const response = await apiActions.tasks.getAll({
-                  workspaceId,
-                  projectId: projectId ?? undefined,
-                  status: status ?? undefined,
-                  priority: priority ?? undefined,
-                  search: search ?? undefined,
-                  assigneeId: assigneeId ?? undefined,
-                  dueDate: dueDate ?? undefined,
-          });
+    queryKey: [
+      "tasks",
+      workspaceId,
+      projectId,
+      status,
+      priority,
+      search,
+      assigneeId,
+      dueDate,
+    ],
+    queryFn: async () => {
+      const response = await apiActions.tasks.getAll({
+        workspaceId,
+        projectId: projectId ?? undefined,
+        status: status ?? undefined,
+        priority: priority ?? undefined,
+        search: search ?? undefined,
+        assigneeId: assigneeId ?? undefined,
+        dueDate: dueDate ?? undefined,
+      });
 
-          if (!response.data) {
-              throw new Error("Failed to get tasks");
-          }
+      if (!response.data) {
+        throw new Error("Failed to get tasks");
+      }
 
-          return response.data;
-      },
+      return response.data;
+    },
   });
 
   return query;
@@ -88,13 +92,7 @@ export const useUpdateTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      taskId,
-      data,
-    }: {
-      taskId: string;
-      data: unknown;
-    }) => {
+    mutationFn: async ({ taskId, data }: { taskId: string; data: unknown }) => {
       return await apiActions.tasks.update(taskId, data);
     },
     onSuccess: (response) => {
@@ -135,19 +133,20 @@ export const useDeleteTask = () => {
 export const useBulkUpdateTasks = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-      mutationFn: async ({ data } : { data : BulkUpdateParams[]}) => {
+    mutationFn: async ({ data }: { data: BulkUpdateParams[] }) => {
       return await apiActions.tasks.bulkUpdate(data);
-      },
-      onSuccess: (response) => {
-          toast.success(response?.data?.message);
-          queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      },
-      onError: (error: CustomAxiosError) => {
-        const errorMessage =
+    },
+    onSuccess: (response) => {
+      toast.success(response?.data?.message);
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+    onError: (error: CustomAxiosError) => {
+      const errorMessage =
         error?.response?.data?.message || "Failed to delete task";
-        toast.error(errorMessage);
-      },
+      toast.error(errorMessage);
+    },
   });
 
   return mutation;
 };
+

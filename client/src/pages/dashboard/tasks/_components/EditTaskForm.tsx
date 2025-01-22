@@ -67,7 +67,6 @@ export const EditTaskForm = ({
   });
 
   const onSubmit = (values: CreateTaskSchema) => {
-    console.log(values);
     mutate(
       { taskId: initialValues.id, data: values },
       {

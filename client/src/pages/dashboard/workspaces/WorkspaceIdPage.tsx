@@ -6,13 +6,9 @@ import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 export const WorkspaceIdPage = () => {
   const workspaceId = useWorkspaceId();
 
-  console.log(workspaceId);
   const { data: projects, isLoading: projectsLoading } = useGetProjects({
     workspaceId,
   });
-
-  console.log(projectsLoading);
-  console.log(projects);
 
   const isLoading = projectsLoading;
 

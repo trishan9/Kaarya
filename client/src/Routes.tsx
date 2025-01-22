@@ -54,9 +54,9 @@ const AppRoutes = () => {
               <Route path=":workspaceId" element={<DashboardLayout />}>
                 <Route index element={<WorkspaceIdPage />} />
 
-                <Route path="tasks" element={<TasksPage />} />
-
-                <Route path="tasks/:taskId" element={<TaskIdPage />} />
+                <Route path="tasks" element={<TasksPage />}>
+                  <Route path=":taskId" element={<TaskIdPage />} />
+                </Route>
 
                 <Route path="projects">
                   <Route path=":projectId" element={<ProjectIdPage />} />

@@ -110,7 +110,7 @@ export const apiActions = {
     },
   },
   tasks: {
-    getById : async (taskId: string) => {
+    getById: async (taskId: string) => {
       return await api.get(`${API_URLS.TASKS}/${taskId}`);
     },
     getAll: async (query: useGetTasksProps) => {
@@ -119,25 +119,14 @@ export const apiActions = {
     create: async (data: z.infer<typeof createTaskSchema>) => {
       return await api.post(API_URLS.TASKS, data);
     },
-    update: async (
-      taskId: string,
-      data: unknown,
-    ) => {
-      return await api.patch(
-        `${API_URLS.TASKS}/${taskId}`,
-        data
-      );
+    update: async (taskId: string, data: unknown) => {
+      return await api.patch(`${API_URLS.TASKS}/${taskId}`, data);
     },
     delete: async (taskId: string) => {
       return await api.delete(`${API_URLS.TASKS}/${taskId}`);
     },
-    bulkUpdate: async (
-      data: BulkUpdateParams[],
-    ) => {
-      return await api.post(
-        `${API_URLS.TASKS}/bulk-update`,
-        {tasks : data}
-      );
+    bulkUpdate: async (data: BulkUpdateParams[]) => {
+      return await api.post(`${API_URLS.TASKS}/bulk-update`, { tasks: data });
     },
   },
 };

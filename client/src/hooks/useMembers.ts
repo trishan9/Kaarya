@@ -5,7 +5,7 @@ import { CustomAxiosError } from "@/api/axiosInstance";
 
 export const useGetMembers = ({ workspaceId }: { workspaceId: string }) => {
   const query = useQuery({
-    queryKey: ["member", workspaceId],
+    queryKey: ["members", workspaceId],
     queryFn: () => apiActions.workspaces.getById(workspaceId),
     retry: 1,
   });
@@ -21,7 +21,9 @@ export const useRemoveMember = () => {
       return await apiActions.members.remove(memberId);
     },
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ["members"] });
+      queryClient.invalidateQueries({
+        queryKey: ["members", response.data.member.workspaceId],
+      });
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       queryClient.invalidateQueries({
         queryKey: ["workspace", response.data.member.workspaceId],
@@ -51,9 +53,11 @@ export const useUpdateMember = () => {
     },
     onSuccess: (response) => {
       toast.success(response?.data?.message);
-      queryClient.invalidateQueries({ queryKey: ["members"] });
       queryClient.invalidateQueries({
-        queryKey: ["workspace", response?.data?.workspace?.id],
+        queryKey: ["members", response?.data?.member?.workspaceId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["workspace", response?.data?.member?.workspaceId],
       });
     },
     onError: (error: CustomAxiosError) => {
