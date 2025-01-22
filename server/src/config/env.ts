@@ -7,7 +7,7 @@ const envSchema = z.object({
   PORT: z.string().optional(),
   NODE_ENV: z.string().optional(),
   CLIENT_BASE_URL: z.string().url(),
-  POSTGRESQL_URL: z.string().startsWith("postgresql://"),
+  POSTGRESQL_URL: z.string().startsWith("postgres"),
   JWT_ACCESS_SECRET: z.string(),
   JWT_REFRESH_SECRET: z.string(),
   ACCESS_TOKEN_EXPIRES_IN: z.string(),
