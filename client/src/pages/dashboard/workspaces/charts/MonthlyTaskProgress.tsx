@@ -27,7 +27,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function Chart2({projectsData} : {projectsData : ProjectsData}) {
+export function MonthlyTaskProgress({projectsData} : {projectsData : ProjectsData}) {
   const [selectedProject, setSelectedProject] = useState<keyof ProjectsData>("All")
 
   const isValidProject = (project: string): project is keyof ProjectsData => {

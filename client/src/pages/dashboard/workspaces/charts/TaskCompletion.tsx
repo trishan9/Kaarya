@@ -40,7 +40,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function Chart1({data} : {data : any}) {
+export function TaskCompletion({data} : {data : any}) {
   const chartData = [
     { name: "Active", taskCount: data?.activeTasks, fill: "var(--color-activeTasks)" },
     { name: "Completed", taskCount: data?.completedTasks, fill: "var(--color-completedTasks)" },

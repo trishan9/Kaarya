@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useMemo } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -28,7 +26,7 @@ interface ChartData {
   [key: string]: string | number
 }
 
-export function Chart5({ memberData }: { memberData: MemberData[] }) {
+export function MemberTaskContribution({ memberData }: { memberData: MemberData[] }) {
   const [project, setProject] = useState<string>("all")
 
   const projects = useMemo(() => {
@@ -87,6 +85,7 @@ export function Chart5({ memberData }: { memberData: MemberData[] }) {
     <Card>
       <CardHeader>
         <CardTitle className="sticky">Member Task Contribution</CardTitle>
+
         <CardDescription>On the Basis of Status and Project</CardDescription>
       </CardHeader>
       <CardContent>
@@ -95,6 +94,7 @@ export function Chart5({ memberData }: { memberData: MemberData[] }) {
             <SelectTrigger>
               <SelectValue placeholder="Select project" />
             </SelectTrigger>
+
             <SelectContent>
               {projects.map((proj) => (
                 <SelectItem key={proj} value={proj}>
@@ -104,6 +104,7 @@ export function Chart5({ memberData }: { memberData: MemberData[] }) {
             </SelectContent>
           </Select>
         </div>
+
         <ScrollArea className="rounded-lg w-full whitespace-nowrap">
           <div className="h-[500px]">
             <ChartContainer config={chartConfig} className="h-full w-full min-w-[600px]">

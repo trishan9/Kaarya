@@ -10,7 +10,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function Chart3({chartData} : {chartData : any}) {
+export function MonthlyTaskDistribution({chartData} : {chartData : any}) {
 
   return (
     <Card>

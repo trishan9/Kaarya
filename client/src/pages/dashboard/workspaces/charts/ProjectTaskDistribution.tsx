@@ -1,5 +1,3 @@
-"use client"
-
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -18,7 +16,7 @@ interface TaskData {
   [key: string]: string | number
 }
 
-export function Chart4({ taskData }: { taskData: TaskData[] }) {
+export function ProjectTaskDistribution({ taskData }: { taskData: TaskData[] }) {
   const chartConfig: ChartConfig = useMemo(() => {
     const config: ChartConfig = {}
     const keys = Object.keys(taskData[0]).filter((key) => key !== "status")
