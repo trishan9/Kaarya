@@ -40,7 +40,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function Chart1({data} : {data : any}) {
+export function TaskDistByPriority({data} : {data : any}) {
   const chartData = React.useMemo(() => {
     return data.map((item : any) => ({
       ...item,

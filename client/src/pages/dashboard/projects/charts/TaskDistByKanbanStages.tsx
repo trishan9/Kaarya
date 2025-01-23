@@ -19,7 +19,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function Chart2({chartData} : {chartData:any}) {
+export function TaskDistByKanbanStages({chartData} : {chartData:any}) {
   return (
     <Card>
       <CardHeader>

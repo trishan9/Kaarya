@@ -2,12 +2,12 @@ import { PageError } from "@/components/PageError";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetProjects } from "@/hooks/useProjects";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { Chart1 } from "./charts/Chart1";
-import {Chart2 } from "./charts/Chart2";
-import { Chart3 } from "./charts/Chart3";
-import { Chart4 } from "./charts/Chart4";
+import { TaskCompletion } from "./charts/TaskCompletion";
+import { MonthlyTaskProgress } from "./charts/MonthlyTaskProgress";
+import { MonthlyTaskDistribution } from "./charts/MonthlyTaskDistribution";
+import { ProjectTaskDistribution } from "./charts/ProjectTaskDistribution";
 import { Analytics } from "../../../components/Analytics";
-import { Chart5 } from "./charts/Chart5";
+import { MemberTaskContribution } from "./charts/MemberTaskContribution";
 import { Project } from "../projects/_schemas";
 import { Task } from "../tasks/_schemas";
 import { useCreateTaskModal } from "@/hooks/useCreateTaskModal";
@@ -19,304 +19,21 @@ import { Card, CardContent } from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
 import { useCreateProjectModal } from "@/hooks/useCreateProjectModal";
 import { ProjectAvatar } from "../projects/_components/ProjectAvatar";
-import { Member } from "./_schemas";
 import { MemberAvatar } from "./_components/MemberAvatar";
+import { Member } from "./_schemas";
 import { useGetTasks } from "@/hooks/useTasks";
 import { useGetMembers } from "@/hooks/useMembers";
-
-const analyticsData = {
-    "analytics": {
-        "taskCount": 1,
-        "taskDiff": -14,
-        "assignedTaskCount": 1,
-        "assignedTaskDiff": -2,
-        "incompleteTaskCount": 0,
-        "incompleteTaskDiff": -14,
-        "completedTaskCount": 1,
-        "completeTaskDiff": 0,
-        "overdueTaskCount": 0,
-        "overdueTaskDiff": -14,
-        "taskCompletionOverview": {
-            "completedTasks": 2,
-            "notStartedTasks": 6,
-            "activeTasks": 8
-        },
-        "monthlyTaskProgress": {
-            "All": [
-                {
-                    "name": "Nov",
-                    "total": 0,
-                    "completed": 0
-                },
-                {
-                    "name": "Dec",
-                    "total": 0,
-                    "completed": 0
-                },
-                {
-                    "name": "Jan",
-                    "total": 15,
-                    "completed": 1
-                },
-                {
-                    "name": "Feb",
-                    "total": 1,
-                    "completed": 1
-                }
-            ],
-            "Scool - TRS": [
-                {
-                    "name": "Nov",
-                    "total": 0,
-                    "completed": 0
-                },
-                {
-                    "name": "Dec",
-                    "total": 0,
-                    "completed": 0
-                },
-                {
-                    "name": "Jan",
-                    "total": 14,
-                    "completed": 1
-                },
-                {
-                    "name": "Feb",
-                    "total": 0,
-                    "completed": 0
-                }
-            ],
-            "आयु": [
-                {
-                    "name": "Nov",
-                    "total": 0,
-                    "completed": 0
-                },
-                {
-                    "name": "Dec",
-                    "total": 0,
-                    "completed": 0
-                },
-                {
-                    "name": "Jan",
-                    "total": 1,
-                    "completed": 0
-                },
-                {
-                    "name": "Feb",
-                    "total": 1,
-                    "completed": 1
-                }
-            ]
-        },
-        "monthlyTaskDistribution": [
-            {
-                "month": "September",
-                "taskCount": 0
-            },
-            {
-                "month": "October",
-                "taskCount": 0
-            },
-            {
-                "month": "November",
-                "taskCount": 0
-            },
-            {
-                "month": "December",
-                "taskCount": 0
-            },
-            {
-                "month": "January",
-                "taskCount": 15
-            },
-            {
-                "month": "February",
-                "taskCount": 1
-            }
-        ],
-        "projectsTaskDistribution": [
-            {
-                "status": "Backlog",
-                "Scool - TRS": 5,
-                "आयु": 1
-            },
-            {
-                "status": "Todo",
-                "Scool - TRS": 1,
-                "आयु": 0
-            },
-            {
-                "status": "In Progress",
-                "Scool - TRS": 5,
-                "आयु": 0
-            },
-            {
-                "status": "In Review",
-                "Scool - TRS": 2,
-                "आयु": 0
-            },
-            {
-                "status": "Completed",
-                "Scool - TRS": 1,
-                "आयु": 1
-            }
-        ],
-        "memberTaskContribution": [
-            {
-                "member": "Nischay Maharjan",
-                "Backlog": {
-                    "all": 2,
-                    "Scool - TRS": 1,
-                    "आयु": 1
-                },
-                "Todo": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                },
-                "In Progress": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "In Review": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "Completed": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                }
-            },
-            {
-                "member": "Trishan Wagle",
-                "Backlog": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "Todo": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                },
-                "In Progress": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "In Review": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "Completed": {
-                    "all": 1,
-                    "Scool - TRS": 0,
-                    "आयु": 1
-                }
-            },
-            {
-                "member": "Smarika Pokharel",
-                "Backlog": {
-                    "all": 2,
-                    "Scool - TRS": 2,
-                    "आयु": 0
-                },
-                "Todo": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                },
-                "In Progress": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "In Review": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                },
-                "Completed": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                }
-            },
-            {
-                "member": "Abiral Shrestha",
-                "Backlog": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "Todo": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "In Progress": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "In Review": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                },
-                "Completed": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                }
-            },
-            {
-                "member": "Nirjal Thapa",
-                "Backlog": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                },
-                "Todo": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                },
-                "In Progress": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                },
-                "In Review": {
-                    "all": 0,
-                    "Scool - TRS": 0,
-                    "आयु": 0
-                },
-                "Completed": {
-                    "all": 1,
-                    "Scool - TRS": 1,
-                    "आयु": 0
-                }
-            }
-        ]
-    },
-    "message": "Workspace data retrieved successfully."
-}
+import { useGetWorkspaceAnalytics } from "@/hooks/useGetAnalytics";
 
 export const WorkspaceIdPage = () => {
   const workspaceId = useWorkspaceId();
-
   const { data: projects, isLoading: projectsLoading } = useGetProjects({
     workspaceId,
   });
 
-  // const { data: analytics, isLoading: analyticsLoading } =
-  // useGetWorkspaceAnalytics({ workspaceId });
+  const { data: analytics, isLoading: analyticsLoading } = useGetWorkspaceAnalytics({ workspaceId });
+  const analyticsData = analytics?.data
+
   const { data: tasks, isLoading: tasksLoading } = useGetTasks({
     workspaceId,
   });
@@ -325,7 +42,7 @@ export const WorkspaceIdPage = () => {
     workspaceId,
   });
 
-  const isLoading = tasksLoading || projectsLoading || membersLoading;
+  const isLoading = analyticsLoading || tasksLoading || projectsLoading || membersLoading;
 
   if (isLoading) return <PageLoader />;
 
@@ -334,37 +51,39 @@ export const WorkspaceIdPage = () => {
 
   return (
     <>
-      <div className="mb-8 flex flex-col">
-        <Analytics data={analyticsData?.analytics} />
-      </div>
+        <div className="mb-8 flex flex-col">
+        	<Analytics data={analyticsData.analytics} />
+      	</div>
       
-      <div className="2xl:grid xl:grid-cols-8 xl:gap-x-7 xl:grid">
-          <div className="mb-8 xl:col-span-3">
-            <Chart1 data= {analyticsData.analytics.taskCompletionOverview} />
-          </div>
+      	<div className="2xl:grid xl:grid-cols-8 xl:gap-x-7 xl:grid">
+          	<div className="mb-8 xl:col-span-3">
+            	<TaskCompletion data= {analyticsData.analytics.taskCompletionOverview} />
+            </div>
 
-          <div className="mb-8 xl:col-span-5">
-            <Chart2 projectsData= {analyticsData.analytics.monthlyTaskProgress} />
-          </div>
-
-          <div className="mb-8 xl:col-span-4">
-            <Chart3 chartData= {analyticsData.analytics.monthlyTaskDistribution} />
-          </div>
-
-          <div className="mb-8 xl:col-span-4">
-            <Chart4 taskData= {analyticsData.analytics.projectsTaskDistribution} />
-          </div>
-
-          <div className="mb-8 xl:col-span-8">
-            <Chart5 memberData={analyticsData.analytics.memberTaskContribution}/>
-          </div>
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-				<TaskList data={tasks?.tasks.tasks.slice(0,3)} total={tasks?.tasks?.total} />
-				<ProjectList data={projects?.data?.projects} total={projects?.data?.projects?.length} />
-				<MembersList data={members?.data?.workspace?.members} total={members?.data?.workspace?.members.length} />
+			<div className="mb-8 xl:col-span-5">
+				<MonthlyTaskProgress projectsData= {analyticsData.analytics.monthlyTaskProgress} />
 			</div>
+
+			<div className="mb-8 xl:col-span-4">
+				<MonthlyTaskDistribution chartData= {analyticsData.analytics.monthlyTaskDistribution} />
+			</div>
+
+			<div className="mb-8 xl:col-span-4">
+				<ProjectTaskDistribution taskData= {analyticsData.analytics.projectsTaskDistribution} />
+			</div>
+
+			<div className="mb-8 xl:col-span-8">
+				<MemberTaskContribution memberData={analyticsData.analytics.memberTaskContribution}/>
+			</div>
+      	</div>
+
+      	<div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+			<TaskList data={tasks?.tasks.tasks.slice(0,3)} total={tasks?.tasks?.total} />
+
+			<ProjectList data={projects?.data?.projects} total={projects?.data?.projects?.length} />
+
+			<MembersList data={members?.data?.workspace?.members} total={members?.data?.workspace?.members.length} />
+		</div>
     </>
   );
 };
@@ -382,11 +101,13 @@ export const TaskList = ({ data, total }: TaskListProps) => {
 			<div className="border rounded-lg p-4">
 				<div className="flex items-center justify-between">
 					<p className="text-lg font-semibold">Tasks ({total})</p>
+
 					<Button variant="outline" size="icon" onClick={createTask}>
 						<PlusIcon className="size-4 text-neutral-400" />
 					</Button>
 				</div>
 				<DottedSeparator className="my-4" />
+
 				<ul className="flex flex-col gap-y-4">
 					{data.map((task) => (
 						<li key={task.id}>
@@ -396,9 +117,12 @@ export const TaskList = ({ data, total }: TaskListProps) => {
 										<p className="text-lg font-medium truncate">{task.name}</p>
 										<div className="flex items-center gap-x-2">
 											<p>{task.project?.name}</p>
+
 											<div className="dot" />
+
 											<div className="text-sm text-muted-foreground flex items-center">
 												<CalendarIcon className="size-3 mr-1" />
+
 												<span className="truncate">
 													{formatDistanceToNow(new Date(task.dueDate))}
 												</span>
@@ -434,11 +158,13 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
 			<div className="bg-white border rounded-lg p-4">
 				<div className="flex items-center justify-between">
 					<p className="text-lg font-semibold">Projects ({total})</p>
+
 					<Button variant="secondary" size="icon" onClick={createProject}>
 						<PlusIcon className="size-4 text-neutral-400" />
 					</Button>
 				</div>
 				<DottedSeparator className="my-4" />
+
 				<ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 					{data.map((project) => (
 						<li key={project.id}>
@@ -480,6 +206,7 @@ export const MembersList = ({ data, total }: MembersListProps) => {
 			<div className="bg-white border rounded-lg p-4">
 				<div className="flex items-center justify-between">
 					<p className="text-lg font-semibold">Members ({total})</p>
+
 					<Button asChild variant="secondary" size="icon">
 						<Link to={`/workspaces/${workspaceId}/members`}>
 							<SettingsIcon className="size-4 text-neutral-400" />
@@ -487,16 +214,19 @@ export const MembersList = ({ data, total }: MembersListProps) => {
 					</Button>
 				</div>
 				<DottedSeparator className="my-4" />
+
 				<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 					{data.map((member) => (
 						<li key={member.id}>
 							<Card className="shadow-none rounded-lg overflow-hidden">
 								<CardContent className="p-3 flex-col flex items-center gap-x-2">
 									<MemberAvatar className="size-12" name={member.name} />
+
 									<div className="flex flex-col items-center overflow-hidden">
 										<p className="text-lg font-medium line-clamp-1">
 											{member.name}
 										</p>
+
 										<p className="text-sm text-muted-foreground line-clamp-1">
 											{member.email}
 										</p>
