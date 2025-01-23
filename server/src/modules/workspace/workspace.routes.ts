@@ -17,6 +17,10 @@ workspaceRouter.get(
   "/:workspaceId/info",
   workspaceController.getWorkspaceInfoById,
 );
+workspaceRouter.get(
+  "/:workspaceId/analytics",
+  workspaceController.getWorkspaceAnalyticsById,
+);
 workspaceRouter.patch(
   "/:workspaceId",
   upload.single("image"),
