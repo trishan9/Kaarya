@@ -19,6 +19,7 @@ import { ProjectIdPage } from "./pages/dashboard/projects/ProjectIdPage";
 import { ProjectIdSettingsPage } from "./pages/dashboard/projects/ProjectIdSettingsPage";
 import { TaskIdPage } from "./pages/dashboard/tasks/_components/TaskIdPage";
 import TasksPage from "./pages/dashboard/tasks/_components/TasksPage";
+import ActivityLog from "./pages/dashboard/projects/ActivityLog";
 
 const AppRoutes = () => {
   return (
@@ -53,6 +54,8 @@ const AppRoutes = () => {
 
               <Route path=":workspaceId" element={<DashboardLayout />}>
                 <Route index element={<WorkspaceIdPage />} />
+                
+                <Route path="logs" element={<ActivityLog />} />
 
                 <Route path="tasks" element={<TasksPage />} />
 
