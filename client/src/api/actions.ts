@@ -72,6 +72,9 @@ export const apiActions = {
         inviteCode,
       });
     },
+    workspaceAnalytics: async (workspaceId : string) => {
+      return await api.get(`${API_URLS.WORKSPACES}/${workspaceId}/analytics`)
+    }
   },
   members: {
     remove: async (memberId: string) => {
@@ -108,6 +111,9 @@ export const apiActions = {
     delete: async (projectId: string) => {
       return await api.delete(`${API_URLS.PROJECTS}/${projectId}`);
     },
+    projectAnalytics: async (projectId : string) => {
+      return await api.get(`${API_URLS.PROJECTS}/${projectId}/analytics`)
+    }
   },
   tasks: {
     getById: async (taskId: string) => {

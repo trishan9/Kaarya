@@ -16,7 +16,7 @@ import { DataTable } from "./DataTable";
 
 import { useBulkUpdateTasks } from "@/hooks/useTasks";
 import { TaskStatus } from "../_schemas";
-// import { DataCalander } from "./data-calander";
+import { DataCalendar } from "./DataCalendar";
 
 interface TaskViewSwitcherProps {
   hideProjectFilter?: boolean;
@@ -111,8 +111,7 @@ export const TaskViewSwitcher = ({
             </TabsContent>
 
             <TabsContent value="calendar" className="mt-0 h-full pb-4">
-              {/* <DataCalander data={tasks?.documents ?? []} /> */}
-              <p>Data calender</p>
+              <DataCalendar data={tasks?.tasks?.tasks ?? []} />
             </TabsContent>
           </>
         )}
