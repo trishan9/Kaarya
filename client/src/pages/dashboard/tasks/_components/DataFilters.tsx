@@ -186,4 +186,3 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
     </div>
   );
 };
-

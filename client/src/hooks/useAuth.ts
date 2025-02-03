@@ -20,7 +20,6 @@ export const useLogin = () => {
       navigate("/");
     },
     onError: (error: CustomAxiosError) => {
-      console.log(error);
       toast.error(error?.response?.data?.message);
     },
   });
@@ -32,13 +31,11 @@ export const useSignup = () => {
   return useMutation({
     mutationFn: apiActions.auth.register,
     onSuccess: (response) => {
-      console.log(response);
       toast.dismiss();
       toast.success(response?.data?.message);
       navigate("/login");
     },
     onError: (error: CustomAxiosError) => {
-      console.log(error);
       toast.error(error?.response?.data?.message ?? "");
     },
   });

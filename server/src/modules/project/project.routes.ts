@@ -20,5 +20,9 @@ projectRouter.patch(
 projectRouter.delete("/:projectId", projectControllers.deleteProject);
 projectRouter.get("/", isAuthenticated, projectControllers.getAllProjects);
 projectRouter.get("/:projectId", projectControllers.getProjectById);
+projectRouter.get(
+  "/:projectId/analytics",
+  projectControllers.getProjectAnalyticsById,
+);
 
 export { projectRouter };

@@ -1,57 +1,58 @@
 import {
-    PlusIcon,
-    CircleDotIcon,
-    CircleCheckIcon,
-    CircleDashedIcon,
-    CircleDotDashedIcon,
-    CircleIcon,
+  PlusIcon,
+  CircleDotIcon,
+  CircleCheckIcon,
+  CircleDashedIcon,
+  CircleDotDashedIcon,
+  CircleIcon,
 } from "lucide-react";
 import { snakeCaseToTitleCase } from "@/lib/utils";
 import { TaskStatus } from "../_schemas/index";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { useCreateTaskModal } from "@/hooks/useCreateTaskModal"; 
+import { useCreateTaskModal } from "@/hooks/useCreateTaskModal";
 
 interface KanbanColumnHeaderProps {
-    board: TaskStatus;
-    taskCount: number;
+  board: TaskStatus;
+  taskCount: number;
 }
 const statusIconMap: Record<TaskStatus, React.ReactNode> = {
-    [TaskStatus.BACKLOG]: (
-        <CircleDashedIcon className="size=[18px] text-pink-400" />
-    ),
-    [TaskStatus.TODO]: <CircleIcon className="size=[18px] text-rose-400" />,
-    [TaskStatus.COMPLETED]: (
-        <CircleCheckIcon className="size=[18px] text-emerald-400" />
-    ),
-    [TaskStatus.IN_PROGRESS]: (
-        <CircleDotDashedIcon className="size=[18px] text-yellow-400" />
-    ),
-    [TaskStatus.IN_REVIEW]: (
-        <CircleDotIcon className="size=[18px] text-blue-400" />
-    ),
+  [TaskStatus.BACKLOG]: (
+    <CircleDashedIcon className="size=[18px] text-pink-400" />
+  ),
+  [TaskStatus.TODO]: <CircleIcon className="size=[18px] text-rose-400" />,
+  [TaskStatus.COMPLETED]: (
+    <CircleCheckIcon className="size=[18px] text-emerald-400" />
+  ),
+  [TaskStatus.IN_PROGRESS]: (
+    <CircleDotDashedIcon className="size=[18px] text-yellow-400" />
+  ),
+  [TaskStatus.IN_REVIEW]: (
+    <CircleDotIcon className="size=[18px] text-blue-400" />
+  ),
 };
 export const KanbanColumnHeader = ({
-    board,
-    taskCount,
+  board,
+  taskCount,
 }: KanbanColumnHeaderProps) => {
-    const { open } = useCreateTaskModal();
-    const icon = statusIconMap[board];
-    
-    return (
-        <div className="px-2 py-1.5 flex items-center justify-between">
-            <div className="flex items-center gap-x-2">
-                {icon}
-                <h2 className="text-sm font-medium">{snakeCaseToTitleCase(board)}</h2>
+  const { open } = useCreateTaskModal();
+  const icon = statusIconMap[board];
 
-                <div className="size-5 flex items-center justify-center rounded-md bg-neutral-200 text-xs text-neutral-700 font-medium">
-                    {taskCount}
-                </div>
-            </div>
+  return (
+    <div className="px-2 py-1.5 flex items-center justify-between">
+      <div className="flex items-center gap-x-2">
+        {icon}
+        <h2 className="text-sm font-medium">{snakeCaseToTitleCase(board)}</h2>
 
-            <Button className="size-5" onClick={open} variant="ghost" size="icon">
-                <PlusIcon className="size-4 text-neutral-500" />
-            </Button>
+        <div className="size-5 flex items-center justify-center rounded-md bg-neutral-200 text-xs text-neutral-700 font-medium">
+          {taskCount}
         </div>
-    );
+      </div>
+
+      <Button className="size-5" onClick={open} variant="ghost" size="icon">
+        <PlusIcon className="size-4 text-neutral-500" />
+      </Button>
+    </div>
+  );
 };
+

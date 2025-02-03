@@ -38,8 +38,8 @@ export type Task = {
   assigneeId: string;
   projectId: string;
   workspaceId: string;
-  project : Project;
-  assignee : Member;
+  project: Project;
+  assignee: Member;
 };
 
 export const createTaskSchema = z.object({

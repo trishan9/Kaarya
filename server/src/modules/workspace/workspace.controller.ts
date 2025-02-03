@@ -101,6 +101,24 @@ export const getWorkspaceInfoById = asyncHandler(
   },
 );
 
+export const getWorkspaceAnalyticsById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      params: { workspaceId },
+    } = req;
+
+    const workspace = await workspaceService.getWorkspaceAnalyticsById(
+      workspaceId,
+      res.locals.user.id,
+    );
+
+    return apiResponse(res, StatusCodes.OK, {
+      ...workspace,
+      message: responseMessage.WORKSPACE.RETRIEVED,
+    });
+  },
+);
+
 export const updateWorkspace = asyncHandler(
   async (req: Request, res: Response) => {
     const {

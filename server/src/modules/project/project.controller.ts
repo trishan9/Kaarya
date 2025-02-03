@@ -119,3 +119,18 @@ export const getProjectById = asyncHandler(
     });
   },
 );
+
+export const getProjectAnalyticsById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { projectId } = req.params;
+    const userId = res.locals?.user.id;
+    const project = await projectServices.getProjectAnalyticsById(
+      projectId,
+      userId,
+    );
+    return apiResponse(res, StatusCodes.OK, {
+      ...project,
+      message: responseMessage.PROJECT.RETRIEVED,
+    });
+  },
+);
