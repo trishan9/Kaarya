@@ -16,6 +16,11 @@ const badgeVariants = cva(
                 destructive:
                     "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
                 outline: "text-foreground",
+                SPRINT_PLANNING: "border bg-yellow-100 text-primary hover:bg-yellow-100/80",
+                SPRINT_REVIEW: "border bg-blue-100 text-primary hover:bg-blue-100/80",
+                SPRINT_RETROSPECTIVE: "border bg-pink-100 text-primary hover:bg-pink-100/80",
+                DAILY_SCRUM: "border bg-emerald-100 text-primary hover:bg-emerald-100/8",
+                OTHERS: "border bg-red-100 text-primary hover:bg-red-100/80",
                 [TaskStatus.TODO]:
                     "border-transparent bg-red-400 text-primary hover:bg-red-400/80",
                 [TaskStatus.COMPLETED]:

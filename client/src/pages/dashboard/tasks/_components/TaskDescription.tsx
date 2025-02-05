@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Task } from "../_schemas";
 import { useUpdateTask } from "@/hooks/useTasks";
-import { Editor } from "./Editor";
-import { Preview } from "./Preview";
+import { Editor } from "@/components/Editor";
+import { Preview } from "@/components/Preview";
 
 interface TaskDescriptionProps {
   task: Task;
