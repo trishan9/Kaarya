@@ -13,7 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { DatePicker } from "@/components/DatePicker";
 import { useProjectId } from "@/hooks/useProjectId";
 import { useGetLogs } from "@/hooks/useLogs";
-import type { ActivityType, ActivityLogInput } from "./_schemas";
+import type { ActivityType, ActivityLogType } from "./_schemas";
 import { Ellipsis, SquarePen } from "lucide-react";
 import { LogsAction } from "./_components/LogsActions";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
@@ -22,23 +22,6 @@ import "react-quill/dist/quill.snow.css";
 import { useCreateLogModal } from "@/hooks/useCreateLogModal";
 import { Preview } from "@/components/Preview";
 import { Badge } from "@/components/ui/badge";
-
-interface ActivityLog extends ActivityLogInput {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  isDeleted: boolean;
-  member: {
-    id: string;
-    role: string;
-    userId: string;
-    user: {
-      id: string;
-      name: string;
-      email: string;
-    };
-  };
-}
 
 const activityTypeMap: Record<ActivityType, string> = {
   SPRINT_PLANNING: "Planning",
@@ -50,7 +33,7 @@ const activityTypeMap: Record<ActivityType, string> = {
 
 export default function ProjectLogs() {
   const projectId = useProjectId();
-  const [logs, setLogs] = useState<ActivityLog[]>([]);
+  const [logs, setLogs] = useState<ActivityLogType[]>([]);
   const [filterUser, setFilterUser] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<ActivityType | "all" | null>(
     null

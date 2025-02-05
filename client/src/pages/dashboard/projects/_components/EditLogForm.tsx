@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ActivityLogSchema, ActivityLogType, type ActivityType } from "../_schemas"
-import { Editor } from "../../../../components/Editor"
+import { Editor } from "@/components/Editor"
 import { useUpdateLogs } from "@/hooks/useLogs"
 import { DottedSeparator } from "@/components/ui/dotted-separator"
 

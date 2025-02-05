@@ -41,13 +41,31 @@ export const ActivityTypeEnum = z.enum([
   "OTHERS",
 ])
 
-export type ActivityType = z.infer<typeof ActivityTypeEnum>
+export interface ActivityLogType {
+  id: string
+  type: ActivityType
+  content: string
+  createdAt: string
+  updatedAt: string
+  isDeleted: boolean
+  member: {
+    id: string
+    role: string
+    userId: string
+    user: {
+      id: string
+      name: string
+      email: string
+    }
+  }
+}
 
 export const ActivityLogSchema = z.object({
   content: z.string().min(1, "Content is required").max(500, "Content must be 500 characters or less"),
   type: ActivityTypeEnum,
 })
 
-export type CreateProjectSchema = z.infer<typeof createProjectSchema>;
-export type UpdateProjectSchema = z.infer<typeof updateProjectSchema>;
+export type CreateProjectSchema = z.infer<typeof createProjectSchema>
+export type UpdateProjectSchema = z.infer<typeof updateProjectSchema>
 export type ActivityLogInput = z.infer<typeof ActivityLogSchema>
+export type ActivityType = z.infer<typeof ActivityTypeEnum>

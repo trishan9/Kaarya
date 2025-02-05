@@ -4,11 +4,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useConfirm } from "@/hooks/useConfirm"
 import { useDeleteLog } from "@/hooks/useLogs"
 import { useEditLogModal } from "@/hooks/useEditLogModal"
-import type { ActivityLogInput } from "../_schemas"
+import type { ActivityLogType } from "../_schemas"
 
 interface LogActionsProps {
   id: string
-  logData: ActivityLogInput & { id: string }
+  logData: ActivityLogType
   children: React.ReactNode
 }
 
