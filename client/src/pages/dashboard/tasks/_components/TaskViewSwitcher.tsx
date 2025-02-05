@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useQueryState } from "nuqs";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2, Plus, SquarePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,6 +17,7 @@ import { DataTable } from "./DataTable";
 import { useBulkUpdateTasks } from "@/hooks/useTasks";
 import { TaskStatus } from "../_schemas";
 import { DataCalendar } from "./DataCalendar";
+import { Link, useLocation } from "react-router";
 
 interface TaskViewSwitcherProps {
   hideProjectFilter?: boolean;
@@ -33,6 +34,9 @@ export const TaskViewSwitcher = ({
 }: TaskViewSwitcherProps) => {
   const [{ status, dueDate, assigneeId, projectId, priority }] =
     useTaskFilter();
+
+  const location = useLocation();
+  const pathname = location.pathname;
 
   const [view, setView] = useQueryState("task-view", {
     defaultValue: "table",
@@ -80,11 +84,19 @@ export const TaskViewSwitcher = ({
               </TabsTrigger>
             </TabsList>
           </div>
+          <div className="flex flex-row items-center gap-2">
+            <Button onClick={open} size="sm" className="w-full lg:w-auto ">
+              <Plus className="size-4" />
+              Add New Task
+            </Button>
 
-          <Button onClick={open} size="sm" className="w-full lg:w-auto ">
-            <Plus className="size-4" />
-            Add New Task
-          </Button>
+            <Button variant="outline" size="default" asChild>
+              <Link to={`${pathname}/logs`}>
+                <SquarePen className="size-4 mr-2" />
+                Logs
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <DottedSeparator className="my-4" />

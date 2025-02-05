@@ -135,6 +135,24 @@ export const apiActions = {
       return await api.post(`${API_URLS.TASKS}/bulk-update`, { tasks: data });
     },
   },
+  logs: {
+    getAll: async (projectId: string) => {
+      return await api.get(`${API_URLS.LOGS}/projects/${projectId}`);
+    },
+    create: async (projectId: string, data: any) => {
+      return await api.post(
+        `${API_URLS.LOGS}/projects/${projectId}`,
+        data
+      );
+    },
+    update: async (logsId: string, data: unknown) => {
+      return await api.patch(`${API_URLS.LOGS}/${logsId}`, data);
+    },
+    delete: async (logsId: string) => {
+      return await api.delete(`${API_URLS.LOGS}/${logsId}`);
+    },
+
+  }
 };
 
 const MULTIPART_FORM_DATA_CONFIG = {

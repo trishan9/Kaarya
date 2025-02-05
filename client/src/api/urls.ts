@@ -11,4 +11,5 @@ export const API_URLS = {
   MEMBERS: "/members",
   PROJECTS: "/projects",
   TASKS: "/tasks",
+  LOGS: "/logs",
 };

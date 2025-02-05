@@ -3,6 +3,10 @@ import { UserButton } from "./UserButton";
 import { MobileSidebar } from "./MobileSidebar";
 
 const pathnameMap = {
+  logs: {
+    title: "Activity Logs",
+    description: "View all of your logs here",
+  },
   tasks: {
     title: "My Tasks",
     description: "View all of your tasks here",

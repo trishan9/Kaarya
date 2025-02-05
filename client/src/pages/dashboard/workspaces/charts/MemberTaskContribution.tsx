@@ -92,7 +92,7 @@ export function MemberTaskContribution({ memberData }: { memberData: MemberData[
         <div className="mb-4 w-[200px]">
           <Select onValueChange={(value) => setProject(value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Select project" />
+              <SelectValue placeholder="All Projects" />
             </SelectTrigger>
 
             <SelectContent>
