@@ -88,7 +88,7 @@ export default function ProjectLogs() {
   return (
     <div className="flex w-full">
       <Card className="w-full pt-4">
-        <div className="px-6 mb-4 flex flex-col gap-1 sm:gap-0 sm:px-6 md:mb-4 sm:flex sm:flex-row">
+        <div className="px-6 mb-4 flex flex-col gap-2 sm:gap-2 sm:px-6 md:mb-4 sm:flex sm:flex-row">
           <Select
             value={filterUser || "all"}
             onValueChange={(value) => setFilterUser(value)}
