@@ -38,7 +38,7 @@ const DashboardLayout = () => {
           <div className="mx-auto max-w-screen-3xl h-full">
             <Navbar />
 
-            <main className="h-[90%] py-8 px-6 flex flex-col">
+            <main className="h-full sm:h-[90%] py-8 px-6 flex flex-col">
               <Outlet />
             </main>
           </div>

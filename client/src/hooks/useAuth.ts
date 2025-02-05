@@ -7,14 +7,18 @@ import { CustomAxiosError } from "@/api/axiosInstance";
 
 export const useLogin = () => {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const setStreamToken = useAuthStore((state) => state.setStreamToken);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: apiActions.auth.login,
     onSuccess: (response) => {
-      const { accessToken } = response.data;
+      const { accessToken, streamToken } = response.data;
+
       setAccessToken(accessToken);
+      setStreamToken(streamToken);
+
       queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.success(response.data.message);
       navigate("/");
@@ -51,6 +55,7 @@ export const useGetMe = () => {
 
 export const useLogout = () => {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const setStreamToken = useAuthStore((state) => state.setStreamToken);
   const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
   const setUser = useAuthStore((state) => state.setUser);
   const queryClient = useQueryClient();
@@ -60,6 +65,7 @@ export const useLogout = () => {
     onSuccess: () => {
       setUser(null);
       setAccessToken(null);
+      setStreamToken(null);
       setIsAuthenticated(false);
       queryClient.invalidateQueries({ queryKey: ["me"] });
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });

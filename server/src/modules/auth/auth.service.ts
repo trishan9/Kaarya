@@ -3,10 +3,9 @@ import { StatusCodes } from "http-status-codes";
 
 import { db } from "@/db";
 
-import { logger } from "@/logging/logger";
-
 import token from "@/lib/token";
 import hash from "@/lib/hash";
+import { streamClient } from "@/lib/stream";
 import { ApiError } from "@/utils/apiError";
 import { errorResponse } from "@/utils/errorMessage";
 
@@ -63,9 +62,12 @@ export const login = async (data: loginUserType) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
+  const streamToken = streamClient.createToken(user.id);
+
   return {
     accessToken,
     refreshToken,
+    streamToken,
   };
 };
 
@@ -93,8 +95,8 @@ export const refresh = async (refreshToken: string) => {
   if (!user)
     throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.TOKEN.EXPIRED);
 
-  logger.info(user.username);
-
+  const streamToken = streamClient.createToken(user.id);
   const accessToken = generateAccessToken(user);
-  return accessToken;
+
+  return { accessToken, streamToken };
 };

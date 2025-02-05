@@ -14,12 +14,13 @@ import {
   WorkspaceIdJoinPage,
   MembersList,
   WorkspaceIdPage,
+  ProjectIdSettingsPage,
+  TasksPage,
+  TaskIdPage,
+  ProjectIdPage,
+  WorkspaceChatPage,
+  ProjectLogs,
 } from "./pages";
-import { ProjectIdPage } from "./pages/dashboard/projects/ProjectIdPage";
-import { ProjectIdSettingsPage } from "./pages/dashboard/projects/ProjectIdSettingsPage";
-import { TaskIdPage } from "./pages/dashboard/tasks/_components/TaskIdPage";
-import TasksPage from "./pages/dashboard/tasks/_components/TasksPage";
-import ProjectLogs from "./pages/dashboard/projects/ProjectLogs";
 
 const AppRoutes = () => {
   return (
@@ -61,14 +62,11 @@ const AppRoutes = () => {
 
                 <Route path="projects">
                   <Route path=":projectId" element={<ProjectIdPage />} />
-                                  
+
                   <Route path=":projectId/logs" element={<ProjectLogs />} />
                 </Route>
 
-                <Route
-                  path="members"
-                  element={<div>This is Members Page</div>}
-                />
+                <Route path="chat" element={<WorkspaceChatPage />} />
               </Route>
             </Route>
           </Route>

@@ -20,6 +20,8 @@ const envSchema = z.object({
   CLOUDINARY_API_SECRET: z.string(),
   GMAIL_ADDRESS: z.string().email(),
   GMAIL_PASSWORD: z.string(),
+  STREAM_API_KEY: z.string(),
+  STREAM_API_SECRET: z.string(),
 });
 
 export const env = envSchema.parse(process.env);

@@ -15,6 +15,10 @@ const pathnameMap = {
     title: "My Projects",
     description: "View tasks of your project here",
   },
+  chat: {
+    title: "Workspace Chat",
+    description: "Chat with your fellow workspace members here",
+  },
 } as const;
 
 const defaultMap = {
