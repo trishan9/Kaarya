@@ -72,9 +72,9 @@ export const apiActions = {
         inviteCode,
       });
     },
-    workspaceAnalytics: async (workspaceId : string) => {
-      return await api.get(`${API_URLS.WORKSPACES}/${workspaceId}/analytics`)
-    }
+    workspaceAnalytics: async (workspaceId: string) => {
+      return await api.get(`${API_URLS.WORKSPACES}/${workspaceId}/analytics`);
+    },
   },
   members: {
     remove: async (memberId: string) => {
@@ -111,9 +111,9 @@ export const apiActions = {
     delete: async (projectId: string) => {
       return await api.delete(`${API_URLS.PROJECTS}/${projectId}`);
     },
-    projectAnalytics: async (projectId : string) => {
-      return await api.get(`${API_URLS.PROJECTS}/${projectId}/analytics`)
-    }
+    projectAnalytics: async (projectId: string) => {
+      return await api.get(`${API_URLS.PROJECTS}/${projectId}/analytics`);
+    },
   },
   tasks: {
     getById: async (taskId: string) => {
@@ -140,10 +140,7 @@ export const apiActions = {
       return await api.get(`${API_URLS.LOGS}/projects/${projectId}`);
     },
     create: async (projectId: string, data: any) => {
-      return await api.post(
-        `${API_URLS.LOGS}/projects/${projectId}`,
-        data
-      );
+      return await api.post(`${API_URLS.LOGS}/projects/${projectId}`, data);
     },
     update: async (logsId: string, data: unknown) => {
       return await api.patch(`${API_URLS.LOGS}/${logsId}`, data);
@@ -151,8 +148,12 @@ export const apiActions = {
     delete: async (logsId: string) => {
       return await api.delete(`${API_URLS.LOGS}/${logsId}`);
     },
-
-  }
+  },
+  livekit: {
+    getToken: async (room: string) => {
+      return await api.get(`${API_URLS.LIVEKIT}?room=${room}}`);
+    },
+  },
 };
 
 const MULTIPART_FORM_DATA_CONFIG = {
