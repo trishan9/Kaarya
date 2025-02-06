@@ -66,7 +66,7 @@ const AppRoutes = () => {
                   <Route path=":projectId/logs" element={<ProjectLogs />} />
                 </Route>
 
-                <Route path="chat" element={<WorkspaceChatPage />} />
+                <Route path="connect" element={<WorkspaceChatPage />} />
               </Route>
             </Route>
           </Route>
