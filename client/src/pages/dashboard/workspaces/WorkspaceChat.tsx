@@ -10,6 +10,7 @@ import { useAuthStore } from "@/state-stores/auth";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { CustomChannelList } from "./_components/chat/CustomChannelList";
 import { ChatMain } from "./_components/chat/ChatMain";
+import { Loader2 } from "lucide-react";
 
 export const WorkspaceChatPage = () => {
   const [chatClient, setChatClient] = useState<StreamChat | null>(null);
@@ -49,10 +50,12 @@ export const WorkspaceChatPage = () => {
 
   if (!chatClient && !error) {
     return (
-      <div className="flex h-[85vh] items-center justify-center bg-background">
-        <div className="text-sm text-muted-foreground">
-          Connecting to chat...
-        </div>
+      <div className="flex h-[85vh] items-center justify-center bg-background flex-col">
+        <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />
+
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          Connecting to Kaarya Chat...
+        </p>
       </div>
     );
   }
@@ -69,7 +72,10 @@ export const WorkspaceChatPage = () => {
     <div className="flex h-[85vh] mt-6 md:mt-0 bg-background border rounded-lg overflow-hidden">
       <Chat client={chatClient as StreamChat} theme="str-chat__theme-light">
         <div className="flex h-full w-full overflow-hidden">
-          <CustomChannelList workspaceId={workspaceId} />
+          <CustomChannelList
+            workspaceId={workspaceId}
+            userId={currUser?.id || ""}
+          />
           <div className="flex-1 overflow-hidden">
             <Channel EmojiPicker={EmojiPicker}>
               <Window>
