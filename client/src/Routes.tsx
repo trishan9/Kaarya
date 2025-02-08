@@ -1,53 +1,62 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import {
-  AuthLayout,
-  AuthWrapper,
-  CreateWorkspace,
-  Home,
-  Login,
-  ProtectedLayout,
-  Register,
-  StandaloneLayout,
-  DashboardLayout,
-  NotFound,
-  WorkspaceIdSettings,
-  WorkspaceIdJoinPage,
-  MembersList,
+  CreateWorkspacePage,
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  NotFoundPage,
+  WorkspaceSettingsPage,
+  WorkspaceConnectPage,
+  WorkspaceMembersPage,
   WorkspaceIdPage,
-  ProjectIdSettingsPage,
+  ProjectSettingsPage,
   TasksPage,
   TaskIdPage,
   ProjectIdPage,
-  WorkspaceChatPage,
-  ProjectLogs,
+  ProjectLogsPage,
+  JoinWorkspacePage,
 } from "./pages";
+import {
+  AuthLayout,
+  AuthWrapper,
+  ProtectedLayout,
+  StandaloneLayout,
+  DashboardLayout,
+} from "./pages/layouts";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<NotFoundPage />} />
+
         <Route element={<AuthWrapper />}>
+          <Route element={<AuthLayout />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+          </Route>
+
           <Route element={<ProtectedLayout />}>
-            <Route index element={<Home />} />
+            <Route index element={<HomePage />} />
 
             <Route path="workspaces">
               <Route element={<StandaloneLayout />}>
-                <Route path="create" element={<CreateWorkspace />} />
+                <Route path="create" element={<CreateWorkspacePage />} />
 
                 <Route path=":workspaceId">
-                  <Route path="settings" element={<WorkspaceIdSettings />} />
+                  <Route path="settings" element={<WorkspaceSettingsPage />} />
 
-                  <Route path="members" element={<MembersList />} />
+                  <Route path="members" element={<WorkspaceMembersPage />} />
 
                   <Route
                     path="join/:inviteCode"
-                    element={<WorkspaceIdJoinPage />}
+                    element={<JoinWorkspacePage />}
                   />
 
                   <Route path="projects">
                     <Route
                       path=":projectId/settings"
-                      element={<ProjectIdSettingsPage />}
+                      element={<ProjectSettingsPage />}
                     />
                   </Route>
                 </Route>
@@ -56,28 +65,21 @@ const AppRoutes = () => {
               <Route path=":workspaceId" element={<DashboardLayout />}>
                 <Route index element={<WorkspaceIdPage />} />
 
-                <Route path="tasks" element={<TasksPage />} />
-
-                <Route path="tasks/:taskId" element={<TaskIdPage />} />
+                <Route path="tasks" element={<TasksPage />}>
+                  <Route path=":taskId" element={<TaskIdPage />} />
+                </Route>
 
                 <Route path="projects">
                   <Route path=":projectId" element={<ProjectIdPage />} />
 
-                  <Route path=":projectId/logs" element={<ProjectLogs />} />
+                  <Route path=":projectId/logs" element={<ProjectLogsPage />} />
                 </Route>
 
-                <Route path="connect" element={<WorkspaceChatPage />} />
+                <Route path="connect" element={<WorkspaceConnectPage />} />
               </Route>
             </Route>
           </Route>
-
-          <Route element={<AuthLayout />}>
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-          </Route>
         </Route>
-
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
