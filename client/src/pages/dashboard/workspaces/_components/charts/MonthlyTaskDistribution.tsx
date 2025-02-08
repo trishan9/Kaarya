@@ -14,12 +14,12 @@ import {
 } from "@/components/ui/chart";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-const chartConfig = {
+const chartConfig: ChartConfig = {
   taskCount: {
     label: "Task Count",
     color: "hsl(var(--chart-1))",
   },
-} satisfies ChartConfig;
+};
 
 export function MonthlyTaskDistribution({
   chartData,
