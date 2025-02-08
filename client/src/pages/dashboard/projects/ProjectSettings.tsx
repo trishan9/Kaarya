@@ -4,7 +4,7 @@ import { useGetProject } from "@/hooks/useProjects";
 import { PageLoader } from "@/components/PageLoader";
 import { PageError } from "@/components/PageError";
 
-export const ProjectIdSettingsPage = () => {
+export const ProjectSettingsPage = () => {
   const projectId = useProjectId();
   const { data, isLoading } = useGetProject({ projectId });
   const initialValues = data?.data.project;

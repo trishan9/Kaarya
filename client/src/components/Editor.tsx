@@ -13,4 +13,3 @@ export const Editor = ({ onChange, value }: EditorProps) => {
     </div>
   );
 };
-

@@ -12,14 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { MemberAvatar } from "./_components/MemberAvatar";
-import { useConfirm } from "@/hooks/useConfirm";
+import { MemberAvatar } from "../../../components/MemberAvatar";
+import { useConfirm } from "@/hooks/_modals/useConfirm";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
 import { useRemoveMember, useUpdateMember } from "@/hooks/useMembers";
 import { useGetMe } from "@/hooks/useAuth";
 import { Member, MemberRole } from "./_schemas";
 
-export const MembersList = () => {
+export const WorkspaceMembersPage = () => {
   const workspaceId = useWorkspaceId();
   const [ConfirmDialog, confirm] = useConfirm(
     "Remove Member",

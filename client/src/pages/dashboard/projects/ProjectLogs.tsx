@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Ellipsis, SquarePen } from "lucide-react";
+import "react-quill/dist/quill.snow.css";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -8,18 +10,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { MemberAvatar } from "../workspaces/_components/MemberAvatar";
+import { MemberAvatar } from "../../../components/MemberAvatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DatePicker } from "@/components/DatePicker";
 import { useProjectId } from "@/hooks/useProjectId";
 import { useGetLogs } from "@/hooks/useLogs";
 import type { ActivityType, ActivityLogType } from "./_schemas";
-import { Ellipsis, SquarePen } from "lucide-react";
 import { LogsAction } from "./_components/LogsActions";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import "react-quill/dist/quill.snow.css";
-import { useCreateLogModal } from "@/hooks/useCreateLogModal";
+import { useCreateLogModal } from "@/hooks/_modals/useCreateLogModal";
 import { Preview } from "@/components/Preview";
 import { Badge } from "@/components/ui/badge";
 
@@ -31,12 +31,12 @@ const activityTypeMap: Record<ActivityType, string> = {
   OTHERS: "Others",
 };
 
-export default function ProjectLogs() {
+export const ProjectLogsPage = () => {
   const projectId = useProjectId();
   const [logs, setLogs] = useState<ActivityLogType[]>([]);
   const [filterUser, setFilterUser] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<ActivityType | "all" | null>(
-    null
+    null,
   );
   const [filterDate, setFilterDate] = useState<Date | undefined>(undefined);
 
@@ -82,11 +82,13 @@ export default function ProjectLogs() {
 
             <SelectContent>
               <SelectItem value="all">All Users</SelectItem>
-              {membersData.map((member: any) => (
-                <SelectItem key={member.userId} value={member.userId}>
-                  {member.name}
-                </SelectItem>
-              ))}
+              {membersData.map(
+                (member: { member: { userId: string; name: string } }) => (
+                  <SelectItem key={member.userId} value={member.userId}>
+                    {member.name}
+                  </SelectItem>
+                ),
+              )}
             </SelectContent>
           </Select>
 
@@ -142,7 +144,12 @@ export default function ProjectLogs() {
                       </span>
 
                       <span className="text-[11px] sm:text-sm text-gray-500 hidden sm:block">
-                        {new Date(log.createdAt).toLocaleString().slice(10, 14) + new Date(log.createdAt).toLocaleString().slice(17, 20)}
+                        {new Date(log.createdAt)
+                          .toLocaleString()
+                          .slice(10, 14) +
+                          new Date(log.createdAt)
+                            .toLocaleString()
+                            .slice(17, 20)}
                       </span>
                     </div>
 
@@ -154,6 +161,7 @@ export default function ProjectLogs() {
                       </LogsAction>
                     )}
                   </div>
+
                   <div>
                     <Badge variant={log.type}>
                       {activityTypeMap[log.type]}
@@ -162,6 +170,7 @@ export default function ProjectLogs() {
                 </div>
 
                 <div className="sm:px-2 pt-2 whitespace-pre-wrap break-words overflow-wrap-anywhere text-sm" />
+
                 <Preview
                   value={
                     log.isDeleted
@@ -173,6 +182,7 @@ export default function ProjectLogs() {
             ))}
           </CardContent>
         </ScrollArea>
+
         <div className="p-4 border-t">
           <Button onClick={open} type="submit">
             <SquarePen />
@@ -182,4 +192,4 @@ export default function ProjectLogs() {
       </Card>
     </div>
   );
-}
+};

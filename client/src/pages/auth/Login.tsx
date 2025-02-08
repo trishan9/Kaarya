@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LoginForm from "./_components/LoginForm";
 
-const Login = () => {
+export const LoginPage = () => {
   const { mutate, isPending } = useLogin();
 
   return (
@@ -67,5 +67,3 @@ const Login = () => {
     </Card>
   );
 };
-
-export default Login;

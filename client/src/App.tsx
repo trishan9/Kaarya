@@ -1,19 +1,19 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NuqsAdapter } from "nuqs/adapters/react";
+import {
+  TanstackQueryProvider,
+  NuqsProvider,
+  ToastProvider,
+} from "./components/providers";
 import AppRoutes from "./Routes";
-import ToastProvider from "./components/providers/ToastProvider";
-
-const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <NuqsAdapter>
+    <TanstackQueryProvider>
+      <NuqsProvider>
         <AppRoutes />
 
         <ToastProvider />
-      </NuqsAdapter>
-    </QueryClientProvider>
+      </NuqsProvider>
+    </TanstackQueryProvider>
   );
 }
 

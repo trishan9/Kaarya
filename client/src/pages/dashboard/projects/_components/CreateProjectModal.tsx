@@ -1,6 +1,6 @@
 import { ResponsiveModal } from "@/components/ResponsiveModal";
 import { CreateProjectForm } from "./CreateProjectForm";
-import { useCreateProjectModal } from "@/hooks/useCreateProjectModal";
+import { useCreateProjectModal } from "@/hooks/_modals/useCreateProjectModal";
 
 export const CreateProjectModal = () => {
   const { isOpen, setIsOpen, close } = useCreateProjectModal();

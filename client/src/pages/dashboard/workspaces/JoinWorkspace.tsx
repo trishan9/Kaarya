@@ -2,10 +2,10 @@ import { PageError } from "@/components/PageError";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetWorkspaceInfo } from "@/hooks/useWorkspaces";
 import { JoinWorkspaceForm } from "@/pages/dashboard/workspaces/_components/JoinWorkspaceForm";
-import { useInviteCode } from "@/hooks/userInviteCode";
+import { useInviteCode } from "@/hooks/useInviteCode";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 
-export const WorkspaceIdJoinPage = () => {
+export const JoinWorkspacePage = () => {
   const workspaceId = useWorkspaceId();
   const inviteCode = useInviteCode();
 

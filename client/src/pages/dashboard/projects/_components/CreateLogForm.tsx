@@ -21,7 +21,7 @@ import {
   ActivityLogSchema,
   type ActivityLogInput,
   type ActivityType,
-} from "../_schemas/index";
+} from "../_schemas";
 import { Editor } from "@/components/Editor";
 import { useCreateLogs } from "@/hooks/useLogs";
 import { useProjectId } from "@/hooks/useProjectId";

@@ -6,7 +6,7 @@ import {
   type DropResult,
 } from "@hello-pangea/dnd";
 import { Task, TaskStatus } from "../_schemas/index";
-import { KanbanCard } from "./KanbanCard";
+import { KanbanCard } from "../../../../components/KanbanCard";
 import { KanbanColumnHeader } from "./KanbanColumnHeader";
 
 const boards: TaskStatus[] = [

@@ -1,5 +1,5 @@
 import { ResponsiveModal } from "@/components/ResponsiveModal";
-import { useEditTaskModal } from "@/hooks/useEditTaskModal";
+import { useEditTaskModal } from "@/hooks/_modals/useEditTaskModal";
 import { EditTaskFormWrapper } from "./EditTaskFormWrapper";
 
 export const EditTaskModal = () => {

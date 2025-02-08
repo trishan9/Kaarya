@@ -1,6 +1,5 @@
-import * as React from "react"
-import { Label, Pie, PieChart } from "recharts"
-
+import { useMemo } from "react";
+import { Label, Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
@@ -8,21 +7,21 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
 const priorityColors: Record<string, string> = {
   Low: "hsl(var(--chart-4))",
   Medium: "hsl(var(--chart-5))",
   High: "hsl(var(--chart-1))",
-}
+};
 
-const chartConfig = {
+const chartConfig: ChartConfig = {
   tasks: {
     label: "Tasks",
   },
@@ -38,26 +37,31 @@ const chartConfig = {
     label: "High",
     color: priorityColors.high,
   },
-} satisfies ChartConfig
+};
 
-export function TaskDistByPriority({data} : {data : any}) {
-  const chartData = React.useMemo(() => {
-    return data.map((item : any) => ({
+export function TaskDistByPriority({
+  data,
+}: {
+  data: { name: string; taskCount: number }[];
+}) {
+  const chartData = useMemo(() => {
+    return data.map((item) => ({
       ...item,
       fill: priorityColors[item.name] || "gray", // Default to gray if no match
-    }))
-  }, [data])
+    }));
+  }, [data]);
 
-  const totalTask = React.useMemo(() => {
-    return chartData.reduce((acc : any, curr : any) => acc + curr.taskCount, 0)
-  }, [])
+  const totalTasks = () => {
+    return chartData.reduce((acc, curr) => acc + curr.taskCount, 0);
+  };
 
   return (
     <Card className="flex flex-col xl:pb-6">
-      <CardHeader className="items-center pb-4">
-        <CardTitle>Task Distribution (Priority)</CardTitle>
-        <CardDescription>Task Distribution On the Basis of Priority</CardDescription>
+      <CardHeader className="items-start pb-4">
+        <CardTitle>Task Distribution</CardTitle>
+        <CardDescription>Based On Priority Levels</CardDescription>
       </CardHeader>
+
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
@@ -90,8 +94,9 @@ export function TaskDistByPriority({data} : {data : any}) {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalTask.toLocaleString()}
+                          {totalTasks.toLocaleString()}
                         </tspan>
+
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
@@ -100,7 +105,7 @@ export function TaskDistByPriority({data} : {data : any}) {
                           Tasks
                         </tspan>
                       </text>
-                    )
+                    );
                   }
                 }}
               />
@@ -108,40 +113,40 @@ export function TaskDistByPriority({data} : {data : any}) {
           </PieChart>
         </ChartContainer>
       </CardContent>
+
       <CardFooter className="flex-col gap-2 text-sm">
-
-    <div className="mx-8 mt-6 flex items-center justify-center gap-y-3">
-        <div className="w-full px-8">
+        <div className="mx-8 mt-6 flex items-center justify-center gap-y-3">
+          <div className="w-full px-8">
             <div className="flex w-full items-center">
-                <span className="mr-2 block h-3 w-6 max-w-3 rounded-full bg-[hsl(var(--chart-4))]"></span>
-                
-                <p className="flex w-full justify-between text-sm font-medium text-black">
-                    <span>Low</span>
-                </p>
-            </div>
-        </div>
+              <span className="mr-2 block h-3 w-6 max-w-3 rounded-full bg-[hsl(var(--chart-4))]"></span>
 
-        <div className="w-full px-8">
-            <div className="flex w-full items-center">
-                <span className="mr-2 block h-3 w-6 max-w-3 rounded-full bg-[hsl(var(--chart-5))]"></span>
-                
-                <p className="flex w-full justify-between text-sm font-medium text-black">
-                    <span>Medium</span>
-                </p>
+              <p className="flex w-full justify-between text-sm font-medium text-black">
+                <span>Low</span>
+              </p>
             </div>
-        </div>
+          </div>
 
-        <div className="w-full px-8">
+          <div className="w-full px-8">
             <div className="flex w-full items-center">
-                <span className="mr-2 block h-3 w-6 max-w-3 rounded-full bg-[hsl(var(--chart-1))]"></span>
-                
-                <p className="flex w-full justify-between text-sm font-medium text-black">
-                    <span>High</span>
-                </p>
+              <span className="mr-2 block h-3 w-6 max-w-3 rounded-full bg-[hsl(var(--chart-5))]"></span>
+
+              <p className="flex w-full justify-between text-sm font-medium text-black">
+                <span>Medium</span>
+              </p>
             </div>
+          </div>
+
+          <div className="w-full px-8">
+            <div className="flex w-full items-center">
+              <span className="mr-2 block h-3 w-6 max-w-3 rounded-full bg-[hsl(var(--chart-1))]"></span>
+
+              <p className="flex w-full justify-between text-sm font-medium text-black">
+                <span>High</span>
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

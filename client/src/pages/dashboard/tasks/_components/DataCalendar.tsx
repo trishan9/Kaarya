@@ -16,7 +16,7 @@ import {
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./data-calendar.css";
-import { EventCard } from "./EventCard"; 
+import { EventCard } from "../../../../components/EventCard"; 
 import { CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 
 const locales = {

@@ -21,8 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { ProjectAvatar } from "../../projects/_components/ProjectAvatar";
-import { MemberAvatar } from "../../workspaces/_components/MemberAvatar";
+import { ProjectAvatar } from "../../../../components/ProjectAvatar";
+import { MemberAvatar } from "../../../../components/MemberAvatar";
 import {
   type CreateTaskSchema,
   createTaskSchema,

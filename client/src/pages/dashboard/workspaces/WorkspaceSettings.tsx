@@ -5,7 +5,7 @@ import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
 import type { TWorkspace } from "@/components/WorkspaceSwitcher";
 
-const WorkspaceIdSettings = () => {
+export const WorkspaceSettingsPage = () => {
   const workspaceId: string = useWorkspaceId();
   const { data, isLoading } = useGetWorkspace({ workspaceId });
   const workspace: TWorkspace = data?.data?.workspace;
@@ -19,5 +19,3 @@ const WorkspaceIdSettings = () => {
     </div>
   );
 };
-
-export default WorkspaceIdSettings;

@@ -4,8 +4,8 @@ import { snakeCaseToTitleCase } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Task } from "../_schemas";
-import { ProjectAvatar } from "../../projects/_components/ProjectAvatar";
-import { MemberAvatar } from "../../workspaces/_components/MemberAvatar";
+import { ProjectAvatar } from "../../../../components/ProjectAvatar";
+import { MemberAvatar } from "../../../../components/MemberAvatar";
 import { TaskDate } from "./TaskDate";
 import { TaskActions } from "./TaskActions";
 

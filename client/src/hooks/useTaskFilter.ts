@@ -1,5 +1,5 @@
 import { parseAsString, parseAsStringEnum, useQueryStates } from "nuqs";
-import { Priority, TaskStatus } from "../_schemas";
+import { Priority, TaskStatus } from "@/pages/dashboard/tasks/_schemas";
 
 export const useTaskFilter = () => {
   return useQueryStates({
@@ -11,4 +11,3 @@ export const useTaskFilter = () => {
     dueDate: parseAsString,
   });
 };
-

@@ -1,10 +1,10 @@
 import { MoreHorizontalIcon } from "lucide-react";
-import { Task } from "../_schemas/index";
-import { TaskActions } from "./TaskActions";
+import { Task } from "@/pages/dashboard/tasks/_schemas/index";
+import { TaskActions } from "@/pages/dashboard/tasks/_components/TaskActions";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
-import { MemberAvatar } from "../../workspaces/_components/MemberAvatar";
-import { TaskDate } from "./TaskDate";
-import { ProjectAvatar } from "../../projects/_components/ProjectAvatar";
+import { MemberAvatar } from "@/components/MemberAvatar";
+import { TaskDate } from "@/pages/dashboard/tasks/_components/TaskDate";
+import { ProjectAvatar } from "@/components/ProjectAvatar";
 
 interface KanbanCardProps {
   task: Task;
@@ -45,4 +45,3 @@ export const KanbanCard = ({ task }: KanbanCardProps) => {
     </div>
   );
 };
-

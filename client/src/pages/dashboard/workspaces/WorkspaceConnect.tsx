@@ -12,7 +12,7 @@ import { CustomChannelList } from "./_components/chat/CustomChannelList";
 import { ChatMain } from "./_components/chat/ChatMain";
 import { Loader2 } from "lucide-react";
 
-export const WorkspaceChatPage = () => {
+export const WorkspaceConnectPage = () => {
   const [chatClient, setChatClient] = useState<StreamChat | null>(null);
   const [error, setError] = useState<string | null>(null);
   const currUser = useAuthStore((state) => state.user);

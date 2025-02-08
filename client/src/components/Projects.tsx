@@ -3,8 +3,8 @@ import { useLocation } from "react-router";
 import { RiAddCircleFill } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { useCreateProjectModal } from "@/hooks/useCreateProjectModal";
-import { ProjectAvatar } from "../pages/dashboard/projects/_components/ProjectAvatar";
+import { useCreateProjectModal } from "@/hooks/_modals/useCreateProjectModal";
+import { ProjectAvatar } from "@/components/ProjectAvatar";
 import { useGetProjects } from "@/hooks/useProjects";
 
 type Project = {

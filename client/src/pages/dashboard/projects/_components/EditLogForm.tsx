@@ -1,13 +1,30 @@
-import { useForm, Controller } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ActivityLogSchema, ActivityLogType, type ActivityType } from "../_schemas"
-import { Editor } from "@/components/Editor"
-import { useUpdateLogs } from "@/hooks/useLogs"
-import { DottedSeparator } from "@/components/ui/dotted-separator"
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  ActivityLogSchema,
+  ActivityLogType,
+  type ActivityType,
+} from "../_schemas";
+import { Editor } from "@/components/Editor";
+import { useUpdateLogs } from "@/hooks/useLogs";
+import { DottedSeparator } from "@/components/ui/dotted-separator";
 
 const activityTypeMap: Record<ActivityType, string> = {
   SPRINT_PLANNING: "Planning",
@@ -15,15 +32,15 @@ const activityTypeMap: Record<ActivityType, string> = {
   SPRINT_RETROSPECTIVE: "Retrospective",
   DAILY_SCRUM: "Daily Scrum",
   OTHERS: "Others",
-}
+};
 
 interface EditLogFormProps {
-  onCancel: () => void
-  logData: ActivityLogType
+  onCancel: () => void;
+  logData: ActivityLogType;
 }
 
-export const EditLogForm = ({ onCancel, logData } : EditLogFormProps) => {
-  const updateLogMutation = useUpdateLogs()
+export const EditLogForm = ({ onCancel, logData }: EditLogFormProps) => {
+  const updateLogMutation = useUpdateLogs();
 
   const form = useForm<ActivityLogType>({
     resolver: zodResolver(ActivityLogSchema),
@@ -31,19 +48,19 @@ export const EditLogForm = ({ onCancel, logData } : EditLogFormProps) => {
       type: logData.type,
       content: logData.content,
     },
-  })
+  });
 
   const onSubmit = (data: ActivityLogType) => {
     updateLogMutation.mutate(
       { logsId: logData.id, data },
       {
         onSuccess: () => {
-          form.reset()
-          onCancel()
+          form.reset();
+          onCancel();
         },
       },
-    )
-  }
+    );
+  };
 
   return (
     <Card className="w-full border-none shadow-none">
@@ -88,7 +105,9 @@ export const EditLogForm = ({ onCancel, logData } : EditLogFormProps) => {
               <Controller
                 name="content"
                 control={form.control}
-                render={({ field }) => <Editor value={field.value} onChange={field.onChange} />}
+                render={({ field }) => (
+                  <Editor value={field.value} onChange={field.onChange} />
+                )}
               />
               <FormMessage />
             </FormItem>
@@ -96,10 +115,19 @@ export const EditLogForm = ({ onCancel, logData } : EditLogFormProps) => {
             <DottedSeparator className="py-7" />
 
             <div className="flex items-center justify-between">
-              <Button type="button" size="lg" variant="secondary" onClick={onCancel}>
+              <Button
+                type="button"
+                size="lg"
+                variant="secondary"
+                onClick={onCancel}
+              >
                 Cancel
               </Button>
-              <Button type="submit" size="lg" disabled={updateLogMutation.isPending}>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={updateLogMutation.isPending}
+              >
                 {updateLogMutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
             </div>
@@ -107,5 +135,5 @@ export const EditLogForm = ({ onCancel, logData } : EditLogFormProps) => {
         </Form>
       </CardContent>
     </Card>
-  )
-}
+  );
+};

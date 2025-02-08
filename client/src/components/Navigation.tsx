@@ -36,8 +36,8 @@ const routes = [
     aciveIcon: UsersIcon,
   },
   {
-    label: "Chat",
-    href: "/chat",
+    label: "Connect",
+    href: "/connect",
     icon: MdChatBubbleOutline,
     aciveIcon: MdChatBubble,
   },

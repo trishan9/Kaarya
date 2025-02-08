@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import { useAuthStore } from "@/state-stores/auth";
-import LandingPage from "./marketing/LandingPage";
+import { LandingPage } from "@/pages";
 
 const ProtectedLayout = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);

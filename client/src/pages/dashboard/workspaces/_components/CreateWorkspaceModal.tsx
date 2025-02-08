@@ -1,4 +1,4 @@
-import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
+import { useCreateWorkspaceModal } from "@/hooks/_modals/useCreateWorkspaceModal";
 import { CreateWorkspaceForm } from "./CreateWorkspaceForm";
 import { ResponsiveModal } from "@/components/ResponsiveModal";
 

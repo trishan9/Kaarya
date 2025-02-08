@@ -52,17 +52,17 @@ export const useUpdateMember = () => {
       return await apiActions.members.update(memberId, role);
     },
     onSuccess: (response) => {
-      toast.success(response?.data?.message);
+      toast.success(response.data.message);
       queryClient.invalidateQueries({
-        queryKey: ["members", response?.data?.member?.workspaceId],
+        queryKey: ["members", response.data.member.workspaceId],
       });
       queryClient.invalidateQueries({
-        queryKey: ["workspace", response?.data?.member?.workspaceId],
+        queryKey: ["workspace", response.data.member.workspaceId],
       });
     },
     onError: (error: CustomAxiosError) => {
       const errorMessage =
-        error?.response?.data?.message || "Failed to update workspace";
+        error?.response?.data.message || "Failed to update role of the member";
       toast.error(errorMessage);
     },
   });
