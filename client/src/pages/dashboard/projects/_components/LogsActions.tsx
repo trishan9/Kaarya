@@ -1,27 +1,40 @@
-import React from "react"
-import { PencilIcon, TrashIcon } from 'lucide-react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useConfirm } from "@/hooks/useConfirm"
-import { useDeleteLog } from "@/hooks/useLogs"
-import { useEditLogModal } from "@/hooks/useEditLogModal"
-import type { ActivityLogType } from "../_schemas"
+import React from "react";
+import { PencilIcon, TrashIcon } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useConfirm } from "@/hooks/useConfirm";
+import { useDeleteLog } from "@/hooks/useLogs";
+import { useEditLogModal } from "@/hooks/useEditLogModal";
+import type { ActivityLogType } from "../_schemas";
 
 interface LogActionsProps {
-  id: string
-  logData: ActivityLogType
-  children: React.ReactNode
+  id: string;
+  logData: ActivityLogType;
+  children: React.ReactNode;
 }
 
-export const LogsAction: React.FC<LogActionsProps> = ({ children, id, logData }) => {
-  const [ConfirmDialog, confirm] = useConfirm("Delete Log", "Are you sure you want to delete this log?", "destructive")
-  const { open } = useEditLogModal()
-  const { mutate, isPending } = useDeleteLog()
+export const LogsAction: React.FC<LogActionsProps> = ({
+  children,
+  id,
+  logData,
+}) => {
+  const [ConfirmDialog, confirm] = useConfirm(
+    "Delete Log",
+    "Are you sure you want to delete this log?",
+    "destructive",
+  );
+  const { open } = useEditLogModal();
+  const { mutate, isPending } = useDeleteLog();
 
   const onDelete = async () => {
-    const ok = await confirm()
-    if (!ok) return
-    mutate({ logsId: id })
-  }
+    const ok = await confirm();
+    if (!ok) return;
+    mutate({ logsId: id });
+  };
 
   return (
     <div className="flex justify-end">
@@ -33,8 +46,8 @@ export const LogsAction: React.FC<LogActionsProps> = ({ children, id, logData })
         <DropdownMenuContent align="end" className="w-48">
           <DropdownMenuItem
             onClick={() => {
-              console.log("Attempting to open modal with data:", logData)
-              open(logData)
+              console.log("Attempting to open modal with data:", logData);
+              open(logData);
             }}
             className="font-medium p-[10px]"
           >
@@ -53,5 +66,6 @@ export const LogsAction: React.FC<LogActionsProps> = ({ children, id, logData })
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
-}
+  );
+};
+

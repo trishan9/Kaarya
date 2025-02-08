@@ -264,7 +264,9 @@ export const EditProjectForm = ({
               onClick={handleDelete}
             >
               Delete project
-              {deletingProject && <Loader2 className="w-14 h-14 animate-spin" />}
+              {deletingProject && (
+                <Loader2 className="w-14 h-14 animate-spin" />
+              )}
             </Button>
           </div>
         </CardContent>

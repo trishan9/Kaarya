@@ -1,10 +1,11 @@
-import { CreateLogForm } from "./CreateLogForm"
+import { CreateLogForm } from "./CreateLogForm";
 
 interface CreateLogFormWrapperProps {
-  onCancel: () => void
+  onCancel: () => void;
 }
 
-export const CreateLogFormWrapper = ({ onCancel }: CreateLogFormWrapperProps) => {
-  return <CreateLogForm onCancel={onCancel} />
-}
-
+export const CreateLogFormWrapper = ({
+  onCancel,
+}: CreateLogFormWrapperProps) => {
+  return <CreateLogForm onCancel={onCancel} />;
+};
