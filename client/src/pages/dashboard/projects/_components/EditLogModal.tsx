@@ -1,5 +1,5 @@
 import { ResponsiveModal } from "@/components/ResponsiveModal";
-import { useEditLogModal } from "@/hooks/useEditLogModal";
+import { useEditLogModal } from "@/hooks/_modals/useEditLogModal";
 import { EditLogFormWrapper } from "./EditLogFormWrapper";
 import { ActivityLogType } from "../_schemas";
 

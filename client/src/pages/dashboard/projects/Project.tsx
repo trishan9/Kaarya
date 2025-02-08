@@ -1,18 +1,18 @@
 import { Pencil } from "lucide-react";
 import { Link, useLocation } from "react-router";
-import { ProjectAvatar } from "./_components/ProjectAvatar";
+import { ProjectAvatar } from "../../../components/ProjectAvatar";
 import { TaskViewSwitcher } from "../tasks/_components/TaskViewSwitcher";
 import { Button } from "@/components/ui/button";
 import { useGetProject } from "@/hooks/useProjects";
 import { useProjectId } from "@/hooks/useProjectId";
 import { PageLoader } from "@/components/PageLoader";
 import { PageError } from "@/components/PageError";
-import { Analytics } from "@/components/Analytics";
-import { TaskDistByPriority } from "./charts/TaskDistByPriority";
-import { TaskDistByStatus } from "./charts/TaskDistByStatus";
-import { useGetProjectAnalytics } from "@/hooks/useGetAnalytics";
+import { Analytics } from "@/pages/dashboard/_components/Analytics";
+import { TaskDistByPriority } from "./_components/charts/TaskDistByPriority";
+import { TaskDistByStatus } from "./_components/charts/TaskDistByStatus";
+import { useGetProjectAnalytics } from "@/hooks/useAnalytics";
 
-export const ProjectIdPage: React.FC = () => {
+export const ProjectIdPage = () => {
   const location = useLocation();
   const pathname = location.pathname;
   const projectId = useProjectId();

@@ -1,43 +1,35 @@
-import Home from "./Home";
-import AuthLayout from "./auth/_components/AuthLayout";
-import Login from "./auth/Login";
-import Register from "./auth/Register";
-import ProtectedLayout from "./ProtectedLayout";
-import AuthWrapper from "./auth/_components/AuthWrapper";
-import StandaloneLayout from "./dashboard/_components/StandaloneLayout";
-import CreateWorkspace from "./dashboard/workspaces/CreateWorkspace";
-import DashboardLayout from "./dashboard/_components/DashboardLayout";
-import WorkspaceIdSettings from "./dashboard/workspaces/WorkspaceIdSettings";
-import { WorkspaceIdJoinPage } from "./dashboard/workspaces/WorkspaceIdJoinPage";
-import { MembersList } from "./dashboard/workspaces/MemberList";
-import NotFound from "./NotFound";
-import { WorkspaceIdPage } from "./dashboard/workspaces/WorkspaceIdPage";
-import { ProjectIdPage } from "./dashboard/projects/ProjectIdPage";
-import { ProjectIdSettingsPage } from "./dashboard/projects/ProjectIdSettingsPage";
-import { TaskIdPage } from "./dashboard/tasks/_components/TaskIdPage";
-import TasksPage from "./dashboard/tasks/_components/TasksPage";
-import { WorkspaceChatPage } from "./dashboard/workspaces/WorkspaceChat";
-import ProjectLogs from "./dashboard/projects/ProjectLogs";
+import { HomePage } from "./Home";
+import { LoginPage } from "./auth/Login";
+import { RegisterPage } from "./auth/Register";
+import { JoinWorkspacePage } from "./dashboard/workspaces/JoinWorkspace";
+import { WorkspaceMembersPage } from "./dashboard/workspaces/WorkspaceMembers";
+import { NotFoundPage } from "./NotFound";
+import { WorkspaceIdPage } from "./dashboard/workspaces/Workspace";
+import { ProjectIdPage } from "./dashboard/projects/Project";
+import { ProjectSettingsPage } from "./dashboard/projects/ProjectSettings";
+import { TaskIdPage } from "./dashboard/tasks/Task";
+import { TasksPage } from "./dashboard/tasks/Tasks";
+import { WorkspaceConnectPage } from "./dashboard/workspaces/WorkspaceConnect";
+import { ProjectLogsPage } from "./dashboard/projects/ProjectLogs";
+import { WorkspaceSettingsPage } from "./dashboard/workspaces/WorkspaceSettings";
+import { CreateWorkspacePage } from "./dashboard/workspaces/CreateWorkspace";
+import { LandingPage } from "./marketing/LandingPage";
 
 export {
-  ProtectedLayout,
-  Home,
-  AuthLayout,
-  AuthWrapper,
-  Login,
-  Register,
-  CreateWorkspace,
-  StandaloneLayout,
-  NotFound,
-  DashboardLayout,
+  LandingPage,
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  CreateWorkspacePage,
+  NotFoundPage,
   WorkspaceIdPage,
-  WorkspaceIdSettings,
-  WorkspaceIdJoinPage,
-  MembersList,
+  WorkspaceSettingsPage,
+  JoinWorkspacePage,
+  WorkspaceMembersPage,
   ProjectIdPage,
-  ProjectIdSettingsPage,
+  ProjectSettingsPage,
   TaskIdPage,
   TasksPage,
-  WorkspaceChatPage,
-  ProjectLogs,
+  WorkspaceConnectPage,
+  ProjectLogsPage,
 };

@@ -2,13 +2,13 @@ import { Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
-import { MemberAvatar } from "../../workspaces/_components/MemberAvatar";
-import { useEditTaskModal } from "@/hooks/useEditTaskModal";
+import { MemberAvatar } from "../../../../components/MemberAvatar";
+import { useEditTaskModal } from "@/hooks/_modals/useEditTaskModal";
 import { snakeCaseToTitleCase } from "@/lib/utils";
 import { TaskDate } from "./TaskDate";
 import { Task } from "../_schemas";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
-import { WorkspaceAvatar } from "../../workspaces/_components/WorkspaceAvatar";
+import { WorkspaceAvatar } from "../../../../components/WorkspaceAvatar";
 
 interface TaskOverviewProps {
   task: Task;

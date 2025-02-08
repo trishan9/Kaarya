@@ -6,9 +6,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useConfirm } from "@/hooks/useConfirm";
+import { useConfirm } from "@/hooks/_modals/useConfirm";
 import { useDeleteLog } from "@/hooks/useLogs";
-import { useEditLogModal } from "@/hooks/useEditLogModal";
+import { useEditLogModal } from "@/hooks/_modals/useEditLogModal";
 import type { ActivityLogType } from "../_schemas";
 
 interface LogActionsProps {

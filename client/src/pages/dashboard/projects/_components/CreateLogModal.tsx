@@ -1,6 +1,6 @@
 import { ResponsiveModal } from "@/components/ResponsiveModal";
 import { CreateLogFormWrapper } from "./CreateLogFormWrapper";
-import { useCreateLogModal } from "@/hooks/useCreateLogModal";
+import { useCreateLogModal } from "@/hooks/_modals/useCreateLogModal";
 
 export const CreateLogModal = () => {
   const { isOpen, setIsOpen, close } = useCreateLogModal();

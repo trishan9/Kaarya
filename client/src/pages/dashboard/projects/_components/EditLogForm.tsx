@@ -137,4 +137,3 @@ export const EditLogForm = ({ onCancel, logData }: EditLogFormProps) => {
     </Card>
   );
 };
-

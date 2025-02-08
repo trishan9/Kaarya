@@ -14,7 +14,7 @@ import { Priority, TaskStatus } from "../_schemas";
 import { DatePicker } from "@/components/DatePicker";
 import { Member } from "../../workspaces/_schemas";
 import { Project } from "../../projects/_schemas";
-import { useTaskFilter } from "./useTaskFilter";
+import { useTaskFilter } from "../../../../hooks/useTaskFilter";
 
 interface DataFiltersProps {
   hideProjectFilter?: boolean;

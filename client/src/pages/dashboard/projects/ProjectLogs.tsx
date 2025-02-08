@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { MemberAvatar } from "../workspaces/_components/MemberAvatar";
+import { MemberAvatar } from "../../../components/MemberAvatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DatePicker } from "@/components/DatePicker";
 import { useProjectId } from "@/hooks/useProjectId";
@@ -19,7 +19,7 @@ import type { ActivityType, ActivityLogType } from "./_schemas";
 import { LogsAction } from "./_components/LogsActions";
 import { useGetWorkspace } from "@/hooks/useWorkspaces";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { useCreateLogModal } from "@/hooks/useCreateLogModal";
+import { useCreateLogModal } from "@/hooks/_modals/useCreateLogModal";
 import { Preview } from "@/components/Preview";
 import { Badge } from "@/components/ui/badge";
 
@@ -31,7 +31,7 @@ const activityTypeMap: Record<ActivityType, string> = {
   OTHERS: "Others",
 };
 
-export default function ProjectLogs() {
+export const ProjectLogsPage = () => {
   const projectId = useProjectId();
   const [logs, setLogs] = useState<ActivityLogType[]>([]);
   const [filterUser, setFilterUser] = useState<string | null>(null);
@@ -192,5 +192,4 @@ export default function ProjectLogs() {
       </Card>
     </div>
   );
-}
-
+};

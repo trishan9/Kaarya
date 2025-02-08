@@ -13,4 +13,3 @@ export const EditLogFormWrapper: React.FC<EditLogFormWrapperProps> = ({
 }) => {
   return <EditLogForm logData={logData} onCancel={onCancel} />;
 };
-

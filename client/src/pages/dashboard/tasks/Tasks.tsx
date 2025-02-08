@@ -1,11 +1,9 @@
-import { TaskViewSwitcher } from "./TaskViewSwitcher";
+import { TaskViewSwitcher } from "./_components/TaskViewSwitcher";
 
-const TasksPage = () => {
+export const TasksPage = () => {
   return (
     <div className="h-full flex flex-col">
       <TaskViewSwitcher hideLogs />
     </div>
   );
 };
-
-export default TasksPage;

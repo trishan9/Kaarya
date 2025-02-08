@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import notFoundImage from "@/assets/error.png";
 import { Button } from "@/components/ui/button";
 
-const NotFound = () => {
+export const NotFoundPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -37,5 +37,3 @@ const NotFound = () => {
     </main>
   );
 };
-
-export default NotFound;
