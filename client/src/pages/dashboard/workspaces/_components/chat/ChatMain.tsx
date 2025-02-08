@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   MessageInput,
   MessageList,
@@ -6,7 +7,6 @@ import {
 import { HeadphoneOffIcon, HeadphonesIcon, MessageSquare } from "lucide-react";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import ConferenceRoom from "../video-conference/ConferenceRoom";
 
 export const ChatMain = () => {
