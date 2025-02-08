@@ -90,7 +90,7 @@
 @layer base {
   * {
     @apply border-border;
-    font-family: "DM Sans", serif;
+    font-family: "DM Sans", serif !important;
   }
 
   body {

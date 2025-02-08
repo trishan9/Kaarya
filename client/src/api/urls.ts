@@ -1,5 +1,5 @@
 export const API_URLS = {
-  BASE: "http://localhost:8080/api/v1",
+  BASE: import.meta.env.VITE_APP_API_BASE_URL,
   AUTH: {
     REGISTER: "/auth/register",
     LOGIN: "/auth/login",
@@ -11,4 +11,5 @@ export const API_URLS = {
   MEMBERS: "/members",
   PROJECTS: "/projects",
   TASKS: "/tasks",
+  LOGS: "/logs",
 };

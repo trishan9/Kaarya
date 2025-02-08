@@ -9,6 +9,8 @@ import { PageError } from "@/components/PageError";
 import { CreateProjectModal } from "../projects/_components/CreateProjectModal";
 import { CreateTaskModal } from "../tasks/_components/CreateTaskModal";
 import { EditTaskModal } from "../tasks/_components/EditTaskModal";
+import { CreateLogModal } from "../projects/_components/CreateLogModal";
+import { EditLogModal } from "../projects/_components/EditLogModal";
 
 const DashboardLayout = () => {
   const workspaceId: string = useWorkspaceId();
@@ -24,6 +26,8 @@ const DashboardLayout = () => {
       <CreateProjectModal />
       <CreateTaskModal />
       <EditTaskModal />
+      <EditLogModal />
+      <CreateLogModal />
 
       <div className="flex h-full w-full">
         <div className="fixed left-0 top-0 hidden lg:block lg:w-[264px] h-full overflow-y-auto">
@@ -34,7 +38,7 @@ const DashboardLayout = () => {
           <div className="mx-auto max-w-screen-3xl h-full">
             <Navbar />
 
-            <main className="h-full py-8 px-6 flex flex-col">
+            <main className="h-full sm:h-[90%] py-8 px-6 flex flex-col">
               <Outlet />
             </main>
           </div>

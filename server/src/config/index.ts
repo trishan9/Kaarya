@@ -47,4 +47,8 @@ export default {
     emailAddress: env.GMAIL_ADDRESS,
     password: env.GMAIL_PASSWORD,
   },
+  stream: {
+    apiKey: env.STREAM_API_KEY,
+    apiSecret: env.STREAM_API_SECRET,
+  },
 } as const;

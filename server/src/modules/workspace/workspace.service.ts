@@ -4,7 +4,9 @@ import { TaskStatus } from "@prisma/client";
 
 import { db } from "@/db";
 import uploadToCloudinary from "@/lib/cloudinary";
+import { streamClient } from "@/lib/stream";
 import {
+  capitalize,
   generateInviteCode,
   INVITECODE_LENGTH,
   snakeCaseToTitleCase,
@@ -50,7 +52,7 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
     imageUrl = cloudinaryResponse?.secure_url;
   }
 
-  return await db.workspace.create({
+  const workspace = await db.workspace.create({
     data: {
       name: data.name,
       imageUrl: imageUrl,
@@ -58,6 +60,23 @@ export const createWorkspace = async (data: CreateWorkspaceInput) => {
       inviteCode: generateInviteCode(INVITECODE_LENGTH),
     },
   });
+
+  const defaultChannels = ["general", "frontend", "backend", "others"];
+
+  await Promise.all(
+    defaultChannels.map(async (channel) => {
+      await streamClient
+        .channel("team", `${workspace.id}-${channel}`, {
+          name: `${capitalize(channel)}`,
+          created_by_id: data.userId,
+          members: [data.userId],
+          workspace_id: workspace.id,
+        })
+        .create();
+    }),
+  );
+
+  return workspace;
 };
 
 export const getWorkspaces = async (userId: string) => {
@@ -242,7 +261,7 @@ export const getWorkspaceAnalyticsById = async (
     const isLastMonth =
       task.createdAt >= lastMonthStart && task.createdAt <= lastMonthEnd;
 
-    if (isThisMonth || isLastMonth) {
+    if (task._count && (isThisMonth || isLastMonth)) {
       const targetMonth = isThisMonth ? thisMonthCounts : lastMonthCounts;
 
       targetMonth.taskCount += task._count.id;
@@ -288,16 +307,21 @@ export const getWorkspaceAnalyticsById = async (
     overdueTaskDiff,
   };
 
-  const [completedTasks, notStartedTasks, ...activeTasks] =
-    await db.task.groupBy({
-      by: ["status"],
-      where: {
-        workspaceId,
-      },
-      _count: {
-        status: true,
-      },
-    });
+  const taskStatusGroups = await db.task.groupBy({
+    by: ["status"],
+    where: { workspaceId },
+    _count: { status: true },
+  });
+
+  const completedTasks =
+    taskStatusGroups.find((g) => g.status === TaskStatus.COMPLETED)?._count
+      .status || 0;
+  const notStartedTasks =
+    taskStatusGroups.find((g) => g.status === TaskStatus.TODO)?._count.status ||
+    0;
+  const activeTasks = taskStatusGroups
+    .filter((g) => ![TaskStatus.COMPLETED, TaskStatus.TODO].includes(g.status))
+    .reduce((acc, g) => acc + (g._count?.status || 0), 0);
 
   const getDateRanges = (months: number) =>
     Array.from({ length: months }, (_, i) => {
@@ -442,12 +466,9 @@ export const getWorkspaceAnalyticsById = async (
     analytics: {
       ...result,
       taskCompletionOverview: {
-        completedTasks: completedTasks._count.status,
-        notStartedTasks: notStartedTasks._count.status,
-        activeTasks: activeTasks.reduce(
-          (acc, task) => acc + task._count.status,
-          0,
-        ),
+        completedTasks,
+        notStartedTasks,
+        activeTasks,
       },
       monthlyTaskProgress: calculateMonthlyProgress(last4Months),
       monthlyTaskDistribution,
@@ -641,6 +662,17 @@ export const joinWorkspace = async (
       role: "MEMBER",
     },
   });
+
+  await streamClient.upsertUser({
+    id: userId,
+  });
+
+  const channels = await streamClient.queryChannels({
+    type: "team",
+    workspace_id: workspace.id,
+  });
+
+  await Promise.all(channels.map((channel) => channel.addMembers([userId])));
 
   const updatedWorkspace = await db.workspace.findUnique({
     where: { id: workspaceId },

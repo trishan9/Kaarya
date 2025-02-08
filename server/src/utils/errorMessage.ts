@@ -93,6 +93,10 @@ const errorResponse = {
     UPDATED: "The task was updated successfully.",
     ACCESS: "Unauthorized action. Please check your permissions.",
   },
+  LOG: {
+    NOT_FOUND: "Log not found.",
+    NO_PERMISSION: "You are not authorized to update this log.",
+  },
   OTHER: {
     SERVER_ERROR:
       "An unexpected server error occurred. Please try again later.",

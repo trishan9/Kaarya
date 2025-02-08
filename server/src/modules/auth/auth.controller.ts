@@ -49,7 +49,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 
   const { email, password } = body as loginUserType;
 
-  const { accessToken, refreshToken } = await authService.login({
+  const { accessToken, refreshToken, streamToken } = await authService.login({
     email,
     password,
   });
@@ -63,6 +63,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 
   return apiResponse(res, StatusCodes.OK, {
     accessToken,
+    streamToken,
     message: responseMessage.USER.LOGGED_IN,
   });
 });
@@ -81,10 +82,11 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
   if (!refreshToken)
     throw new ApiError(StatusCodes.UNAUTHORIZED, errorResponse.TOKEN.EXPIRED);
 
-  const accessToken = await authService.refresh(refreshToken);
+  const { accessToken, streamToken } = await authService.refresh(refreshToken);
 
   return apiResponse(res, StatusCodes.OK, {
     accessToken,
+    streamToken,
     message: responseMessage.USER.REFRESH,
   });
 });

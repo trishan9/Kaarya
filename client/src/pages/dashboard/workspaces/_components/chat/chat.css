@@ -1,0 +1,40 @@
+.str-chat__theme-light {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.str-chat__theme-light {
+  border-right: none !important;
+}
+
+.str-chat__channel-list-messenger {
+  padding: 0.5rem 0.5rem 0 0.5rem;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid #e5e7eb !important;
+}
+
+.str-chat__channel-list-messenger__main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.str-chat__message-textarea-container {
+  border-radius: 8px !important;
+}
+
+.rta__textarea {
+  font-size: 14px !important;
+}
+.str-chat__message-textarea-emoji-picker {
+  height: 24px !important;
+}
+
+.str-chat__message-textarea-container {
+  min-height: 40px !important;
+}
+
+.str-chat__message-textarea-with-emoji-picker {
+  padding-left: 12px !important;
+}

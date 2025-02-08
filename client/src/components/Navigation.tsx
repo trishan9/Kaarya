@@ -6,6 +6,7 @@ import {
   GoHome,
   GoHomeFill,
 } from "react-icons/go";
+import { MdChatBubbleOutline, MdChatBubble } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 
@@ -33,6 +34,12 @@ const routes = [
     href: "/members",
     icon: UsersIcon,
     aciveIcon: UsersIcon,
+  },
+  {
+    label: "Chat",
+    href: "/chat",
+    icon: MdChatBubbleOutline,
+    aciveIcon: MdChatBubble,
   },
 ];
 

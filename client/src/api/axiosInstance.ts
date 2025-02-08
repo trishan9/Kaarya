@@ -40,12 +40,15 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const response = await apiActions.auth.refresh();
-        const { accessToken } = response.data;
+        const { accessToken, streamToken } = response.data;
 
         useAuthStore.getState().setAccessToken(accessToken);
+        useAuthStore.getState().setStreamToken(streamToken);
+
         return api(originalRequest);
       } catch (refreshError) {
         useAuthStore.getState().setAccessToken(null);
+        useAuthStore.getState().setStreamToken(null);
         useAuthStore.getState().setIsAuthenticated(false);
         return Promise.reject(refreshError);
       }

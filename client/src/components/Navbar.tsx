@@ -3,6 +3,10 @@ import { UserButton } from "./UserButton";
 import { MobileSidebar } from "./MobileSidebar";
 
 const pathnameMap = {
+  logs: {
+    title: "Activity Logs",
+    description: "View all of your logs here",
+  },
   tasks: {
     title: "My Tasks",
     description: "View all of your tasks here",
@@ -10,6 +14,10 @@ const pathnameMap = {
   projects: {
     title: "My Projects",
     description: "View tasks of your project here",
+  },
+  chat: {
+    title: "Workspace Chat",
+    description: "Chat with your fellow workspace members here",
   },
 } as const;
 

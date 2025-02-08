@@ -36,6 +36,12 @@ const responseMessage = {
     UPDATED: "Task updated successfully",
     DELETED: "Task deleted successfully",
   },
+  LOG: {
+    CREATED: "Log created successfully",
+    FETCHED: "Logs retrieved successfully",
+    UPDATED: "Log updated successfully",
+    DELETED: "Log deleted successfully",
+  },
   OTHER: {
     SUCCESS: "The operation was completed successfully.",
   },

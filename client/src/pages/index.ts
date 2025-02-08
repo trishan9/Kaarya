@@ -12,6 +12,13 @@ import { WorkspaceIdJoinPage } from "./dashboard/workspaces/WorkspaceIdJoinPage"
 import { MembersList } from "./dashboard/workspaces/MemberList";
 import NotFound from "./NotFound";
 import { WorkspaceIdPage } from "./dashboard/workspaces/WorkspaceIdPage";
+import { ProjectIdPage } from "./dashboard/projects/ProjectIdPage";
+import { ProjectIdSettingsPage } from "./dashboard/projects/ProjectIdSettingsPage";
+import { TaskIdPage } from "./dashboard/tasks/_components/TaskIdPage";
+import TasksPage from "./dashboard/tasks/_components/TasksPage";
+import { WorkspaceChatPage } from "./dashboard/workspaces/WorkspaceChat";
+import ProjectLogs from "./dashboard/projects/ProjectLogs";
+
 export {
   ProtectedLayout,
   Home,
@@ -27,4 +34,10 @@ export {
   WorkspaceIdSettings,
   WorkspaceIdJoinPage,
   MembersList,
+  ProjectIdPage,
+  ProjectIdSettingsPage,
+  TaskIdPage,
+  TasksPage,
+  WorkspaceChatPage,
+  ProjectLogs,
 };
