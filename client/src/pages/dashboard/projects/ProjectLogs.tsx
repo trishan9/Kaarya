@@ -121,7 +121,7 @@ export const ProjectLogsPage = () => {
         </div>
 
         <ScrollArea className="h-[45vh] sm:h-[67vh] rounded-lg w-full">
-          <CardContent className="border">
+          <CardContent>
             {filteredLogs.map((log) => (
               <div
                 key={log.id}

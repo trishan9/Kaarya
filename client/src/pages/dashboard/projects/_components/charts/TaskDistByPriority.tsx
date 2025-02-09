@@ -51,9 +51,7 @@ export function TaskDistByPriority({
     }));
   }, [data]);
 
-  const totalTasks = () => {
-    return chartData.reduce((acc, curr) => acc + curr.taskCount, 0);
-  };
+  const totalTasks = chartData.reduce((acc, curr) => acc + curr.taskCount, 0);
 
   return (
     <Card className="flex flex-col xl:pb-6">
