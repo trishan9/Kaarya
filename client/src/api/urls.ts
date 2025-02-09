@@ -12,4 +12,5 @@ export const API_URLS = {
   PROJECTS: "/projects",
   TASKS: "/tasks",
   LOGS: "/logs",
+  LIVEKIT: "/livekit",
 };

@@ -1,13 +1,30 @@
-import { useForm, Controller } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ActivityLogSchema, type ActivityLogInput, type ActivityType } from "../_schemas/index"
-import { Editor } from "@/components/Editor" 
-import { useCreateLogs } from "@/hooks/useLogs"
-import { useProjectId } from "@/hooks/useProjectId"
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  ActivityLogSchema,
+  type ActivityLogInput,
+  type ActivityType,
+} from "../_schemas";
+import { Editor } from "@/components/Editor";
+import { useCreateLogs } from "@/hooks/useLogs";
+import { useProjectId } from "@/hooks/useProjectId";
 
 const activityTypeMap: Record<ActivityType, string> = {
   SPRINT_PLANNING: "Planning",
@@ -15,15 +32,15 @@ const activityTypeMap: Record<ActivityType, string> = {
   SPRINT_RETROSPECTIVE: "Retrospective",
   DAILY_SCRUM: "Daily Scrum",
   OTHERS: "Others",
-}
+};
 
 interface CreateLogFormProps {
-  onCancel: () => void
+  onCancel: () => void;
 }
 
 export const CreateLogForm = ({ onCancel }: CreateLogFormProps) => {
-  const projectId = useProjectId()
-  const createLogMutation = useCreateLogs()
+  const projectId = useProjectId();
+  const createLogMutation = useCreateLogs();
 
   const form = useForm<ActivityLogInput>({
     resolver: zodResolver(ActivityLogSchema),
@@ -31,7 +48,7 @@ export const CreateLogForm = ({ onCancel }: CreateLogFormProps) => {
       type: undefined,
       content: "",
     },
-  })
+  });
 
   const onSubmit = (data: ActivityLogInput) => {
     if (projectId) {
@@ -39,13 +56,13 @@ export const CreateLogForm = ({ onCancel }: CreateLogFormProps) => {
         { projectId, data },
         {
           onSuccess: () => {
-            form.reset()
-            onCancel()
+            form.reset();
+            onCancel();
           },
         },
-      )
+      );
     }
-  }
+  };
 
   return (
     <Card className="w-full border-none shadow-none">
@@ -86,7 +103,9 @@ export const CreateLogForm = ({ onCancel }: CreateLogFormProps) => {
               <Controller
                 name="content"
                 control={form.control}
-                render={({ field }) => <Editor value={field.value} onChange={field.onChange} />}
+                render={({ field }) => (
+                  <Editor value={field.value} onChange={field.onChange} />
+                )}
               />
               <FormMessage />
             </FormItem>
@@ -103,6 +122,5 @@ export const CreateLogForm = ({ onCancel }: CreateLogFormProps) => {
         </Form>
       </CardContent>
     </Card>
-  )
-}
-
+  );
+};

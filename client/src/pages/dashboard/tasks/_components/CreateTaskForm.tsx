@@ -22,8 +22,8 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { ProjectAvatar } from "@/pages/dashboard/projects/_components/ProjectAvatar";
-import { MemberAvatar } from "@/pages/dashboard/workspaces/_components/MemberAvatar";
+import { ProjectAvatar } from "@/components/ProjectAvatar";
+import { MemberAvatar } from "@/components/MemberAvatar";
 import {
   type CreateTaskSchema,
   createTaskSchema,

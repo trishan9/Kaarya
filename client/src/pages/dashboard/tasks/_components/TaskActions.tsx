@@ -6,11 +6,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useConfirm } from "@/hooks/useConfirm";
+import { useConfirm } from "@/hooks/_modals/useConfirm";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 
 import { useDeleteTask } from "@/hooks/useTasks";
-import { useEditTaskModal } from "@/hooks/useEditTaskModal";
+import { useEditTaskModal } from "@/hooks/_modals/useEditTaskModal";
 
 interface TaskActionsProps {
   id: string;

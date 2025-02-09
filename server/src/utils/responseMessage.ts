@@ -42,6 +42,11 @@ const responseMessage = {
     UPDATED: "Log updated successfully",
     DELETED: "Log deleted successfully",
   },
+  LIVEKIT: {
+    TOKEN: {
+      CREATED: "Livekit token generated successfully",
+    },
+  },
   OTHER: {
     SUCCESS: "The operation was completed successfully.",
   },

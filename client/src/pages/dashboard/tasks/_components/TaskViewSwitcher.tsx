@@ -1,26 +1,27 @@
 import { useCallback } from "react";
 import { useQueryState } from "nuqs";
 import { Loader2, Plus, SquarePen } from "lucide-react";
+import { Link, useLocation } from "react-router";
+
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useProjectId } from "@/hooks/useProjectId";
-import { useCreateTaskModal } from "@/hooks/useCreateTaskModal";
-import { useTaskFilter } from "./useTaskFilter";
+import { useCreateTaskModal } from "@/hooks/_modals/useCreateTaskModal";
+import { useTaskFilter } from "../../../../hooks/useTaskFilter";
 import { useGetTasks } from "@/hooks/useTasks";
 import { DataFilters } from "./DataFilters";
 import { DataKanban } from "./DataKanban";
 import { columns } from "./columns";
 import { DataTable } from "./DataTable";
-
 import { useBulkUpdateTasks } from "@/hooks/useTasks";
 import { TaskStatus } from "../_schemas";
 import { DataCalendar } from "./DataCalendar";
-import { Link, useLocation } from "react-router";
 
 interface TaskViewSwitcherProps {
   hideProjectFilter?: boolean;
+  hideLogs?: boolean;
 }
 
 export interface BulkUpdateParams {
@@ -31,6 +32,7 @@ export interface BulkUpdateParams {
 
 export const TaskViewSwitcher = ({
   hideProjectFilter,
+  hideLogs,
 }: TaskViewSwitcherProps) => {
   const [{ status, dueDate, assigneeId, projectId, priority }] =
     useTaskFilter();
@@ -90,12 +92,14 @@ export const TaskViewSwitcher = ({
               Add New Task
             </Button>
 
-            <Button variant="outline" size="default" asChild>
-              <Link to={`${pathname}/logs`}>
-                <SquarePen className="size-4 mr-2" />
-                Logs
-              </Link>
-            </Button>
+            {hideLogs ? null : (
+              <Button variant="outline" size="default" asChild>
+                <Link to={`${pathname}/logs`}>
+                  <SquarePen className="size-4 mr-2" />
+                  Logs
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
 

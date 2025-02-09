@@ -7,8 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { WorkspaceAvatar } from "@/pages/dashboard/workspaces/_components/WorkspaceAvatar";
-import { useCreateWorkspaceModal } from "@/hooks/useCreateWorkspaceModal";
+import { WorkspaceAvatar } from "@/components/WorkspaceAvatar";
+import { useCreateWorkspaceModal } from "@/hooks/_modals/useCreateWorkspaceModal";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { useGetWorkspaces } from "@/hooks/useWorkspaces";
 

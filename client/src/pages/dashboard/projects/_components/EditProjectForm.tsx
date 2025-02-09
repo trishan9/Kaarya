@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useConfirm } from "@/hooks/useConfirm";
+import { useConfirm } from "@/hooks/_modals/useConfirm";
 import {
   type UpdateProjectSchema,
   updateProjectSchema,
@@ -264,7 +264,9 @@ export const EditProjectForm = ({
               onClick={handleDelete}
             >
               Delete project
-              {deletingProject && <Loader2 className="w-14 h-14 animate-spin" />}
+              {deletingProject && (
+                <Loader2 className="w-14 h-14 animate-spin" />
+              )}
             </Button>
           </div>
         </CardContent>

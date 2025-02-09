@@ -1,12 +1,12 @@
 import { Project } from "../../projects/_schemas";
 import { Task } from "../_schemas";
-import { ProjectAvatar } from "../../projects/_components/ProjectAvatar";
+import { ProjectAvatar } from "../../../../components/ProjectAvatar";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { Link } from "react-router";
 import { ChevronRight, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useDeleteTask } from "@/hooks/useTasks";
-import { useConfirm } from "@/hooks/useConfirm";
+import { useConfirm } from "@/hooks/_modals/useConfirm";
 import { useNavigate } from "react-router";
 
 interface TaskBreadcrumbsProps {

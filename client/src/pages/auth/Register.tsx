@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import RegisterForm from "./_components/RegisterForm";
 
-const Register = () => {
+export const RegisterPage = () => {
   const { mutate, isPending } = useSignup();
 
   return (
@@ -82,5 +82,3 @@ const Register = () => {
     </Card>
   );
 };
-
-export default Register;

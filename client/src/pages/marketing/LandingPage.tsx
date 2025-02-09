@@ -6,7 +6,7 @@ import { Pricing } from "./_components/Pricing";
 import { PrimaryFeatures } from "./_components/PrimaryFeatures";
 import { Testimonials } from "./_components/Testimonials";
 
-const LandingPage = () => {
+export const LandingPage = () => {
   return (
     <div className="flex h-full flex-col scroll-smooth bg-white antialiased">
       <Header />
@@ -23,5 +23,3 @@ const LandingPage = () => {
     </div>
   );
 };
-
-export default LandingPage;

@@ -2,7 +2,7 @@ import { Navigate } from "react-router";
 import { PageLoader } from "@/components/PageLoader";
 import { useGetWorkspaces } from "@/hooks/useWorkspaces";
 
-const Home = () => {
+export const HomePage = () => {
   const { data, isPending } = useGetWorkspaces();
   const workspaces = data?.data?.workspaces;
 
@@ -16,5 +16,3 @@ const Home = () => {
     return <Navigate to={`/workspaces/${workspaces[0].id}`} replace />;
   }
 };
-
-export default Home;

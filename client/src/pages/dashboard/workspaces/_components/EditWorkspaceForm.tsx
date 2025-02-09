@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useConfirm } from "@/hooks/useConfirm";
+import { useConfirm } from "@/hooks/_modals/useConfirm";
 import { type UpdateWorkspaceSchema, updateWorkspaceSchema } from "../_schemas";
 import {
   useDeleteWorkspace,
@@ -248,7 +248,9 @@ export const EditWorkspaceForm = ({
                 </Button>
 
                 <Button
-                  disabled={isPending || deletingWorkspace || resetingInviteCode}
+                  disabled={
+                    isPending || deletingWorkspace || resetingInviteCode
+                  }
                   type="submit"
                   size="sm"
                   className="px-5"
@@ -298,7 +300,9 @@ export const EditWorkspaceForm = ({
               onClick={handleResetInviteCode}
             >
               Reset invite link
-              {resetingInviteCode && <Loader2 className="w-14 h-14 animate-spin" />}
+              {resetingInviteCode && (
+                <Loader2 className="w-14 h-14 animate-spin" />
+              )}
             </Button>
           </div>
         </CardContent>
@@ -324,7 +328,9 @@ export const EditWorkspaceForm = ({
               onClick={handleDelete}
             >
               Delete workspace
-              {deletingWorkspace && <Loader2 className="w-14 h-14 animate-spin" />}
+              {deletingWorkspace && (
+                <Loader2 className="w-14 h-14 animate-spin" />
+              )}
             </Button>
           </div>
         </CardContent>
