@@ -4,7 +4,7 @@ import { MobileSidebar } from "./MobileSidebar";
 
 const pathnameMap = {
   logs: {
-    title: "Activity Logs",
+    title: "Project Logs",
     description: "View all of your logs here",
   },
   tasks: {
@@ -29,7 +29,8 @@ const defaultMap = {
 export const Navbar = () => {
   const location = useLocation();
   const parts = location.pathname.split("/");
-  const pathnameKey = parts[3] as keyof typeof pathnameMap;
+  const pathnameKey = parts.includes("logs") ? "logs" : parts[3] as keyof typeof pathnameMap;
+  
   const { description, title } = pathnameMap[pathnameKey] || defaultMap;
 
   return (
