@@ -39,6 +39,8 @@
     "clsx": "^2.1.1",
     "date-fns": "^2.30.0",
     "emoji-mart": "^5.6.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.0",
     "livekit-client": "^2.8.1",
     "lucide-react": "^0.469.0",
     "nuqs": "^2.2.3",
