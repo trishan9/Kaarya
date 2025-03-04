@@ -320,7 +320,7 @@ export const getWorkspaceAnalyticsById = async (
     taskStatusGroups.find((g) => g.status === TaskStatus.TODO)?._count.status ||
     0;
   const activeTasks = taskStatusGroups
-    .filter((g) => ![TaskStatus.COMPLETED, TaskStatus.TODO].includes(g.status))
+    .filter((g) => !([TaskStatus.COMPLETED, TaskStatus.TODO] as TaskStatus[]).includes(g.status))
     .reduce((acc, g) => acc + (g._count?.status || 0), 0);
 
   const getDateRanges = (months: number) =>
