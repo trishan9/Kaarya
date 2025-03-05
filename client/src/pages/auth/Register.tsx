@@ -12,9 +12,28 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import RegisterForm from "./_components/RegisterForm";
+import { supabase } from "@/lib/supabase";
 
 export const RegisterPage = () => {
   const { mutate, isPending } = useSignup();
+
+  const handleGoogleSignup = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
+
+  const handleGithubSignup = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
 
   return (
     <Card className="size-full md:w-[487px] border-none shadow-none">
@@ -47,6 +66,7 @@ export const RegisterPage = () => {
 
       <CardContent className="p-7 flex flex-col gap-y-2">
         <Button
+          onClick={handleGoogleSignup}
           disabled={isPending}
           variant="outline"
           size="lg"
@@ -57,6 +77,7 @@ export const RegisterPage = () => {
         </Button>
 
         <Button
+          onClick={handleGithubSignup}
           disabled={isPending}
           variant="outline"
           size="lg"

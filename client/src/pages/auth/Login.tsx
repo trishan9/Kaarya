@@ -6,9 +6,28 @@ import { DottedSeparator } from "@/components/ui/dotted-separator";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LoginForm from "./_components/LoginForm";
+import { supabase } from "@/lib/supabase";
 
 export const LoginPage = () => {
   const { mutate, isPending } = useLogin();
+
+  const handleGoogleLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
+
+  const handleGithubLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
 
   return (
     <Card className="size-full md:w-[487px] border-none shadow-none">
@@ -30,6 +49,7 @@ export const LoginPage = () => {
 
       <CardContent className="p-7 flex flex-col gap-y-4">
         <Button
+          onClick={handleGoogleLogin}
           disabled={isPending}
           variant="outline"
           size="lg"
@@ -40,6 +60,7 @@ export const LoginPage = () => {
         </Button>
 
         <Button
+          onClick={handleGithubLogin}
           disabled={isPending}
           variant="outline"
           size="lg"

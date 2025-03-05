@@ -15,6 +15,7 @@ import {
   ProjectIdPage,
   ProjectLogsPage,
   JoinWorkspacePage,
+  AuthCallback,
 } from "./pages";
 import {
   AuthLayout,
@@ -34,6 +35,7 @@ const AppRoutes = () => {
           <Route element={<AuthLayout />}>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
           </Route>
 
           <Route element={<ProtectedLayout />}>
@@ -86,3 +88,4 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes;
+

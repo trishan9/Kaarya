@@ -14,6 +14,12 @@ import {
   registerUserSchema,
   registerUserType,
 } from "./auth.validator";
+import { db } from "@/db";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../token/token.service";
+import { streamClient } from "@/lib/stream";
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const body = req.body;
@@ -102,3 +108,42 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
     message: responseMessage.USER.LOGGED_OUT,
   });
 });
+
+export const supabaseAuth = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { email, name, providerId, provider } = req.body;
+
+    let user = await db.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      user = await db.user.create({
+        data: {
+          email,
+          name,
+          providerId,
+          provider,
+          password: "",
+        },
+      });
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+    const streamToken = streamClient.createToken(user.id);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+
+    return apiResponse(res, StatusCodes.OK, {
+      accessToken,
+      streamToken,
+      message: responseMessage.USER.LOGGED_IN,
+    });
+  },
+);
