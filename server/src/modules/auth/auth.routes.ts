@@ -11,5 +11,6 @@ authRouter.post("/login", authController.login);
 authRouter.get("/me", isAuthenticated, authController.getMe);
 authRouter.post("/refresh", authController.refresh);
 authRouter.post("/logout", authController.logout);
+authRouter.post("/supabase", authController.supabaseAuth);
 
 export { authRouter };

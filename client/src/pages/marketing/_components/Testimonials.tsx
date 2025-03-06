@@ -11,9 +11,9 @@ const testimonials = [
       content:
         "Kaarya makes project management so simple that I sometimes wonder if I’m skipping steps. Turns out, I’m just not overwhelmed anymore!",
       author: {
-        name: "Nischay Maharjan",
-        role: "CTO at BrightSpark Ltd.",
-        image: avatarImage1,
+        name: "Sandis Prajapati",
+        role: "CTO at Digi Tech",
+        image: avatarImage3,
       },
     },
     {
@@ -51,9 +51,9 @@ const testimonials = [
       content:
         "Kaarya’s automation features saved us hours every week. I just hope my boss doesn’t find out I’m using that extra time to plan vacations.",
       author: {
-        name: "Abiral Shrestha",
+        name: "Nischay Maharjan",
         role: "Project Coordinator at Dynamic Ventures",
-        image: avatarImage3,
+        image: avatarImage1,
       },
     },
     {

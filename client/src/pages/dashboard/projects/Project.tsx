@@ -11,6 +11,8 @@ import { Analytics } from "@/pages/dashboard/_components/Analytics";
 import { TaskDistByPriority } from "./_components/charts/TaskDistByPriority";
 import { TaskDistByStatus } from "./_components/charts/TaskDistByStatus";
 import { useGetProjectAnalytics } from "@/hooks/useAnalytics";
+import GanttChart from "./_components/charts/GanttChart";
+import SprintBurndown from "./_components/SprintBurndown";
 
 export const ProjectIdPage = () => {
   const location = useLocation();
@@ -68,6 +70,10 @@ export const ProjectIdPage = () => {
       </div>
 
       <TaskViewSwitcher hideProjectFilter />
+
+      <GanttChart />
+
+      <SprintBurndown/>
     </div>
   );
 };

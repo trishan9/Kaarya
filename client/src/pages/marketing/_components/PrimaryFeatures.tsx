@@ -2,37 +2,38 @@ import { useEffect, useState } from "react";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import clsx from "clsx";
 import { Container } from "./Container";
-import screenshotExpenses from "@/assets/marketing/expenses.png";
-import screenshotPayroll from "@/assets/marketing/payroll.png";
-import screenshotReporting from "@/assets/marketing/reporting.png";
-import screenshotVatReturns from "@/assets/marketing/vat-returns.png";
+import screenshotWorkspace from "@/assets/marketing/home.png";
+import screenshotConnect from "@/assets/marketing/connect.png";
+import screenshotProjects from "@/assets/marketing/projects.png";
+import screenshotKanban from "@/assets/marketing/task.png";
 
 const features = [
   {
-    title: "Payroll",
+    title: "Workspace",
     description:
-      "Keep track of everyone's salaries and whether or not they've been paid. Direct deposit not supported.",
-    image: screenshotPayroll,
+      "Set up dedicated workspaces for teams, each fully customizable to reflect unique project requirements and branding.",
+    image: screenshotWorkspace,
   },
   {
-    title: "Claim expenses",
+    title: "Tasks with Kanban View",
     description:
-      "All of your receipts organized into one place, as long as you don't mind typing in the data by hand.",
-    image: screenshotExpenses,
+      "Organize and monitor tasks using a sleek Kanban board, allowing seamless intuitive drag-and-drop updates and real-time collaboration for progress tracking.",
+    image: screenshotKanban,
   },
   {
-    title: "VAT handling",
+    title: "Connect (Chat & Huddle)",
     description:
-      "We only sell our software to companies who don't deal with VAT at all, so technically we do all the VAT stuff they need.",
-    image: screenshotVatReturns,
+      "Seamlessly connect with team members through integrated chat and video calls, supporting group discussions, file sharing, and access to virtual meeting rooms for collaboration.",
+    image: screenshotConnect,
   },
   {
-    title: "Reporting",
+    title: "Projects Page",
     description:
-      "Easily export your data into an Excel spreadsheet where you can do whatever the hell you want with it.",
-    image: screenshotReporting,
+      "View all ongoing projects on a comprehensive dashboard, complete with progress summaries, team assignments, deadlines, and efficient milestone tracking.",
+    image: screenshotProjects,
   },
 ];
+
 
 export function PrimaryFeatures() {
   const [tabOrientation, setTabOrientation] = useState<

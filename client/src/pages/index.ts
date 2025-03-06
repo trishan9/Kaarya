@@ -14,6 +14,7 @@ import { ProjectLogsPage } from "./dashboard/projects/ProjectLogs";
 import { WorkspaceSettingsPage } from "./dashboard/workspaces/WorkspaceSettings";
 import { CreateWorkspacePage } from "./dashboard/workspaces/CreateWorkspace";
 import { LandingPage } from "./marketing/LandingPage";
+import AuthCallback from "./auth/AuthCallback";
 
 export {
   LandingPage,
@@ -32,4 +33,5 @@ export {
   TasksPage,
   WorkspaceConnectPage,
   ProjectLogsPage,
+  AuthCallback,
 };

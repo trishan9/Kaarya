@@ -49,6 +49,7 @@ const responseMessage = {
   },
   OTHER: {
     SUCCESS: "The operation was completed successfully.",
+    SERVER_ERROR: "Something went wrong. Please try again later.",
   },
 };
 
